@@ -1,0 +1,264 @@
+\PassOptionsToPackage{type=CC,modifier=by,version=4.0}{doclicense}
+\documentclass[conference,a4paper]{cs-techrep}
+\pdfoutput=1 % pdflatex hint for arxiv.org (within first 5 lines)
+
+% Class cs-techrep.cls loads biblatex / biber with predefined options
+\addbibresource{embedded.bib}       % its content is declared below, embedded within this tex-file
+\addbibresource{webdev_commons.bib} % includes REST, React, Angular, Vue, Svelte, Docker, AWS-*, Socket.IO, and many more!
+\addbibresource{cpn_all_all.bib}    % includes all previous CyberLytics@OTH-AW technical reports
+
+% ======================================================================
+% EDIT THESE:
+
+\cstechrepAuthorListTex{Vorname1 Nachname1, Vorname2 Nachname2, Vorname3 Nachname3, Vorname4 Nachname4,\\ Vorname5 Nachname5, Vorname6 Nachname6, Christoph P.\ Neumann\,\orcidlink{0000-0002-5936-631X}}
+\cstechrepAuthorListBib{Vorname1 Nachname1 and Vorname2 Nachname2 and Vorname3 Nachname3 and Vorname4 Nachname4 and Vorname5 Nachname5 and Vorname6 Nachname6 and Christoph P. Neumann}
+
+% Capitalization: https://capitalizemytitle.com/style/Chicago/
+\cstechrepTitleTex{CatchyName: A MEVN-based Cloud Application for Incidence Figures and Vaccination Progress}
+ % IF you need manual linebreaks in the titel, then clone the title without linebreaks for BibTeX:
+\cstechrepTitleBib{{\cstechrepTitleTex}}
+
+\cstechrepDepartment{CyberLytics\-/Lab at the Department of Electrical Engineering, Media, and Computer Science}
+%\cstechrepDepartment{CyberLytics\-/Lab an der Fakultät Elektrotechnik, Medien und Informatik} % DE
+\cstechrepInstitution{Ostbayerische Technische Hochschule Amberg\-/Weiden}
+\cstechrepAddress{Amberg, Germany}
+%\cstechrepAddress{Amberg, Deutschland} % DE
+\cstechrepType{Concept Paper}
+%\cstechrepType{Konzeptpapier} % DE
+\cstechrepYear{2024}
+\cstechrepMonth{3}
+\cstechrepNumber{CL-CP-\cstechrepYear{}-42}
+\cstechrepLang{english}  % en-US
+%\cstechrepLang{ngerman} % DE
+
+% Special remark on babel/csquotes terminology in regard with US-vs-UK:
+% en-US  = [english]/[american]/[usenglish] (+ [canadian])
+% en-UK  =           [british] /[ukenglish] (+ [australian]) <OXFORD>
+% For cs-techrep (like ACM), the recommended english variant is en-US!
+
+% DO NOT DELETE THIS:
+\filecontentsForceExpansion|[] % force command expansion inside a filecontents* environment
+\begin{filecontents*}[overwrite]{selfref.bib}
+    @TECHREPORT{selfref,
+        author = {|cstechrepAuthorListBib},
+        title  = {\cstechrepTitleBib},
+        institution = {\cstechrepInstitution, \cstechrepDepartment},
+        type   = {\cstechrepType},
+        number = {\cstechrepNumber},
+        year   = {|cstechrepYear},
+        month  = {|cstechrepMonth},
+        langid  = {|cstechrepLang},
+    }
+\end{filecontents*}
+
+% ======================================================================
+% EDIT THIS:
+
+\begin{filecontents}[overwrite]{embedded.bib}
+@online{ieee2015howto,
+    author = {Michael Shell},
+    title = {How to Use the {IEEEtran} \LaTeX\ Class},
+    url = {http://mirrors.ctan.org/macros/latex/contrib/IEEEtran/IEEEtran_HOWTO.pdf},
+    year = {2015}
+}
+@online{ieee2018formattingrules,
+    author = {{IEEE}},
+    title = {Conference Template and Formatting Specifications},
+    url = {https://www.ieee.org/content/dam/ieee-org/ieee/web/org/conferences/Conference-template-A4.doc},
+    year = {2018}
+}
+@online{iaria2014formattingrules,
+    author = {{IARIA}},
+    title = {Formatting Rules},
+    url = {http://www.iaria.org/formatting.doc},
+    year = {2014}
+}
+@online{iaria2009editorialrules,
+    _author = {Cosmin Dini},
+    author = {{IARIA}},
+    title = {Editorial Rules},
+    url = {https://www.iaria.org/editorialrules.html},
+    year = {2009}
+}
+@online{languagetool,
+    author = {{LanguageTooler GmbH}},
+    title  = {{LangueTool}},
+    url    = {https://languagetool.org/overleaf}
+}
+@online{overleaf,
+    author = {{Digital Science UK Limited}},
+    title  = {{Overleaf}},
+    url    = {https://www.overleaf.com}
+}
+\end{filecontents}
+
+\usepackage{fontawesome} % i.a., \faWarning{}
+\usepackage{relsize}     % i.a., \textsmaller{...}
+\usepackage{lipsum}      % for blindtext
+
+% For the types of users diagram (like an organigram / org chart)
+\usepackage[edges]{forest} % = pgf/TikZ-based package for drawing trees
+\usetikzlibrary{fit}
+
+% ======================================================================
+
+% Prevent a page break before an itemize list, because we will use them
+% for user stories / acceptance criteria:
+\makeatletter
+\@beginparpenalty=10000
+\makeatother
+
+% cf. https://ctan.org/pkg/acronym
+% Usage:
+% singular, within sentence       = \ac{gui}
+% singular, beginning of sentence = \Ac{gui}
+% plural, within sentence         = \acp{gui}
+% plural, beginning of sentence   = \Acp{gui}
+\begin{acronym}
+    \acro{gui}[GUI]{Graphical User Interface}
+    \acro{ide}[IDE]{Integrated Development Environment}
+\end{acronym}
+
+% https://www.silbentrennung24.de/
+% https://www.hyphenation24.com/
+\hyphenation{block-chain block-chains Ethe-re-um}
+
+\begin{document}
+\selectlanguage{\cstechrepLang}
+
+\maketitle
+
+\begin{abstract}
+\lipsum[1][3-10]
+\{\,\faWarning{}The abstract does neither mention a teaching module nor a team/project,
+it is a summary of the content, thus, the functional objective -- and maybe the intended technology stack.
+Do NOT remove the abstract \faWarning{}, this section is mandatory.
+You should consider comparing your self-written abstract with the result of a generative AI that summarizes your content after you have written a nearly stable draft version. However, do not use a verbatim copy to replace your abstract, just use generative AI for inspirational purposes.\}
+\end{abstract}
+
+% A list of IEEE Computer Society appoved keywords can be obtained at
+% http://www.computer.org/mc/keywords/keywords.htm
+\begin{IEEEkeywords}
+template; lorem ipsum.
+\end{IEEEkeywords}
+
+\section{Introduction \textbar{} Background and Motivation \textbar{} Mission Statement \textbar{} Elevator Pitch}
+
+The cs-techrep formatting is adopted both from \textsmaller{IEEE} \cite{ieee2018formattingrules} and \textsmaller{IARIA} \cite{iaria2014formattingrules} styles.
+The cs-techrep \LaTeX\ class is based on \textsmaller{IEEE}tran class \cite{ieee2015howto}.
+In addition, be aware of the supplementary \textsmaller{IARIA} editorial rules \cite{iaria2009editorialrules} \faWarning{} that provide a beginner-friendly set of further advices.
+It is recommended to use a grammar tool, e.\,g., the \texttt{LanguageTool} \cite{languagetool} browser plugin in combination with \texttt{Overleaf} \cite{overleaf}.
+
+The title of your paper should not exceed two lines \faWarning{}. In exceptional cases, three lines might be allowed. A four-line-title is absolutely forbidden (hint: use the longer form in the abstract).
+
+For capitalization of titles and section headings, use a web tool like \href{https://capitalizemytitle.com/style/Chicago/}{\texttt{Capitalize My Title}} \faWarning{} with the option \texttt{Chicago} for capitalization rules by Chicago Manual of Style (\textsmaller{CMOS}).
+
+The pipe symbol \textquote{\textbar{}} in the section headings represents alternatives! Choose one and remove the others \faWarning{}. The selectively provided quoted terms are special German alternatives. You may deviate from the structure of this example document and its exemplary section headings.
+
+The introduction needs to be written from perspective of a subject-matter expert \faWarning{} and NOT from a technical perspective. Provide the USPs of your intended software product (in German: \textquote{fachliche Alleinstellungsmerkmale}).
+
+\section{Optional: Related Work}
+\lipsum[2]
+
+\section{Optional: Functional Design}
+Before diving into a list of requirements, you might provide a narrative of your functional goals and context, if an adequate description exceeds the introduction section.
+
+You might introduce user roles \faWarning{} (cf.\ Fig.\,\ref{fig:TypeOfUsers}). You could also introduce full-fledged personas. The lightweight alternative to personas are simple named users, which you might introduce without methodological fuss like this: \textquote{The user stories are described based on the users Nico and Isabelle. Nico is a fan of ... and always wants to ..., but lacks ...\,. Isabelle is a ... who is always ... and ...\,.}
+
+\begin{figure}[htbp!]
+	\centering
+	\begin{forest}
+		for tree={draw,rounded corners,align=center},
+		forked edges,
+		[User
+		[Student]
+		[Teacher
+		[Director]
+		[Course Teacher]
+		]
+		[Staff]
+		]
+		\node [fit=(current bounding box.south east) (current bounding box.north west)] {};
+	\end{forest}
+	\caption{Types of Users}
+	\label{fig:TypeOfUsers}
+\end{figure}
+
+You might introduce key concepts \faWarning{} and terms. 
+You might present your own UI prototypes, if these are not covered by screenshots under related work.
+You might provide a glossary, in DDD known as ubiquitous language.
+
+
+\section{Functional Requirements \textbar{}\\User Stories \textbar{} Use Cases}
+
+In case of user stories (agile) use the definition of ready (DoR) \faWarning{} that I provided you in the exercise sheet as checklist for the quality of your user stories. In case of use cases (traditional) use at least the elementary business process (EBP) test and the boss test as quality checks.
+
+You might group the user stories or use cases by the MuSCoW \faWarning{} method.
+For both styles, each functional requirement should have a compact title that represents an action.
+
+The user story format \faWarning{} is: As a [type of user], I want [an action] so that [a benefit / a value]. However, the user story is incomplete without a list of acceptance criteria \faWarning{}, which could be specified in a semi-structured Given-When-Then format. Apply user story splitting \faWarning{} method for right sizing your user stories.
+
+\subsection{MUST}
+
+\begin{enumerate}[{US}1]
+	
+\item \textbf{Display Available Drivers}: As a passenger, I want several available drivers to be displayed so that I can choose the most suitable option for me.
+	\begin{enumerate}
+	\item Given the app has the passenger's location as GPS coordinates, accessed from the mobile phone sensors
+	\item When the passenger clicks the button to display available drivers
+	\item And there are drivers that were online within the last 20 minutes and don’t have an ongoing ride
+	\item Then a HTML list of available drivers is presented to the passenger
+	\item And the app shows only 5 drivers that are closest to the passenger
+	\end{enumerate}
+
+\item \textbf{Compact Story Title}: As a [type of user], I want [an action] so that [a benefit / a value].
+	\begin{enumerate}
+	\item Acceptance criteria V (input / start data / Given...)
+	\item Acceptance criteria W (key action / When...)
+	\item Acceptance criteria X (business rules / And...)
+	\item Acceptance criteria Y (output / Then...)
+	\item Acceptance criteria Z (result verification / And...)
+	\end{enumerate}
+
+\end{enumerate}
+
+$\ldots$
+
+\subsection{SHOULD}
+$\ldots$
+\subsection{COULD}
+$\ldots$
+\subsection{WONT}
+$\ldots$
+
+\section{Optional: Non-Functional Requirements}
+\lipsum[3]
+
+\section{Optional: Technical Key Components \textbar{} Technology Stack \textbar{} Technical Outline}
+\lipsum[4]
+
+
+%%% Previous TechReps
+\nocite{ModA-TR-2023SS-WAE-TeamWeiss-Neunerln}
+\nocite{ModA-TR-2023SS-BDCC-TeamRot-CompVisPipeline}
+\nocite{ModA-TR-2023SS-BDCC-TeamBlau-NauticalNonsense}
+\nocite{ModA-TR-2023SS-BCN-TeamGruen-TorpedoTactics}
+\nocite{ModA-TR-2023SS-BCN-TeamCyan-Stockbird}
+\nocite{ModA-TR-2023SS-BCN-TeamBlau-FancyChess}
+\nocite{ModA-TR-2023WS-SWT-TeamRot-SGDb}
+\nocite{ModA-TR-2023WS-SWT-TeamGruen-OPCUANetzwerk}
+\nocite{ModA-TR-2022SS-WAE-TeamWeiss-WoIstMeinGeld}
+\nocite{ModA-TR-2022SS-BDCC-TeamWeiss-TwitterDash}
+\nocite{ModA-TR-2022SS-BDCC-TeamRot-Reddiment}
+\nocite{ModA-TR-2022SS-BDCC-TeamGruen-ExplosionGuy}
+\nocite{ModA-TR-2022SS-BDCC-TeamCyan-OTHWiki}
+\nocite{ModA-TR-2022WS-SWT-TeamGruen-Graphvio}
+\nocite{ModA-TR-2021SS-WAE-TeamWeiss-CovidDashboard}
+\nocite{ModA-TR-2021SS-WAE-TeamRot-FireForceDefense}
+\nocite{ModA-TR-2021SS-WAE-TeamGruen-MedPlanner}
+
+% ======== References =========
+\sloppy
+\printbibliography[notcategory=selfref]
+
+\end{document}
