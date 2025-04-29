@@ -18,18 +18,18 @@
  % IF you need manual linebreaks in the titel, then clone the title without linebreaks for BibTeX:
 \cstechrepTitleBib{{\cstechrepTitleTex}}
 
-\cstechrepDepartment{CyberLytics\-/Lab at the Department of Electrical Engineering, Media, and Computer Science}
-%\cstechrepDepartment{CyberLytics\-/Lab an der Fakultät Elektrotechnik, Medien und Informatik} % DE
+%\cstechrepDepartment{CyberLytics\-/Lab at the Department of Electrical Engineering, Media, and Computer Science}%
+\cstechrepDepartment{CyberLytics\-/Lab an der Fakultät Elektrotechnik, Medien und Informatik} % DE
 \cstechrepInstitution{Ostbayerische Technische Hochschule Amberg\-/Weiden}
-\cstechrepAddress{Amberg, Germany}
-%\cstechrepAddress{Amberg, Deutschland} % DE
-\cstechrepType{Concept Paper}
-%\cstechrepType{Konzeptpapier} % DE
+%\cstechrepAddress{Amberg, Germany}
+\cstechrepAddress{Amberg, Deutschland} % DE
+%\cstechrepType{Concept Paper}
+\cstechrepType{Konzeptpapier} % DE
 \cstechrepYear{2025}
 \cstechrepMonth{5}
 \cstechrepNumber{CL-CP-\cstechrepYear{}-42}
-\cstechrepLang{english}  % en-US
-%\cstechrepLang{ngerman} % DE
+%\cstechrepLang{english}  % en-US
+\cstechrepLang{ngerman} % DE
 
 % Special remark on babel/csquotes terminology in regard with US-vs-UK:
 % en-US  = [english]/[american]/[usenglish] (+ [canadian])
@@ -129,7 +129,7 @@
 \maketitle
 
 \begin{abstract}
-\lipsum[1][3-10]
+Bla Bla Bla TODO!!!
 \{\,\faWarning{}The abstract does neither mention a teaching module nor a team/project,
 it is a summary of the content, thus, the functional objective -- and maybe the intended technology stack.
 Do NOT remove the abstract \faWarning{}, this section is mandatory.
@@ -142,7 +142,7 @@ You should consider comparing your self-written abstract with the result of a ge
 template; lorem ipsum.
 \end{IEEEkeywords}
 
-\section{Introduction \textbar{} Background and Motivation \textbar{} Mission Statement \textbar{} Elevator Pitch}
+\section{Einleitung \textbar{} Background and Motivation \textbar{} Mission Statement \textbar{} Elevator Pitch}
 
 The cs-techrep formatting is adopted both from \textsmaller{IEEE} \cite{ieee2018formattingrules} and \textsmaller{IARIA} \cite{iaria2014formattingrules} styles.
 The cs-techrep \LaTeX\ class is based on \textsmaller{IEEE}tran class \cite{ieee2015howto}.
@@ -191,45 +191,106 @@ You might provide a glossary, in DDD known as ubiquitous language.
 
 \section{Functional Requirements \textbar{}\\User Stories \textbar{} Use Cases}
 
-In case of user stories (agile) use the definition of ready (DoR) \faWarning{} that I provided you in the exercise sheet as checklist for the quality of your user stories. In case of use cases (traditional) use at least the elementary business process (EBP) test and the boss test as quality checks.
+Die Anforderungen an das Projekt werden im Folgenden als User-Storys formuliert, wobei die MUSS-Anforderung am Ende des Sprints das MVP bilden. Falls noch Zeit bleibt sollen im weiteren die SOLL-Anforderungen und kann-Anforderungen umgesetzt werden.
 
-You might group the user stories or use cases by the MuSCoW \faWarning{} method.
-For both styles, each functional requirement should have a compact title that represents an action.
+\subsection{MUSS-Anforderungen}
 
-The user story format \faWarning{} is: As a [type of user], I want [an action] so that [a benefit / a value]. However, the user story is incomplete without a list of acceptance criteria \faWarning{}, which could be specified in a semi-structured Given-When-Then format. Apply user story splitting \faWarning{} method for right sizing your user stories.
-
-\subsection{MUST}
-
-\begin{enumerate}[{US}1]
+\begin{enumerate}[{USM}1]
 	
-\item \textbf{Display Available Drivers}: As a passenger, I want several available drivers to be displayed so that I can choose the most suitable option for me.
+\item \textbf{Registrieren}: Ich als Benutzer möchte mich registrieren, damit ich im System bekannt bin.
 	\begin{enumerate}
-	\item Given the app has the passenger's location as GPS coordinates, accessed from the mobile phone sensors
-	\item When the passenger clicks the button to display available drivers
-	\item And there are drivers that were online within the last 20 minutes and don’t have an ongoing ride
-	\item Then a HTML list of available drivers is presented to the passenger
-	\item And the app shows only 5 drivers that are closest to the passenger
+	\item Eingabe von Benutzername und Passwort durch den Benutzer.
+	\item Benutzer Interagiert mit Web-Oberfläche
+	\item Ausgabe Meldung an den Benutzer das es geklappt hat.
+	\item Wenn nicht erfolgreich => Ausgabe einer Fehlermeldung
 	\end{enumerate}
 
-\item \textbf{Compact Story Title}: As a [type of user], I want [an action] so that [a benefit / a value].
-	\begin{enumerate}
-	\item Acceptance criteria V (input / start data / Given...)
-	\item Acceptance criteria W (key action / When...)
-	\item Acceptance criteria X (business rules / And...)
-	\item Acceptance criteria Y (output / Then...)
-	\item Acceptance criteria Z (result verification / And...)
-	\end{enumerate}
+\item \textbf{Einloggen}: Ich als Benutzer möchte mich einloggen können, weil ich die Seite nutzen möchte um Getränke zu buchen.
+\begin{enumerate}
+	\item Vorbedingung: Benutzer ist registriert.
+	\item Eingabe von Benutzername und Passwort durch den Benutzer.
+	\item Benutzer Interagiert mit Web-Oberfläche
+	\item Wenn der Benutzername und das Passwort mit einem registriertem Benutzer übereinstimmen => weiterleiten auf Übersichtsseite
+	\item Wenn nicht erfolgreich => Ausgabe einer Fehlermeldung
+\end{enumerate}
+
+\item \textbf{Übersicht}: Ich als Trinker möchte eine Übersicht über alle verfügbare Getränke, weil ich sehen möchte, welches Getränk ich kaufen kann.
+\begin{enumerate}
+	\item Vorbedingung: Benutzer ist eingeloggt.
+	\item Benutzer sieht alle verfügbaren Getränke.
+	\item Benutzer sieht den Preis der verfügbaren Getränke.
+	\item Benutzer Interagiert mit Web-Oberfläche
+\end{enumerate}
+
+\item \textbf{Getränk buchen}: Ich als Trinker möchte ein verfügbares Getränk buchen, damit dieses als von mir Getrunken im System hinterlegt wird.
+\begin{enumerate}
+	\item Vorbedingung: Benutzer ist eingeloggt.
+	\item Benutzer kann auf ein Getränk klicken.
+	\item Benutzer Getränke verfügbar => Das Guthaben des Benutzers verringert sich um den Preis des Getränks.
+	\item Getränk nicht verfügbar => Benutzer kann das Getränk nicht drücken bzw. wird durch eine Meldung darauf hingewiesen.
+\end{enumerate}
+
+\item \textbf{Guthaben aufladen}: Ich als Getränkeverwalter möchte das Guthaben der registrierten Mitglieder verändern/aufladen können, damit sie bei mir für ihre Getränke bezahlen können.
+\begin{enumerate}
+	\item Vorbedingung: Benutzer mit Berechtigung Getränkeverwalter ist eingeloggt.
+	\item Getränkeverwalter kann ein Menü zur Guthabenverwaltung öffnen
+	\item Getränkeverwalter kann das Guthaben von Trinkern anpassen
+	\item Nach der Anpassung des Guthabens ist das veränderte Guthaben beim Betroffenen Trinker sichtbar und verwendbar.
+\end{enumerate}
+
+\item \textbf{Getränkedaten Verwalten}: Ich als Getränkeverwalter möchte einstellen können, welche Getränke zu welchen Preisen verfügbar sind, damit diese von Trinkern gekauft werden können.
+\begin{enumerate}
+	\item Vorbedingung: Benutzer mit Berechtigung Getränkeverwalter ist eingeloggt.
+	\item Getränkeverwalter kann ein Menü zur Getränkeverwaltung öffnen
+	\item Getränkeverwalter kann Getränke und den Zugehörigen Preis anpassen.
+	\item Nach der Anpassung der Getränke sind diese bei Trinkern sichtbar und buchbar.
+\end{enumerate}
 
 \end{enumerate}
 
-$\ldots$
+\subsection{SOLL-Anforderungen}
 
-\subsection{SHOULD}
-$\ldots$
-\subsection{COULD}
-$\ldots$
-\subsection{WONT}
-$\ldots$
+\begin{enumerate}[{USS}1]
+
+\item \textbf{Getränkeverlauf anzeigen}: Ich als Trinker möchte sehen können, welche Getränke ich wann gekauft habe, weil ich das auch später noch nachvollziehen möchte.
+\begin{enumerate}
+	\item Vorbedingung: Benutzer mit Berechtigung Trinker ist eingeloggt.
+	\item Benutzer öffnet ein Menü in dem die Historie angezeigt wird.
+	\item Alle von einem Benutzer getrunkenen Getränke werden in einer Liste angezeigt.
+	\item Der Benutzer kann den jeweiligen Preis zum Kaufdatum der Getränke in der Historie sehen
+\end{enumerate}
+
+\item \textbf{Bestandsverwaltung}: Ich als Getränkeverwalter möchte den verfügbaren Bestand von Getränken in der Anwendung hinterlegen können, weil ich sehe möchte, wann sie leer werden.
+\begin{enumerate}
+	\item Vorbedingung: Benutzer mit Berechtigung Getränkeverwalter ist eingeloggt.
+	\item Benutzer öffnet ein Menü in dem er die anzahl der verfügbaren Getränke einstellen kann.
+	\item Nach speichern/hinzufügen der anzahl der verfügbaren Getränke wird diese in die Datenbank übernommen.
+	\item Wenn Trinker ein Getränk trinken, wird der Bestand des jeweiligen Getränks um 1 reduziert.
+\end{enumerate}
+
+\item \textbf{Umsatzübersicht}: Ich als Getränkeverwalter möchte den Umsatz den jedes Mitglied generiert hat einsehen können, damit ich auswerten kann wer in einem bestimmten Zeitraum am meisten Getrunken hat.
+\begin{enumerate}
+	\item Vorbedingung: Benutzer mit Berechtigung Getränkeverwalter ist eingeloggt.
+	\item Benutzer öffnet Menü für den Umsatzverlauf
+	\item Benutzer wählt einen Trinker und einen Zeitraum auf, für den er den Umsatz ansehen möchte.
+	\item Webinterface zeigt den ausgewählten Umsatz für den ausgewählten Zeitraum an.
+\end{enumerate}
+
+\end{enumerate}
+
+\subsection{KANN-Anforderungen}
+
+\begin{enumerate}[{USC}1]
+
+\item \textbf{PayPal Anbindung}: Ich als Trinker möchte mein Guthaben per PayPal aufladen, weil ich nicht gern Bargeld mit mir Rumtrage und den Getränkeverwalter nicht nerven möchte.
+\begin{enumerate}
+	\item Vorbedingung: Benutzer mit Berechtigung Getränkeverwalter ist eingeloggt.
+	\item Benutzer öffnet Menü/Button um per PayPal zu bezahlen.
+	\item Benutzer wählt Betrag, der aufgeladen werden soll und bezahlt diesen per PayPal
+	\item Der aufgeladene Betrag wird dem Benutzer zugeschrieben und ist auf seinem Konto sichtbar.
+\end{enumerate}
+
+\end{enumerate}
 
 \section{Optional: Non-Functional Requirements}
 \lipsum[3]
