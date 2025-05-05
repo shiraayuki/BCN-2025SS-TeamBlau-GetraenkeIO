@@ -158,36 +158,17 @@ The pipe symbol \textquote{\textbar{}} in the section headings represents altern
 The introduction needs to be written from perspective of a subject-matter expert \faWarning{} and NOT from a technical perspective. Provide the USPs of your intended software product (in German: \textquote{fachliche Alleinstellungsmerkmale}).
 
 \section{Optional: Related Work}
-\lipsum[2]
+TODO: löschen???
 
-\section{Optional: Functional Design}
-Before diving into a list of requirements, you might provide a narrative of your functional goals and context, if an adequate description exceeds the introduction section.
-
-You might introduce user roles \faWarning{} (cf.\ Fig.\,\ref{fig:TypeOfUsers}). You could also introduce full-fledged personas. The lightweight alternative to personas are simple named users, which you might introduce without methodological fuss like this: \textquote{The user stories are described based on the users Nico and Isabelle. Nico is a fan of ... and always wants to ..., but lacks ...\,. Isabelle is a ... who is always ... and ...\,.}
-
-\begin{figure}[htbp!]
-	\centering
-	\begin{forest}
-		for tree={draw,rounded corners,align=center},
-		forked edges,
-		[User
-		[Student]
-		[Teacher
-		[Director]
-		[Course Teacher]
-		]
-		[Staff]
-		]
-		\node [fit=(current bounding box.south east) (current bounding box.north west)] {};
-	\end{forest}
-	\caption{Types of Users}
-	\label{fig:TypeOfUsers}
-\end{figure}
-
-You might introduce key concepts \faWarning{} and terms. 
-You might present your own UI prototypes, if these are not covered by screenshots under related work.
-You might provide a glossary, in DDD known as ubiquitous language.
-
+\section{Funktionelles Design}
+\subsection{Verfügbare Rollen}
+Die User Stories basieren auf zwei verschiedenen Rollen:
+\begin{enumerate}
+\item \textbf{Trinker}: 
+Der Reguläre Benutzer des Systems, der in einem Vereinsheim o.ä. ab und zu ein Bierchen trink und dieses im System buchen möchte, damit er seine Zeche bezahlen kann.
+\item \textbf{Getränkeverwalter}: 
+Der Getränkeverwalter/Getränkewart des Vereinsheims, der sich um den Getränkenachschub kümmert und die regelmäßig das Geld der Trinker eintreibt.
+\end{enumerate}
 
 \section{Functional Requirements \textbar{}\\User Stories \textbar{} Use Cases}
 
@@ -284,7 +265,7 @@ Die Anforderungen an das Projekt werden im Folgenden als User-Storys formuliert,
 
 \item \textbf{PayPal Anbindung}: Ich als Trinker möchte mein Guthaben per PayPal aufladen, weil ich nicht gern Bargeld mit mir Rumtrage und den Getränkeverwalter nicht nerven möchte.
 \begin{enumerate}
-	\item Vorbedingung: Benutzer mit Berechtigung Getränkeverwalter ist eingeloggt.
+	\item Vorbedingung: Benutzer mit Berechtigung Trinker ist eingeloggt.
 	\item Benutzer öffnet Menü/Button um per PayPal zu bezahlen.
 	\item Benutzer wählt Betrag, der aufgeladen werden soll und bezahlt diesen per PayPal
 	\item Der aufgeladene Betrag wird dem Benutzer zugeschrieben und ist auf seinem Konto sichtbar.
@@ -293,10 +274,18 @@ Die Anforderungen an das Projekt werden im Folgenden als User-Storys formuliert,
 \end{enumerate}
 
 \section{Optional: Non-Functional Requirements}
-\lipsum[3]
+TODO: Löschen???
 
-\section{Optional: Technical Key Components \textbar{} Technology Stack \textbar{} Technical Outline}
-\lipsum[4]
+\section{Technologie-Stack}
+\subsection{Datenhaltung}
+Zur Datenhaltung soll die relationale Datenbank (TODO:PostrgresSQL?) genutzt werden.
+\subsection{Backend}
+Das Backend soll aus einer REST-API bestehen, welche die benötigten Daten im JSON-Format bereitstellt. Dafür soll Python mit dem Framework (TODO: FastAPI?) verwendet werden.
+\subsection{Frontend}
+Für die Darstellung der Daten und die Benutzerinteraktion im Browser soll das TODO: ReactJS? mit dem Framework TODO: Next.js? verwendet werden.
+\subsection{Conatinerisierung}
+TODO:
+Um die Anwendung Cloud-Nativ zu gestalten, sollen Front- und Backend in einem Docker-Container laufen. Alle Docker-Container sollen mithilfe von Docker-Compose zu einer Anwendung zusammengefasst werden können.
 
 
 %%% Previous TechReps
