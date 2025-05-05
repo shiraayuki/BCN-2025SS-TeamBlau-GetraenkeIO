@@ -129,36 +129,24 @@
 \maketitle
 
 \begin{abstract}
-Bla Bla Bla TODO!!!
-\{\,\faWarning{}The abstract does neither mention a teaching module nor a team/project,
-it is a summary of the content, thus, the functional objective -- and maybe the intended technology stack.
-Do NOT remove the abstract \faWarning{}, this section is mandatory.
-You should consider comparing your self-written abstract with the result of a generative AI that summarizes your content after you have written a nearly stable draft version. However, do not use a verbatim copy to replace your abstract, just use generative AI for inspirational purposes.\}
+GetraenkeIO ist eine webbasierte Software zur Verwaltung des Getränkelagers in Vereinen oder anderen Einrichtungen. Sie ermöglicht es registrierten Benutzern, Getränke eigenständig zu buchen, während Administratoren mit erweiterten Rechten Zugriff auf Bestandsstatistiken und Verwaltungsfunktionen haben. Das System unterstützt die effiziente Verwaltung des Lagers.
+
+Technologisch basiert die Anwendung auf einem Python-Backend, das über eine REST-API mit einem React-basierten Frontend kommuniziert. Die Lagerbestände und andere relevante Daten werden in einer relationalen PostrgresSQL-Datenbank gespeichert. Docker wird verwendet, um die Anwendung flexibel bereitzustellen und eine einfache Skalierbarkeit zu gewährleisten.
 \end{abstract}
 
 % A list of IEEE Computer Society appoved keywords can be obtained at
 % http://www.computer.org/mc/keywords/keywords.htm
-\begin{IEEEkeywords}
-template; lorem ipsum.
-\end{IEEEkeywords}
+% \begin{IEEEkeywords}
+% template; lorem ipsum.
+% \end{IEEEkeywords}
 
-\section{Einleitung \textbar{} Background and Motivation \textbar{} Mission Statement \textbar{} Elevator Pitch}
+\section{Hintergrund und Motivation}
 
-The cs-techrep formatting is adopted both from \textsmaller{IEEE} \cite{ieee2018formattingrules} and \textsmaller{IARIA} \cite{iaria2014formattingrules} styles.
-The cs-techrep \LaTeX\ class is based on \textsmaller{IEEE}tran class \cite{ieee2015howto}.
-In addition, be aware of the supplementary \textsmaller{IARIA} editorial rules \cite{iaria2009editorialrules} \faWarning{} that provide a beginner-friendly set of further advices.
-It is recommended to use a grammar tool, e.\,g., the \texttt{LanguageTool} \cite{languagetool} browser plugin in combination with \texttt{Overleaf} \cite{overleaf}.
+In vielen Vereinsheimen stellt die Getränkeverwaltung nach wie vor eine organisatorische Herausforderung dar. Die Ausgabe und Bezahlung erfolgen häufig auf Vertrauensbasis, wodurch es schwierig ist, den Überblick über Lagerbestände und Einnahmen zu behalten. Auch gängige Hilfsmittel wie Strichlisten oder Excel-Tabellen sind fehleranfällig und erfordern eine regelmäßige, manuelle Pflege.
 
-The title of your paper should not exceed two lines \faWarning{}. In exceptional cases, three lines might be allowed. A four-line-title is absolutely forbidden (hint: use the longer form in the abstract).
+GetränkeIO bietet hierfür eine digitale und einfach bedienbare Lösung. Die webbasierte Anwendung stellt eine benutzerfreundliche Oberfläche bereit, über die Vereinsmitglieder selbstständig Getränke auswählen und ihre Käufe erfassen können. Im Hintergrund verwaltet das System automatisch den Lagerbestand, dokumentiert Zahlungen und erstellt grundlegende Statistiken.
 
-For capitalization of titles and section headings, use a web tool like \href{https://capitalizemytitle.com/style/Chicago/}{\texttt{Capitalize My Title}} \faWarning{} with the option \texttt{Chicago} for capitalization rules by Chicago Manual of Style (\textsmaller{CMOS}).
-
-The pipe symbol \textquote{\textbar{}} in the section headings represents alternatives! Choose one and remove the others \faWarning{}. The selectively provided quoted terms are special German alternatives. You may deviate from the structure of this example document and its exemplary section headings.
-
-The introduction needs to be written from perspective of a subject-matter expert \faWarning{} and NOT from a technical perspective. Provide the USPs of your intended software product (in German: \textquote{fachliche Alleinstellungsmerkmale}).
-
-\section{Optional: Related Work}
-TODO: löschen???
+Verantwortliche erhalten so einen klaren Überblick über Bestände und Konsumverhalten, während die alltägliche Verwaltung spürbar vereinfacht wird. Als besonderes Merkmal integriert GetränkeIO alle relevanten Funktionen in einer kompakten Anwendung, die speziell auf den Einsatz in kleinen Organisationen zugeschnitten ist.
 
 \section{Funktionelles Design}
 \subsection{Verfügbare Rollen}
@@ -170,7 +158,7 @@ Der Reguläre Benutzer des Systems, der in einem Vereinsheim o.ä. ab und zu ein
 Der Getränkeverwalter/Getränkewart des Vereinsheims, der sich um den Getränkenachschub kümmert und die regelmäßig das Geld der Trinker eintreibt.
 \end{enumerate}
 
-\section{Functional Requirements \textbar{}\\User Stories \textbar{} Use Cases}
+\section{User Stories}
 
 Die Anforderungen an das Projekt werden im Folgenden als User-Storys formuliert, wobei die MUSS-Anforderung am Ende des Sprints das MVP bilden. Falls noch Zeit bleibt sollen im weiteren die SOLL-Anforderungen und kann-Anforderungen umgesetzt werden.
 
@@ -207,7 +195,7 @@ Die Anforderungen an das Projekt werden im Folgenden als User-Storys formuliert,
 \begin{enumerate}
 	\item Vorbedingung: Benutzer ist eingeloggt.
 	\item Benutzer kann auf ein Getränk klicken.
-	\item Benutzer Getränke verfügbar => Das Guthaben des Benutzers verringert sich um den Preis des Getränks.
+	\item Getränk verfügbar => Das Guthaben des Benutzers verringert sich um den Preis des Getränks.
 	\item Getränk nicht verfügbar => Benutzer kann das Getränk nicht drücken bzw. wird durch eine Meldung darauf hingewiesen.
 \end{enumerate}
 
@@ -273,39 +261,35 @@ Die Anforderungen an das Projekt werden im Folgenden als User-Storys formuliert,
 
 \end{enumerate}
 
-\section{Optional: Non-Functional Requirements}
-TODO: Löschen???
-
 \section{Technologie-Stack}
 \subsection{Datenhaltung}
-Zur Datenhaltung soll die relationale Datenbank (TODO:PostrgresSQL?) genutzt werden.
+Zur Datenhaltung soll die relationale Datenbank PostrgreSQL genutzt werden.
 \subsection{Backend}
-Das Backend soll aus einer REST-API bestehen, welche die benötigten Daten im JSON-Format bereitstellt. Dafür soll Python mit dem Framework (TODO: FastAPI?) verwendet werden.
+Das Backend soll aus einer REST-API bestehen, welche die benötigten Daten im JSON-Format bereitstellt. Dafür soll Python mit dem Framework FastAPI verwendet werden.
 \subsection{Frontend}
-Für die Darstellung der Daten und die Benutzerinteraktion im Browser soll das TODO: ReactJS? mit dem Framework TODO: Next.js? verwendet werden.
+Für die Darstellung der Daten und die Benutzerinteraktion im Browser soll React verwendet werden.
 \subsection{Conatinerisierung}
-TODO:
 Um die Anwendung Cloud-Nativ zu gestalten, sollen Front- und Backend in einem Docker-Container laufen. Alle Docker-Container sollen mithilfe von Docker-Compose zu einer Anwendung zusammengefasst werden können.
 
 
 %%% Previous TechReps
-\nocite{ModA-TR-2023SS-WAE-TeamWeiss-Neunerln}
-\nocite{ModA-TR-2023SS-BDCC-TeamRot-CompVisPipeline}
-\nocite{ModA-TR-2023SS-BDCC-TeamBlau-NauticalNonsense}
-\nocite{ModA-TR-2023SS-BCN-TeamGruen-TorpedoTactics}
-\nocite{ModA-TR-2023SS-BCN-TeamCyan-Stockbird}
-\nocite{ModA-TR-2023SS-BCN-TeamBlau-FancyChess}
-\nocite{ModA-TR-2023WS-SWT-TeamRot-SGDb}
-\nocite{ModA-TR-2023WS-SWT-TeamGruen-OPCUANetzwerk}
-\nocite{ModA-TR-2022SS-WAE-TeamWeiss-WoIstMeinGeld}
-\nocite{ModA-TR-2022SS-BDCC-TeamWeiss-TwitterDash}
-\nocite{ModA-TR-2022SS-BDCC-TeamRot-Reddiment}
-\nocite{ModA-TR-2022SS-BDCC-TeamGruen-ExplosionGuy}
-\nocite{ModA-TR-2022SS-BDCC-TeamCyan-OTHWiki}
-\nocite{ModA-TR-2022WS-SWT-TeamGruen-Graphvio}
-\nocite{ModA-TR-2021SS-WAE-TeamWeiss-CovidDashboard}
-\nocite{ModA-TR-2021SS-WAE-TeamRot-FireForceDefense}
-\nocite{ModA-TR-2021SS-WAE-TeamGruen-MedPlanner}
+% \nocite{ModA-TR-2023SS-WAE-TeamWeiss-Neunerln}
+% \nocite{ModA-TR-2023SS-BDCC-TeamRot-CompVisPipeline}
+% \nocite{ModA-TR-2023SS-BDCC-TeamBlau-NauticalNonsense}
+% \nocite{ModA-TR-2023SS-BCN-TeamGruen-TorpedoTactics}
+% \nocite{ModA-TR-2023SS-BCN-TeamCyan-Stockbird}
+% \nocite{ModA-TR-2023SS-BCN-TeamBlau-FancyChess}
+% \nocite{ModA-TR-2023WS-SWT-TeamRot-SGDb}
+% \nocite{ModA-TR-2023WS-SWT-TeamGruen-OPCUANetzwerk}
+% \nocite{ModA-TR-2022SS-WAE-TeamWeiss-WoIstMeinGeld}
+% \nocite{ModA-TR-2022SS-BDCC-TeamWeiss-TwitterDash}
+% \nocite{ModA-TR-2022SS-BDCC-TeamRot-Reddiment}
+% \nocite{ModA-TR-2022SS-BDCC-TeamGruen-ExplosionGuy}
+% \nocite{ModA-TR-2022SS-BDCC-TeamCyan-OTHWiki}
+% \nocite{ModA-TR-2022WS-SWT-TeamGruen-Graphvio}
+% \nocite{ModA-TR-2021SS-WAE-TeamWeiss-CovidDashboard}
+% \nocite{ModA-TR-2021SS-WAE-TeamRot-FireForceDefense}
+% \nocite{ModA-TR-2021SS-WAE-TeamGruen-MedPlanner}
 
 % ======== References =========
 \sloppy
