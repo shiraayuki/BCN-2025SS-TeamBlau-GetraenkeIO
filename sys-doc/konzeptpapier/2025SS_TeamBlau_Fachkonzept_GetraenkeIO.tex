@@ -185,18 +185,18 @@ Die Anforderungen an das Projekt werden im Folgenden als User-Storys formuliert,
 
 \item \textbf{Übersicht}: Ich als Trinker möchte eine Übersicht über alle verfügbare Getränke, um zu sehen, welche Getränke ich kaufen kann.
 \begin{enumerate}
-	\item Vorbedingung: Benutzer ist eingeloggt.
-	\item Benutzer sieht alle verfügbaren Getränke.
-	\item Benutzer sieht den Preis der verfügbaren Getränke.
-	\item Benutzer Interagiert mit Web-Oberfläche
+	\item Vorbedingung: Trinker ist eingeloggt.
+	\item Trinker sieht alle verfügbaren Getränke.
+	\item Trinker sieht den Preis der verfügbaren Getränke.
+	\item Trinker Interagiert mit Web-Oberfläche
 \end{enumerate}
 
 \item \textbf{Getränk buchen}: Ich als Trinker möchte ein verfügbares Getränk buchen, damit dieses als von mir Getrunken im System hinterlegt wird.
 \begin{enumerate}
-	\item Vorbedingung: Benutzer ist eingeloggt.
-	\item Benutzer kann auf ein Getränk klicken.
-	\item Getränk verfügbar => Das Guthaben des Benutzers verringert sich um den Preis des Getränks.
-	\item Getränk nicht verfügbar => Benutzer kann das Getränk nicht auswählen bzw. wird durch eine Meldung darauf hingewiesen.
+	\item Vorbedingung: Trinker ist eingeloggt.
+	\item Trinker kann auf ein Getränk klicken.
+	\item Getränk verfügbar => Das Guthaben des Trinkers verringert sich um den Preis des Getränks.
+	\item Getränk nicht verfügbar => Trinker kann das Getränk nicht auswählen bzw. wird durch eine Meldung darauf hingewiesen.
 \end{enumerate}
 
 \item \textbf{Guthaben aufladen}: Ich als Getränkeverwalter möchte das Guthaben der registrierten Mitglieder verändern/aufladen können, damit sie bei mir für ihre Getränke bezahlen können.
@@ -224,25 +224,17 @@ Die Anforderungen an das Projekt werden im Folgenden als User-Storys formuliert,
 \item \textbf{Getränkeverlauf anzeigen}: Ich als Trinker möchte sehen können, welche Getränke ich wann gekauft habe, weil ich das auch später noch nachvollziehen möchte.
 \begin{enumerate}
 	\item Vorbedingung: Benutzer mit Berechtigung Trinker ist eingeloggt.
-	\item Benutzer öffnet ein Menü in dem die Historie angezeigt wird.
-	\item Alle von einem Benutzer getrunkenen Getränke werden in einer Liste angezeigt.
-	\item Der Benutzer kann den jeweiligen Preis zum Kaufdatum der Getränke in der Historie sehen
+	\item Trinker öffnet ein Menü in dem die Historie angezeigt wird.
+	\item Alle von einem Trinker getrunkenen Getränke werden in einer Liste angezeigt.
+	\item Der Trinker kann den jeweiligen Preis zum Kaufdatum der Getränke in der Historie sehen
 \end{enumerate}
 
 \item \textbf{Bestandsverwaltung}: Ich als Getränkeverwalter möchte den verfügbaren Bestand von Getränken in der Anwendung hinterlegen können, weil ich sehen möchte, wann sie leer werden.
 \begin{enumerate}
 	\item Vorbedingung: Benutzer mit Berechtigung Getränkeverwalter ist eingeloggt.
-	\item Benutzer öffnet ein Menü in dem er die Anzahl der verfügbaren Getränke einstellen kann.
-	\item Nach speichern/hinzufügen der anzahl der verfügbaren Getränke wird diese in die Datenbank übernommen.
+	\item Getränkeverwalter öffnet ein Menü in dem er die Anzahl der verfügbaren Getränke einstellen kann.
+	\item Nach speichern/hinzufügen der Anzahl der verfügbaren Getränke wird diese in die Datenbank übernommen.
 	\item Wenn Trinker ein Getränk trinken, wird der Bestand des jeweiligen Getränks um 1 reduziert.
-\end{enumerate}
-
-\item \textbf{Umsatzübersicht}: Ich als Getränkeverwalter möchte den Umsatz den jedes Mitglied generiert hat einsehen können, damit ich auswerten kann wer in einem bestimmten Zeitraum am meisten Getrunken hat.
-\begin{enumerate}
-	\item Vorbedingung: Benutzer mit Berechtigung Getränkeverwalter ist eingeloggt.
-	\item Benutzer öffnet Menü für den Umsatzverlauf
-	\item Benutzer wählt einen Trinker und einen Zeitraum aus, für den er den Umsatz ansehen möchte.
-	\item Webinterface zeigt den ausgewählten Umsatz für den ausgewählten Zeitraum an.
 \end{enumerate}
 
 \end{enumerate}
@@ -251,11 +243,19 @@ Die Anforderungen an das Projekt werden im Folgenden als User-Storys formuliert,
 
 \begin{enumerate}[{USC}1]
 
+\item \textbf{Umsatzübersicht}: Ich als Getränkeverwalter möchte den Umsatz den jedes Mitglied generiert hat einsehen können, damit ich auswerten kann wer in einem bestimmten Zeitraum am meisten Getrunken hat.
+\begin{enumerate}
+	\item Vorbedingung: Benutzer mit Berechtigung Getränkeverwalter ist eingeloggt.
+	\item Getränkeverwalter öffnet Menü für den Umsatzverlauf
+	\item Getränkeverwalter wählt einen Trinker und einen Zeitraum aus, für den er den Umsatz ansehen möchte.
+	\item Webinterface zeigt den ausgewählten Umsatz für den ausgewählten Zeitraum an.
+\end{enumerate}
+
 \item \textbf{PayPal Anbindung}: Ich als Trinker möchte mein Guthaben per PayPal aufladen, weil dies den Aufladeprozess einfacher und schneller gestaltet.
 \begin{enumerate}
 	\item Vorbedingung: Benutzer mit Berechtigung Trinker ist eingeloggt.
-	\item Benutzer öffnet Menü/Button um per PayPal zu bezahlen.
-	\item Benutzer wählt Betrag, der aufgeladen werden soll und bezahlt diesen per PayPal
+	\item Trinker öffnet Menü/Button um per PayPal zu bezahlen.
+	\item Trinker wählt Betrag, der aufgeladen werden soll und bezahlt diesen per PayPal
 	\item Der aufgeladene Betrag wird dem Benutzer zugeschrieben und ist auf seinem Konto sichtbar.
 \end{enumerate}
 
@@ -268,7 +268,7 @@ Zur Datenhaltung soll die relationale Datenbank PostgreSQL genutzt werden.
 Das Backend soll aus einer REST-API bestehen, welche die benötigten Daten im JSON-Format bereitstellt. Dafür soll Python mit dem Framework FastAPI verwendet werden.
 \subsection{Frontend}
 Für die Darstellung der Daten und die Benutzerinteraktion im Browser soll React verwendet werden.
-\subsection{Conatinerisierung}
+\subsection{Containerisierung}
 Um die Anwendung Cloud-Nativ zu gestalten, sollen Front- und Backend in einem Docker-Container laufen. Alle Docker-Container sollen mithilfe von Docker-Compose zu einer Anwendung zusammengefasst werden können.
 
 
