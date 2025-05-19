@@ -853,3 +853,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/c,c++,java,perl,ruby,cmake,linux,macos,perl6,csharp,python,windows,powershell
+sys-src/GetraenkeIO-backend/getraenkeio.db
