@@ -1,0 +1,9 @@
+fastapi[standard]
+sqlmodel
+pydantic-settings
+python-dotenv
+passlib
+bcrypt
+pyjwt
+httpx
+pytest
