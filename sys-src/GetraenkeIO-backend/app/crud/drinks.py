@@ -1,0 +1,43 @@
+import uuid
+from fastapi import HTTPException
+from sqlmodel import Session, select
+from ..models.drinks import Drink, DrinkPost, DrinkPut
+
+def store_drink_to_db(*, session: Session, drink_post: DrinkPost) -> Drink:
+    db_obj = Drink.model_validate(drink_post)
+    session.add(db_obj)
+    session.commit()
+    session.refresh(db_obj)
+    return db_obj
+
+def read_drinks_from_db(session: Session) -> list[Drink]:
+    sel_statement = select(Drink)
+    drinks = session.exec(sel_statement).all()
+    return drinks
+
+def read_drink_by_id(*, session: Session, drink_id: uuid.UUID) -> Drink:
+    drink = session.get(Drink, drink_id)
+    if not drink:
+        raise HTTPException(status_code=404, detail="Drink not found")
+    return drink
+
+def delete_drink_by_id(*, session: Session, drink_id: uuid.UUID) -> Drink:
+    drink = session.get(Drink, drink_id)
+    if not drink:
+        raise HTTPException(status_code=404, detail="Drink not found")
+    
+    session.delete(drink)
+    session.commit()
+    return drink
+
+def update_drink_by_id(*, session: Session, drink_id: uuid.UUID, drink_update: DrinkPut) -> Drink:
+    drink = session.get(Drink, drink_id)
+    if not drink:
+        raise HTTPException(status_code=404, detail="Drink not found")
+    
+    for field, value in drink_update.model_dump(exclude_none=True).items():
+        setattr(drink, field, value)
+    
+    session.commit()
+    session.refresh(drink)
+    return drink
