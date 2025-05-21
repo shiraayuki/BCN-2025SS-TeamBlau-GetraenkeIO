@@ -13,20 +13,31 @@ const LoginSidebar = () => {
         alignItems: 'center',
         px: 4,
         textAlign: 'center',
+        height: '100hv',
       }}
     >
-      <Typography
-        variant='h3'
+      <Box
         sx={{
-          fontWeight: 'bold',
-          mb: 2,
-          marginBottom: '50px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          height: '80%',
         }}
       >
-        GetraenkeIO
-      </Typography>
-      <img src='/beer.png' alt='Logo' style={{ width: '400px', marginBottom: '40px' }} />
-      <Typography variant='h6'>Deine smarte Getränkebuchungssoftware</Typography>
+        <Typography
+          variant='h3'
+          sx={{
+            fontWeight: 'bold',
+            mb: 2,
+            marginBottom: '50px',
+          }}
+        >
+          GetraenkeIO
+        </Typography>
+        <img src='/beer.png' alt='Logo' style={{ width: '400px', marginBottom: '40px' }} />
+        <Typography variant='h6'>Deine smarte Getränkebuchungssoftware</Typography>
+      </Box>
     </Box>
   );
 };

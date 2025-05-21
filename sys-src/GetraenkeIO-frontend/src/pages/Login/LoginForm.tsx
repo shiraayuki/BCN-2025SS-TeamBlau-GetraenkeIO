@@ -83,7 +83,7 @@ const LoginForm = () => {
           }}
           onClick={handleLogin}
         >
-          Login
+          Anmelden
         </Button>
       </Box>
 
