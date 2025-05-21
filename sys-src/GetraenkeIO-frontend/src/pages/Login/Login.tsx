@@ -1,4 +1,4 @@
-import LoginForm from './LoginFrom';
+import LoginForm from './LoginForm';
 import LoginSidebar from './LoginSidebar';
 import { Box } from '@mui/material';
 
