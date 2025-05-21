@@ -1,5 +1,6 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import RegisterForm from './RegisterForm';
+import AuthSidebar from '../../components/AuthSidebar';
 
 const Register = () => {
   return (
@@ -36,19 +37,7 @@ const Register = () => {
         >
           <RegisterForm />
         </Box>
-
-        {/* Right: Logo Panel */}
-        <Box
-          sx={{
-            flex: 1,
-            backgroundColor: '#115293', // etwas dunkleres Blau
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <img src='/beer.png' alt='Logo' style={{ width: '60%', height: 'auto' }} />
-        </Box>
+        <AuthSidebar />
       </Box>
     </Box>
   );

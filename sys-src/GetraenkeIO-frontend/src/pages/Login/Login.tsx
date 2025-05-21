@@ -1,21 +1,42 @@
+import AuthSidebar from '../../components/AuthSidebar';
 import LoginForm from './LoginForm';
-import LoginSidebar from './LoginSidebar';
 import { Box } from '@mui/material';
 
 const Login = () => {
   return (
-    <Box sx={{ display: 'flex', height: '100vh' }}>
-      <LoginSidebar />
+    <Box
+      sx={{
+        backgroundColor: '#1976d2',
+        height: '100vh',
+        width: '100vw',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <Box
         sx={{
-          flex: 1.5,
+          width: '800px',
+          height: '500px',
+          borderRadius: 4,
+          boxShadow: 6,
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#f5f5f5',
+          overflow: 'hidden',
         }}
       >
-        <LoginForm />
+        <Box
+          sx={{
+            flex: 1,
+            backgroundColor: 'white',
+            p: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+          }}
+        >
+          <LoginForm />
+        </Box>
+        <AuthSidebar />
       </Box>
     </Box>
   );

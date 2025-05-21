@@ -54,7 +54,17 @@ const RegisterForm = () => {
       >
         Registrieren
       </Button>
-      <Box mt={2} textAlign='center'>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          mt: 2,
+          px: 1,
+          fontSize: '0.9rem',
+        }}
+      >
+        <Typography variant='body2'>Bereits Registiert?</Typography>
         <Link to='/login' style={{ textDecoration: 'none', fontWeight: 'bold', color: '#1976d2' }}>
           Anmelden
         </Link>

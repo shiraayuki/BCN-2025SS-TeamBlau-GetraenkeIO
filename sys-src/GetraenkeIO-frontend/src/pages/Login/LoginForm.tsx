@@ -14,36 +14,26 @@ const LoginForm = () => {
   return (
     <Box
       sx={{
-        width: '80%',
-        height: '400px',
-        p: 4,
-        borderRadius: 4,
-        boxShadow: 3,
-        backgroundColor: 'white',
+        width: '100%',
         textAlign: 'center',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
+        gap: 3,
       }}
     >
-      <Box>
-        <Box
-          sx={{ height: '50px', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
-        >
-          <Typography
-            variant='h5'
-            sx={{
-              fontWeight: 'bold',
-              margin: 0,
-            }}
-          >
-            Anmelden
-          </Typography>
-        </Box>
-        <Box sx={{ height: '30px' }} />
-      </Box>
+      {/* Titel */}
+      <Typography
+        variant='h5'
+        sx={{
+          fontWeight: 'bold',
+        }}
+      >
+        Anmelden
+      </Typography>
 
-      <Box>
+      {/* Eingabefelder */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <TextField
           margin='normal'
           required
@@ -72,22 +62,34 @@ const LoginForm = () => {
             '& .MuiOutlinedInput-root': { borderRadius: 2 },
           }}
         />
-        <Button
-          fullWidth
-          variant='contained'
-          sx={{
-            mt: 3,
-            mb: 2,
-            borderRadius: 2,
-            fontWeight: 'bold',
-          }}
-          onClick={handleLogin}
-        >
-          Anmelden
-        </Button>
       </Box>
 
-      <Box sx={{ textAlign: 'center' }}>
+      {/* Login Button */}
+      <Button
+        fullWidth
+        variant='contained'
+        sx={{
+          mt: 1,
+          borderRadius: 2,
+          fontWeight: 'bold',
+        }}
+        onClick={handleLogin}
+      >
+        Anmelden
+      </Button>
+
+      {/* Link zur Registrierung */}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          mt: 2,
+          px: 1,
+          fontSize: '0.9rem',
+        }}
+      >
+        <Typography variant='body2'>Noch keinen Account?</Typography>
         <Link
           to='/register'
           style={{
