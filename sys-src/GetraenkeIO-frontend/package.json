@@ -14,11 +14,16 @@
     "@emotion/styled": "^11.14.0",
     "@fontsource/inter": "^5.2.5",
     "@fontsource/jetbrains-mono": "^5.2.5",
+    "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
+    "@reduxjs/toolkit": "^2.8.2",
     "antd": "^5.25.2",
     "mui": "^0.0.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-icons": "^5.5.0",
+    "react-mui-sidebar": "^1.6.3",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.0"
   },
   "devDependencies": {

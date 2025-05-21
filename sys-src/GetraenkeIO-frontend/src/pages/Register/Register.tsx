@@ -24,7 +24,6 @@ const Register = () => {
           overflow: 'hidden',
         }}
       >
-        {/* Left: Form */}
         <Box
           sx={{
             flex: 1,
