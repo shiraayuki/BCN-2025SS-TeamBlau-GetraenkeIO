@@ -22,7 +22,6 @@ const LoginForm = () => {
         gap: 3,
       }}
     >
-      {/* Titel */}
       <Typography
         variant='h5'
         sx={{
@@ -32,7 +31,6 @@ const LoginForm = () => {
         Anmelden
       </Typography>
 
-      {/* Eingabefelder */}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <TextField
           margin='normal'
@@ -64,7 +62,6 @@ const LoginForm = () => {
         />
       </Box>
 
-      {/* Login Button */}
       <Button
         fullWidth
         variant='contained'
@@ -78,7 +75,6 @@ const LoginForm = () => {
         Anmelden
       </Button>
 
-      {/* Link zur Registrierung */}
       <Box
         sx={{
           display: 'flex',

@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import RegisterForm from './RegisterForm';
 import AuthSidebar from '../../components/AuthSidebar';
 
