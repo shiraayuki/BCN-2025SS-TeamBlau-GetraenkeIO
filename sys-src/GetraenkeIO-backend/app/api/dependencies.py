@@ -36,21 +36,21 @@ def get_current_user(session: SessionDep, credentials: Annotated[HTTPBasicCreden
     user = authenticate_user(session, credentials.username, credentials.password)
     if user is None:
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Der aktuell eingeloggte Benutzer besitzt nicht die benötigten administrativen Rechte!"
-            )
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Benutzername oder Passwort sind fehlerhaft!",
+            headers={"WWW-Authenticate": "Basic"}
+        )
     else:
         return user
     
 
 def get_current_admin_user(session: SessionDep, credentials: Annotated[HTTPBasicCredentials, Depends(security_scheme)]) -> User:
-    user = authenticate_user(session, credentials.username, credentials.password)
+    user = get_current_user(session=session, credentials=credentials)
     if not user.is_admin:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Benutzername oder Passwort sind fehlerhaft!",
-            headers={"WWW-Authenticate": "Basic"}
-        )
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Der aktuell eingeloggte Benutzer besitzt nicht die benötigten administrativen Rechte!"
+            )
     else:
         return user
     
