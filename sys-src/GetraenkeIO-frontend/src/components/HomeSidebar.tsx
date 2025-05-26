@@ -1,16 +1,24 @@
-import { Sidebar, Menu, MenuItem, SubMenu, type MenuItemStyles } from 'react-pro-sidebar';
-import { FaHome, FaUser, FaShoppingCart, FaSignOutAlt, FaUserCog } from 'react-icons/fa';
 import { useState } from 'react';
+import { type MenuItemStyles, Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import { FaWineBottle, FaHistory, FaUser, FaSignOutAlt, FaUserCog } from 'react-icons/fa';
 import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '../store/store';
+import { logoutSuccess } from '../features/auth/authSlice';
 
-const CustomSidebar = ({ isAdmin = true }: { isAdmin?: boolean }) => {
+const CustomSidebar = () => {
   const [collapsed, setCollapsed] = useState(true);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const isAdmin = useSelector((state: RootState) => state.user.userData?.isAdmin);
+
   const handleLogout = () => {
-    // TODO: logic
+    dispatch(logoutSuccess());
+    navigate('/');
   };
 
   const sidebarBg = '#115293';
@@ -29,7 +37,6 @@ const CustomSidebar = ({ isAdmin = true }: { isAdmin?: boolean }) => {
 
   return (
     <div style={{ display: 'flex', height: '100vh', position: 'relative' }}>
-      {/* Sidebar */}
       <Sidebar
         collapsed={collapsed}
         backgroundColor={sidebarBg}
@@ -39,7 +46,6 @@ const CustomSidebar = ({ isAdmin = true }: { isAdmin?: boolean }) => {
           position: 'relative',
         }}
       >
-        {/* Logo */}
         <div
           style={{
             display: 'flex',
@@ -67,10 +73,10 @@ const CustomSidebar = ({ isAdmin = true }: { isAdmin?: boolean }) => {
             </div>
           )}
 
-          <MenuItem icon={<FaHome />} onClick={() => navigate('/drinks')}>
+          <MenuItem icon={<FaWineBottle />} onClick={() => navigate('/drinks')}>
             Getränke
           </MenuItem>
-          <MenuItem icon={<FaShoppingCart />} onClick={() => navigate('/purchasehistory')}>
+          <MenuItem icon={<FaHistory />} onClick={() => navigate('/purchasehistory')}>
             Kaufverlauf
           </MenuItem>
 
@@ -108,7 +114,6 @@ const CustomSidebar = ({ isAdmin = true }: { isAdmin?: boolean }) => {
           )}
         </Menu>
 
-        {/* Footer */}
         <div
           style={{
             position: 'absolute',
@@ -135,7 +140,6 @@ const CustomSidebar = ({ isAdmin = true }: { isAdmin?: boolean }) => {
         </div>
       </Sidebar>
 
-      {/* Collapse Button */}
       <button
         onClick={() => setCollapsed(!collapsed)}
         style={{

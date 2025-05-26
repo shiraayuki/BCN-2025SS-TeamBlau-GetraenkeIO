@@ -1,15 +1,34 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { authSerive } from '../../features/auth/authService';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../../features/auth/authSlice';
 
 const RegisterForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [repPassword, setRepPassword] = useState('');
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     console.log('Trying to register');
-    // TODO: register logic
+    if (password != repPassword) {
+      alert('Passwörter stimmen nicht überein!');
+      return;
+    }
+
+    try {
+      await authSerive.register({ username: username, password: password });
+      const user = await authSerive.login({ username: username, password: password });
+
+      dispatch(loginSuccess(user));
+      navigate('/');
+    } catch (err) {
+      console.error('Register failed' + err);
+    }
   };
 
   return (

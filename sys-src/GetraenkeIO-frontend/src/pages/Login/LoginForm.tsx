@@ -1,14 +1,28 @@
 import { useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { authSerive } from '../../features/auth/authService';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../../features/auth/authSlice';
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     console.log('Trying to log in');
-    // TODO: login logic
+    if (username && password) {
+      try {
+        const user = await authSerive.login({ username: username, password: password });
+        dispatch(loginSuccess(user));
+        navigate('/');
+      } catch {
+        console.error('Login failed!');
+      }
+    }
   };
 
   return (
