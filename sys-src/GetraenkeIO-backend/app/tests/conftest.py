@@ -3,7 +3,7 @@ from typing import Generator
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 import pytest
-from sqlmodel import Session, delete
+from sqlmodel import SQLModel, Session, StaticPool, create_engine, delete
 from starlette.routing import _DefaultLifespan
 
 from app.core.database import create_db_and_tables
@@ -11,23 +11,27 @@ from app.models.user import User
 from ..core.database import engine
 from ..crud.user import store_user
 from ..main import app
+from ..api.dependencies import get_session
 
 
-def clear_db(session: Session):
-    session.exec(delete(User))
-    session.commit()
-
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture()
 def db() -> Generator[Session, None, None]:
+    # In Memory Database fuer Tests erzeugen.
+    engine = create_engine(
+        "sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool
+    )
     with Session(engine) as session:
-        clear_db(session)
-        create_db_and_tables()
+        SQLModel.metadata.create_all(engine)
         yield session
-        clear_db(session)
 
 # Es muss in den environment Variablen ein anderer Datenbankname für die Testdatenbank angegeben werden.
-@pytest.fixture(scope="module")
-def client():
+@pytest.fixture()
+def client(db: Session):
+    # Eigenen lifespan fuer die App erzeugen.
+    def get_session_override():
+        return db
+    app.dependency_overrides[get_session] = get_session_override
     app.router.lifespan_context = _DefaultLifespan(app.router)
-    with TestClient(app) as c:
-        yield c
+    client = TestClient(app)
+    yield client
+    app.dependency_overrides.clear()

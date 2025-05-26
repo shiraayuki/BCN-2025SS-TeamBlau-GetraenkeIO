@@ -25,8 +25,8 @@ class UserBase(SQLModel):
 
 class UserGet(UserBase):
     id: uuid.UUID
-    guthaben: Decimal
-    is_admin: bool
+    guthaben: Decimal = Field(schema_extra={"examples": ["23.50"]})
+    is_admin: bool = Field(schema_extra={"examples": [False]})
 
 class UserPost(UserBase):
     password: str = Field(min_length=5, max_length=255, schema_extra={"examples": ["Geheim123!?"]})
