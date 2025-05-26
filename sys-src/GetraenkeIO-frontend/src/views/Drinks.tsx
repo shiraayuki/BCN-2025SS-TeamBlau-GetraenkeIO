@@ -14,8 +14,9 @@ import {
     Alert
 } from '@mui/material';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
+import CustomSidebar from '../components/HomeSidebar';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
-// Definiere den Typ für ein Getränk
 interface Drink {
     id: number;
     name: string;
@@ -24,7 +25,6 @@ interface Drink {
     stock: number;
 }
 
-// Komponente für ein einzelnes Getränk
 const DrinkCard: React.FC<{
     drink: Drink;
     onBookDrink: (drinkId: number) => void;
@@ -81,7 +81,6 @@ const DrinkCard: React.FC<{
     );
 };
 
-// Getränkeübersicht (Dummy-Daten)
 const DrinkOverview: React.FC = () => {
     const [drinks, setDrinks] = useState<Drink[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -102,7 +101,7 @@ const DrinkOverview: React.FC = () => {
                 const mockDrinks: Drink[] = [
                     { id: 1, name: 'Cola', price: 1.50, imageUrl: '/drinks/cola.png', stock: 24 },
                     { id: 2, name: 'Fanta', price: 1.50, imageUrl: '/drinks/fanta.png', stock: 18 },
-                    { id: 3, name: 'Bier', price: 1, imageUrl: '/drinks/bier.png', stock: 12 },
+                    { id: 3, name: 'Bier', price: 1.00, imageUrl: '/drinks/bier.png', stock: 12 },
                     { id: 4, name: 'Apfelschorle', price: 1.20, imageUrl: '/api/placeholder/300/200', stock: 5 },
                     { id: 5, name: 'Wasser', price: 1.00, imageUrl: '/api/placeholder/300/200', stock: 36 },
                     { id: 6, name: 'Energy Drink', price: 2.50, imageUrl: '/api/placeholder/300/200', stock: 0 }
@@ -121,14 +120,11 @@ const DrinkOverview: React.FC = () => {
         fetchDrinks();
     }, []);
 
-
-    // Snackbar wenn Getränk gebucht wurde
     const handleBookDrink = (drinkId: number) => {
         const selectedDrink = drinks.find(drink => drink.id === drinkId);
 
         if (selectedDrink) {
             console.log(`${selectedDrink.name} gebucht`);
-
             setSnackbar({
                 open: true,
                 message: `${selectedDrink.name} wurde gebucht`,
@@ -161,51 +157,80 @@ const DrinkOverview: React.FC = () => {
     }
 
     return (
-        <Container maxWidth="lg" sx={{ py: 4 }}>
-            <Typography
-                variant="h3"
-                component="h1"
-                gutterBottom
+        <Box sx={{ display: 'flex' }}>
+            <CustomSidebar />
+
+            <Box
                 sx={{
-                    mb: 4,
-                    fontWeight: 'bold',
-                    textAlign: 'center',
-                    color: 'primary.main',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    gap: 1,
+                    flexGrow: 1,
+                    overflowY: 'auto',
+                    height: '100vh',
+                    padding: 4,
                 }}
             >
-                Getränkeübersicht
-            </Typography>
+                <Container maxWidth="lg">
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            mb: 4,
+                        }}
+                    >
+                        <Typography
+                            variant="h3"
+                            component="h1"
+                            sx={{
+                                fontWeight: 'bold',
+                                textAlign: 'left',
+                                color: 'primary.main',
+                            }}
+                        >
+                            Getränkeübersicht
+                        </Typography>
 
-            <Grid container spacing={4}>
-                {drinks.map((drink) => (
-                    <Grid item key={drink.id} xs={12} sm={6} md={4}>
-                        <DrinkCard
-                            drink={drink}
-                            onBookDrink={handleBookDrink}
-                        />
+                        <Box
+                            sx={{
+                                backgroundColor: 'primary.main',
+                                color: 'white',
+                                px: 3,
+                                py: 1,
+                                borderRadius: '12px',
+                                boxShadow: 2,
+                                fontWeight: 'bold',
+                                fontSize: '1rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1,
+                            }}
+                        >
+                            <AccountBalanceWalletIcon sx={{ color: 'white' }} />
+                            Guthaben: 10,00 €
+                        </Box>
+
+                    </Box>
+
+                    <Grid container spacing={6}>
+                        {drinks.map(drink => (
+                            <Grid item key={drink.id} xs={12} sm={6} md={4}>
+                                <DrinkCard drink={drink} onBookDrink={handleBookDrink} />
+                            </Grid>
+                        ))}
                     </Grid>
-                ))}
-            </Grid>
+                </Container>
 
-            <Snackbar
-                open={snackbar.open}
-                autoHideDuration={3000}
-                onClose={handleCloseSnackbar}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            >
-                <Alert
+                <Snackbar
+                    open={snackbar.open}
+                    autoHideDuration={3000}
                     onClose={handleCloseSnackbar}
-                    severity={snackbar.severity}
-                    variant="filled"
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                 >
-                    {snackbar.message}
-                </Alert>
-            </Snackbar>
-        </Container>
+                    <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} variant="filled">
+                        {snackbar.message}
+                    </Alert>
+                </Snackbar>
+            </Box>
+        </Box>
     );
 };
 
