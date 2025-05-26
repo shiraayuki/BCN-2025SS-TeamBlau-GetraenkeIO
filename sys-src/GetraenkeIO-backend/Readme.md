@@ -16,9 +16,9 @@ Bitte die Datei .env nicht in die Versionskontrolle commiten.
 Es wird empfohlen für das Projekt ein eigenes virtual environment zu erstellen.   
 ```python3 -m venv .venv```  
 Dies ist nur einmal notwendig anschließend kann dieses mittels    
-```source .venv/bin/activate``` (Linux)
-```TODO``` (Windows)
-aktiviert werden.
+```source .venv/bin/activate``` (Linux)   
+```.\.venv\Scripts\Activate.ps1``` (Windows) aktiviert werden.  
+ Falls in Windows eine Berechtigungs-Fehlermeldung erscheint, kann mit folgendem Befehl abhilfe geschaffen werden: ```Set-ExecutionPolicy Unrestricted -Scope Process``` (Muss in jeder Terminal-Sitzung erneut ausgeführt werden.)
 
 ### Abhängigkeiten
 Die abhängigkeiten stehen in der Datei requirements.txt und können wie folgt automatisch installiert werden.  
@@ -26,12 +26,13 @@ Die abhängigkeiten stehen in der Datei requirements.txt und können wie folgt a
 
 ### Start
 Folgender Befehl genügt um das Programm zu starten.  
-```fastapi dev app/main.py``` TODO: evlt. Pfad ausbessern
+```fastapi dev app/main.py```
+(Vorausgesetzt, man befindet sich im backend-Verzeichnis)
 
 ### Tests
 Es wird das Test-Framework pytest verwendet.
 Zum testen muss in den Umgebungsvariablen oder im .env-File die Datenbank angegeben werden, die zum Testen genutzt werden soll. Diese sollte vor den Tests leer sein.  
-**!!!Achtung: Vor den Tests werden aus der angegebenen Datenbank alle einträge gelöscht!!!**
+**!!!Achtung: Vor den Tests werden aus der angegebenen Datenbank alle Einträge gelöscht!!!**
 #### Automatische Tests
 Todo: Es sollen bei jedem einchecken automatisch alle UnitTests via Github-Actions ausgeführt werden.
 #### Manuelle Ausführung
