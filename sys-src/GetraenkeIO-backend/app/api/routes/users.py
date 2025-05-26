@@ -35,7 +35,7 @@ def read_users(session: SessionDep):
 @router.post("/", response_model=UserGet)
 def create_user(session: SessionDep, user: UserPost):
     existing_user = read_user_by_uname(session= session, name=user.name)
-    if existing_user != None:
+    if existing_user is not None:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str("Der Benutzer mit dem Name " + existing_user.name + " existiert bereits!")

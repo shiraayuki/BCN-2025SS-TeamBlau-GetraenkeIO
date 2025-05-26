@@ -3,7 +3,6 @@ from fastapi import status
 from app.models.user import User, UserGet
 from ...core.security import get_password_hash
 from ...crud.user import read_user_by_uname
-from sqlmodel import delete
 
 VALID_USER_NAME="TestBenutzer"
 VALID_USER_PASSWORD="password"
@@ -44,7 +43,7 @@ def test_post_user_creates_new_user_succesful(db, client):
 
     assert response.status_code == status.HTTP_200_OK
     assert response_user.name == VALID_USER_NAME == db_user.name
-    assert response_user.is_admin == False == db_user.is_admin
+    assert response_user.is_admin is False is db_user.is_admin
     assert response_user.guthaben == 0 == db_user.guthaben
     assert response_user.id == db_user.id != 0
 
