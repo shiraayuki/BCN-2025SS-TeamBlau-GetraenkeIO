@@ -38,3 +38,8 @@ Todo: Es sollen bei jedem einchecken automatisch alle UnitTests via Github-Actio
 ```
 pytest
 ```
+#### Testabdeckung
+Um die Testabdeckung zu sehen kann das Python modul coverage installiert werden.
+```pip install coverage```
+Anschließend ```coverage run -m pytest``` um die Tests zu starten und
+```coverage report``` um die Testabdeckung auszuwerten.
