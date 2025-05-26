@@ -23,7 +23,8 @@ NameString = Annotated[
 class UserBase(SQLModel):
     name: NameString
 
-class UserGet(UserBase):
+class UserGet(SQLModel):
+    name: str
     id: uuid.UUID
     guthaben: Decimal = Field(schema_extra={"examples": ["23.50"]})
     is_admin: bool = Field(schema_extra={"examples": [False]})

@@ -1,8 +1,12 @@
 from fastapi.concurrency import asynccontextmanager
+from sqlmodel import Session
 from starlette.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
-from .core.database import create_db_and_tables
+from .core.config import settings
+from .core.database import create_db_and_tables, engine
+
+from .crud.user import create_or_update_admin_user_password
 
 from .api.main import api_router
 
@@ -11,7 +15,8 @@ from .api.main import api_router
 async def lifespan(app: FastAPI):
     # Datenbankmodell erzeugen
     create_db_and_tables()
-    # TODO: admin anlegen wenn nicht existent
+    with Session(engine) as session:
+        create_or_update_admin_user_password(session=session, password=settings.gv_passwd)
     yield
     # Hier könnte cleanup-Code stehen
     pass

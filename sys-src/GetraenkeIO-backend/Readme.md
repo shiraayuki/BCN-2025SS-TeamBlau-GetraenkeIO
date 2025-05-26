@@ -33,7 +33,7 @@ Folgender Befehl genügt um das Programm zu starten.
 Es wird das Test-Framework pytest verwendet.
 Zum testen wird für jeden Test eine neue In-Memory-Datenbank(SQLite) angelegt, damit die Tests isoliert ablaufen.
 #### Automatische Tests
-Todo: Es sollen bei jedem einchecken automatisch alle UnitTests via Github-Actions ausgeführt werden.
+Bei jedem git-push werden automatisch alle Tests ausgeführt und die Testabdeckung ausgegeben.
 #### Manuelle Ausführung
 ```
 pytest
