@@ -31,8 +31,7 @@ Folgender Befehl genügt um das Programm zu starten.
 
 ### Tests
 Es wird das Test-Framework pytest verwendet.
-Zum testen muss in den Umgebungsvariablen oder im .env-File die Datenbank angegeben werden, die zum Testen genutzt werden soll. Diese sollte vor den Tests leer sein.  
-**!!!Achtung: Vor den Tests werden aus der angegebenen Datenbank alle Einträge gelöscht!!!**
+Zum testen wird für jeden Test eine neue In-Memory-Datenbank(SQLite) angelegt, damit die Tests isoliert ablaufen.
 #### Automatische Tests
 Todo: Es sollen bei jedem einchecken automatisch alle UnitTests via Github-Actions ausgeführt werden.
 #### Manuelle Ausführung
