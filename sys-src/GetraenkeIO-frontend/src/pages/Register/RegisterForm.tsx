@@ -24,6 +24,33 @@ const RegisterForm = () => {
     }
   };
 
+  const validateUsername = () => {
+    if (username.trim().length < 2) {
+      setUsernameError(true);
+      setErrorMessage('Benutzername muss mindestens 2 Zeichen lang sein.');
+      return false;
+    }
+
+    if (!/^\w+$/.test(username)) {
+      setUsernameError(true);
+      setErrorMessage('Benutername darf nur Buchstaben, Zahlen und Unterstriche enthalten.');
+      return false;
+    }
+
+    return true;
+  };
+
+  const validatePassword = () => {
+    if (password.length < 5 || password.length > 255) {
+      setPasswordError(true);
+      setRepPasswordError(true);
+      setErrorMessage('Passwort darf nur zwischen 5 und 255 Zeichen haben.');
+      return false;
+    }
+
+    return true;
+  };
+
   const resetErrors = () => {
     setUsernameError(false);
     setPasswordError(false);
@@ -59,6 +86,14 @@ const RegisterForm = () => {
       setErrorMessage('Passwörter stimmen nicht überein.');
       setPasswordError(true);
       setRepPasswordError(true);
+      return;
+    }
+
+    if (!validateUsername()) {
+      return;
+    }
+
+    if (!validatePassword()) {
       return;
     }
 
