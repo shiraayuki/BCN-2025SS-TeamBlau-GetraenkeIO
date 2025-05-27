@@ -13,13 +13,91 @@ const RegisterForm = () => {
   const [password, setPassword] = useState('');
   const [repPassword, setRepPassword] = useState('');
 
+  const [usernameError, setUsernameError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [repPasswordError, setRepPasswordError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key == 'Enter') {
+      handleRegister();
+    }
+  };
+
+  const validateUsername = () => {
+    if (username.trim().length < 2) {
+      setUsernameError(true);
+      setErrorMessage('Benutzername muss mindestens 2 Zeichen lang sein.');
+      return false;
+    }
+
+    if (!/^\w+$/.test(username)) {
+      setUsernameError(true);
+      setErrorMessage('Benutername darf nur Buchstaben, Zahlen und Unterstriche enthalten.');
+      return false;
+    }
+
+    return true;
+  };
+
+  const validatePassword = () => {
+    if (password.length < 5 || password.length > 255) {
+      setPasswordError(true);
+      setRepPasswordError(true);
+      setErrorMessage('Passwort darf nur zwischen 5 und 255 Zeichen haben.');
+      return false;
+    }
+
+    return true;
+  };
+
+  const resetErrors = () => {
+    setUsernameError(false);
+    setPasswordError(false);
+    setRepPasswordError(false);
+    setErrorMessage('');
+  };
+
   const handleRegister = async () => {
-    console.log('Trying to register');
-    if (password != repPassword) {
-      alert('Passwörter stimmen nicht überein!');
+    resetErrors();
+
+    let hasMissingErrors = false;
+    if (!username.trim()) {
+      setUsernameError(true);
+      hasMissingErrors = true;
+    }
+
+    if (!password.trim()) {
+      setPasswordError(true);
+      hasMissingErrors = true;
+    }
+
+    if (!repPassword.trim()) {
+      setRepPasswordError(true);
+      hasMissingErrors = true;
+    }
+
+    if (hasMissingErrors) {
+      setErrorMessage('Bitte fülle alle Felder aus');
       return;
     }
 
+    if (password != repPassword) {
+      setErrorMessage('Passwörter stimmen nicht überein.');
+      setPasswordError(true);
+      setRepPasswordError(true);
+      return;
+    }
+
+    if (!validateUsername()) {
+      return;
+    }
+
+    if (!validatePassword()) {
+      return;
+    }
+
+    console.log('Trying to register');
     try {
       await authSerive.register({ username: username, password: password });
       const user = await authSerive.login({ username: username, password: password });
@@ -28,6 +106,10 @@ const RegisterForm = () => {
       navigate('/');
     } catch (err) {
       console.error('Register failed' + err);
+      setUsernameError(true);
+      setPasswordError(true);
+      setRepPasswordError(true);
+      setErrorMessage('Beutzername oder Passwort ensprechen nicht den Anforderungen.');
     }
   };
 
@@ -42,7 +124,12 @@ const RegisterForm = () => {
         fullWidth
         label='Benutzername'
         value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        error={usernameError}
+        onChange={(e) => {
+          setUsername(e.target.value);
+          resetErrors();
+        }}
+        onKeyDown={handleKeyDown}
         sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
       />
       <TextField
@@ -52,7 +139,12 @@ const RegisterForm = () => {
         label='Passwort'
         type='password'
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        error={passwordError}
+        onChange={(e) => {
+          setPassword(e.target.value);
+          resetErrors();
+        }}
+        onKeyDown={handleKeyDown}
         sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
       />
       <TextField
@@ -62,9 +154,21 @@ const RegisterForm = () => {
         label='Passwort wiederholen'
         type='password'
         value={repPassword}
-        onChange={(e) => setRepPassword(e.target.value)}
+        error={repPasswordError}
+        onChange={(e) => {
+          setRepPassword(e.target.value);
+          resetErrors();
+        }}
+        onKeyDown={handleKeyDown}
         sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
       />
+
+      {errorMessage && (
+        <Typography variant='body2' color='error'>
+          {errorMessage}
+        </Typography>
+      )}
+
       <Button
         fullWidth
         variant='contained'
