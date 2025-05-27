@@ -12,6 +12,12 @@ const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key == 'Enter') {
+      handleLogin();
+    }
+  };
+
   const handleLogin = async () => {
     console.log('Trying to log in');
     if (username && password) {
@@ -56,6 +62,7 @@ const LoginForm = () => {
           autoFocus
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          onKeyDown={handleKeyDown}
           sx={{
             '& .MuiOutlinedInput-root': { borderRadius: 2 },
           }}
@@ -70,6 +77,7 @@ const LoginForm = () => {
           type='password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={handleKeyDown}
           sx={{
             '& .MuiOutlinedInput-root': { borderRadius: 2 },
           }}

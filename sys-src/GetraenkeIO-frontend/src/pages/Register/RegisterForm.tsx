@@ -13,6 +13,12 @@ const RegisterForm = () => {
   const [password, setPassword] = useState('');
   const [repPassword, setRepPassword] = useState('');
 
+  const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key == 'Enter') {
+      handleRegister();
+    }
+  };
+
   const handleRegister = async () => {
     console.log('Trying to register');
     if (password != repPassword) {
@@ -43,6 +49,7 @@ const RegisterForm = () => {
         label='Benutzername'
         value={username}
         onChange={(e) => setUsername(e.target.value)}
+        onKeyDown={handleKeyDown}
         sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
       />
       <TextField
@@ -53,6 +60,7 @@ const RegisterForm = () => {
         type='password'
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        onKeyDown={handleKeyDown}
         sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
       />
       <TextField
@@ -63,6 +71,7 @@ const RegisterForm = () => {
         type='password'
         value={repPassword}
         onChange={(e) => setRepPassword(e.target.value)}
+        onKeyDown={handleKeyDown}
         sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
       />
       <Button
