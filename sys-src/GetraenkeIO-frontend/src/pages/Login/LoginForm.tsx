@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, colors, Menu, TextField, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { authSerive } from '../../features/auth/authService';
 import { useDispatch } from 'react-redux';
@@ -12,22 +12,52 @@ const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const [usernameError, setUsernameError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key == 'Enter') {
       handleLogin();
     }
   };
 
+  const resetErrors = () => {
+    setUsernameError(false);
+    setPasswordError(false);
+    setErrorMessage('');
+  };
+
   const handleLogin = async () => {
+    resetErrors();
+
+    let hasErrors = false;
+    if (!username.trim()) {
+      setUsernameError(true);
+      hasErrors = true;
+    }
+
+    if (!password.trim()) {
+      setPasswordError(true);
+      hasErrors = true;
+    }
+
+    if (hasErrors) {
+      setErrorMessage('Bitte fülle beide Felder aus');
+      return;
+    }
+
     console.log('Trying to log in');
-    if (username && password) {
-      try {
-        const user = await authSerive.login({ username: username, password: password });
-        dispatch(loginSuccess(user));
-        navigate('/');
-      } catch {
-        console.error('Login failed!');
-      }
+    try {
+      const user = await authSerive.login({ username: username, password: password });
+      dispatch(loginSuccess(user));
+      navigate('/');
+    } catch {
+      setUsernameError(true);
+      setPasswordError(true);
+      setErrorMessage('Benutername oder Password falsch.');
+      setPassword('');
+      console.error('Login failed!');
     }
   };
 
@@ -61,7 +91,11 @@ const LoginForm = () => {
           name='username'
           autoFocus
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          error={usernameError}
+          onChange={(e) => {
+            setUsername(e.target.value);
+            resetErrors();
+          }}
           onKeyDown={handleKeyDown}
           sx={{
             '& .MuiOutlinedInput-root': { borderRadius: 2 },
@@ -76,12 +110,22 @@ const LoginForm = () => {
           label='Passwort'
           type='password'
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          error={passwordError}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            resetErrors();
+          }}
           onKeyDown={handleKeyDown}
           sx={{
             '& .MuiOutlinedInput-root': { borderRadius: 2 },
           }}
         />
+
+        {errorMessage && (
+          <Typography variant='body2' color='error'>
+            {errorMessage}
+          </Typography>
+        )}
       </Box>
 
       <Button
