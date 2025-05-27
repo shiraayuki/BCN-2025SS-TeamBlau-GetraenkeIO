@@ -17,6 +17,7 @@ import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import CustomSidebar from '../components/HomeSidebar';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
+// Definiere den Typ für ein Getränk
 interface Drink {
     id: number;
     name: string;
@@ -25,6 +26,8 @@ interface Drink {
     stock: number;
 }
 
+
+// Komponente für ein einzelnes Getränk
 const DrinkCard: React.FC<{
     drink: Drink;
     onBookDrink: (drinkId: number) => void;
@@ -81,6 +84,7 @@ const DrinkCard: React.FC<{
     );
 };
 
+// Getränkeübersicht (Dummy-Daten)
 const DrinkOverview: React.FC = () => {
     const [drinks, setDrinks] = useState<Drink[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -120,6 +124,8 @@ const DrinkOverview: React.FC = () => {
         fetchDrinks();
     }, []);
 
+
+    // Snackbar wenn Getränk gebucht wurde
     const handleBookDrink = (drinkId: number) => {
         const selectedDrink = drinks.find(drink => drink.id === drinkId);
 
