@@ -43,4 +43,17 @@ def get_current_user(session: SessionDep, credentials: Annotated[HTTPBasicCreden
     else:
         return user
     
+
+def get_current_admin_user(session: SessionDep, credentials: Annotated[HTTPBasicCredentials, Depends(security_scheme)]) -> User:
+    user = get_current_user(session=session, credentials=credentials)
+    if not user.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Der aktuell eingeloggte Benutzer besitzt nicht die benötigten administrativen Rechte!"
+            )
+    else:
+        return user
+    
 CurrentUserDep = Annotated[User, Depends(get_current_user)]
+
+CurrentAdminUserDep = Annotated[CurrentUserDep, Depends(get_current_admin_user)]
