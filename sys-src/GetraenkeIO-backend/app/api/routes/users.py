@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 
 from app.models.user import UserPost
 
-from ..dependencies import SessionDep, CurrentUserDep
+from ..dependencies import SessionDep, CurrentUserDep, CurrentAdminUserDep
 from ...crud.user import read_user_by_uname, store_user, read_users_from_db
 from ...models import UserGet
 
@@ -26,9 +26,8 @@ def read_user(session: SessionDep, user_name: str, current_user: CurrentUserDep)
         raise HTTPException(status_code=404)
     return user
 
-# TODO: authentifizierung nur für den Admin
 @router.get("/", response_model=list[UserGet])
-def read_users(session: SessionDep):
+def read_users(session: SessionDep, _: CurrentAdminUserDep):
     users = read_users_from_db(session=session)
     return users
 

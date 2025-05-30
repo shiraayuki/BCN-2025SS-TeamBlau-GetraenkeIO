@@ -56,3 +56,81 @@ def test_post_user_throws_bad_request_on_double_entry(client):
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.json()["detail"] == "Der Benutzer mit dem Name " + VALID_USER_NAME + " existiert bereits!"
 
+def test_get_users_returns_unauthorized_with_no_authentication(client):
+    response = client.get("/users", auth=("falscheruser", "UnglueltigesPassowrt"))
+
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert response.json()["detail"] == "Benutzername oder Passwort sind fehlerhaft!"
+
+def test_get_users_returns_forbidden_with_no_permission(db, client):
+    db.add(User.model_validate(VALID_USER_JSON))
+    db.commit()
+    
+    response = client.get("/users", auth=(VALID_USER_NAME, VALID_USER_PASSWORD))
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.json()["detail"] == "Der aktuell eingeloggte Benutzer besitzt nicht die benötigten administrativen Rechte!"
+
+def test_get_users_with_permission_correct_result(db, client):
+    admin_user = User.model_validate(VALID_USER_JSON)
+    admin_user.is_admin = True
+    other_user = User.model_validate(VALID_USER_JSON)
+    other_user.name = "AndererBenutzer"
+    db.add(admin_user)
+    db.add(other_user)
+    db.commit()
+    
+    response = client.get("/users", auth=(VALID_USER_NAME, VALID_USER_PASSWORD))
+
+    assert response.status_code == status.HTTP_200_OK
+    assert len(response.json()) == 2
+    assert response.json()[0]["name"] == VALID_USER_NAME
+    assert response.json()[1]["name"] == other_user.name
+
+def test_get_users_by_name_ok_with_own_username(db, client):
+    user = User.model_validate(VALID_USER_JSON)
+    db.add(user)
+    db.commit()
+
+    response = client.get("/users/" + VALID_USER_NAME, auth=(VALID_USER_NAME, VALID_USER_PASSWORD))
+
+    assert response.status_code == status.HTTP_200_OK
+    assert UserGet.model_validate(response.json()) == UserGet.model_validate(user)
+
+def test_get_users_by_name_returns_forbidden_with_other_username(db, client):
+    user = User.model_validate(VALID_USER_JSON)
+    other_user = User.model_validate(VALID_USER_JSON)
+    other_user.name = "AndererBenutzer"
+    db.add(user)
+    db.add(other_user)
+    db.commit()
+
+    response = client.get("/users/" + other_user.name, auth=(VALID_USER_NAME, VALID_USER_PASSWORD))
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.json()["detail"] is not None
+
+def test_get_users_by_name_returns_ok_with_admin_access(db, client):
+    user = User.model_validate(VALID_USER_JSON)
+    other_user = User.model_validate(VALID_USER_JSON)
+    other_user.name = "AndererBenutzer"
+    user.is_admin = True
+    db.add(user)
+    db.add(other_user)
+    db.commit()
+
+    response = client.get("/users/" + other_user.name, auth=(VALID_USER_NAME, VALID_USER_PASSWORD))
+
+    assert response.status_code == status.HTTP_200_OK
+    assert UserGet.model_validate(response.json()) == UserGet.model_validate(other_user)
+
+def test_get_users_by_name_returns_not_found_if_no_user_with_name_is_present(db, client):
+    user = User.model_validate(VALID_USER_JSON)
+    user.is_admin = True
+    db.add(user)
+    db.commit()
+
+    response = client.get("/users/" + "NotExistingUser", auth=(VALID_USER_NAME, VALID_USER_PASSWORD))
+
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+
