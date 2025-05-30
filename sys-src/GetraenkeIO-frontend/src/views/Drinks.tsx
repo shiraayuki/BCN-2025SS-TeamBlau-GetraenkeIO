@@ -26,6 +26,13 @@ interface Drink {
     stock: number;
 }
 
+// Definiere den Typ für ein Nutzer
+interface User {
+    id: string;
+    name: string;
+    guthaben: number;
+    is_admin: boolean;
+}
 
 // Komponente für ein einzelnes Getränk
 const DrinkCard: React.FC<{
@@ -84,9 +91,10 @@ const DrinkCard: React.FC<{
     );
 };
 
-// Getränkeübersicht (Dummy-Daten)
+// Getränkeübersicht
 const DrinkOverview: React.FC = () => {
     const [drinks, setDrinks] = useState<Drink[]>([]);
+    const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [snackbar, setSnackbar] = useState<{
@@ -99,21 +107,31 @@ const DrinkOverview: React.FC = () => {
         severity: 'success'
     });
 
+    // API-Call für Getränkeübersicht
     useEffect(() => {
         const fetchDrinks = async () => {
             try {
-                const mockDrinks: Drink[] = [
-                    { id: 1, name: 'Cola', price: 1.50, imageUrl: '/drinks/cola.png', stock: 24 },
-                    { id: 2, name: 'Fanta', price: 1.50, imageUrl: '/drinks/fanta.png', stock: 18 },
-                    { id: 3, name: 'Bier', price: 1.00, imageUrl: '/drinks/bier.png', stock: 12 },
-                    { id: 4, name: 'Apfelschorle', price: 1.20, imageUrl: '/api/placeholder/300/200', stock: 5 },
-                    { id: 5, name: 'Wasser', price: 1.00, imageUrl: '/api/placeholder/300/200', stock: 36 },
-                    { id: 6, name: 'Energy Drink', price: 2.50, imageUrl: '/api/placeholder/300/200', stock: 0 }
-                ];
-                setTimeout(() => {
-                    setDrinks(mockDrinks);
-                    setLoading(false);
-                }, 800);
+                const response = await fetch("http://localhost:8000/drinks/", {
+                    credentials: "include",
+                });
+
+                if (!response.ok) {
+                    throw new Error('Fehler beim Abrufen der Getränke');
+                }
+
+                const data = await response.json();
+
+
+                const drinksFormatted = data.map((drink: any) => ({
+                    id: drink.id,
+                    name: drink.name,
+                    imageUrl: drink.imageUrl,
+                    price: parseFloat(drink.cost),
+                    stock: drink.count
+                }));
+
+                setDrinks(drinksFormatted);
+                setLoading(false);
             } catch (err) {
                 console.error('Fehler beim Laden der Getränke:', err);
                 setError('Getränke konnten nicht geladen werden.');
@@ -122,6 +140,34 @@ const DrinkOverview: React.FC = () => {
         };
 
         fetchDrinks();
+    }, []);
+
+
+    // API-Call für Nutzer (Guthaben)
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await fetch("http://localhost:8000/users/me", {
+                    credentials: "include",
+                });
+
+                if (!response.ok) {
+                    throw new Error('Fehler beim Abrufen der Benutzerdaten');
+                }
+
+                const data = await response.json();
+                setUser({
+                    id: data.id,
+                    name: data.name,
+                    guthaben: parseFloat(data.guthaben),
+                    is_admin: data.is_admin
+                });
+            } catch (error) {
+                console.error("Fehler beim Laden des Benutzers:", error);
+            }
+        };
+
+        fetchUser();
     }, []);
 
 
@@ -210,8 +256,18 @@ const DrinkOverview: React.FC = () => {
                                 gap: 1,
                             }}
                         >
-                            <AccountBalanceWalletIcon sx={{ color: 'white' }} />
-                            Guthaben: 10,00 €
+                            {user ? (
+                                <>
+                                    <AccountBalanceWalletIcon sx={{ color: 'white' }} />
+                                    Guthaben: {user.guthaben.toFixed(2)} €
+                                </>
+                            ) : (
+                                <>
+                                    <AccountBalanceWalletIcon sx={{ color: 'white' }} />
+                                    Guthaben: ...
+                                </>
+                            )}
+
                         </Box>
 
                     </Box>
