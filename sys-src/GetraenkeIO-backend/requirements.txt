@@ -1,5 +1,6 @@
 fastapi[standard]
 sqlmodel
+SQLAlchemy
 pydantic-settings
 python-dotenv
 passlib
@@ -7,3 +8,4 @@ bcrypt
 pyjwt
 httpx
 pytest
+psycopg2-binary

@@ -11,10 +11,12 @@
 **/docker-compose.yml 
 **/.DS_Store 
 **/venv 
-**/env 
+**/env
+**/.pytest_cache
+**/*.db 
 #**/*-secret*.* 
 #**/logs 
 #**/*.md 
-#!**/README.md 
+**/README.md 
 #**/node_modules 
 #**/*.class 
