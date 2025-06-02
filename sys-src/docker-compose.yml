@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:17.5-alpine
+    container_name: getraenkeio_postgres
+    restart: always
+    ports:
+      - 5432:5432
+    user: postgres
+    environment: 
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: getraenkeio
+    volumes:
+      - pgdata_getraenkeio:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+  backend:
+    build: ./GetraenkeIO-backend
+    container_name: getraenkeio_backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      GV_PASSWD: getraenkeverwalter
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/getraenkeio
+    ports:
+      - 8000:8000
+
+volumes:
+  pgdata_getraenkeio:
