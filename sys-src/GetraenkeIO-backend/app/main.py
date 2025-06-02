@@ -29,7 +29,7 @@ app = FastAPI(
 # CORS aktivieren, um Anfragen vom Front-End entgegennehmen zu können. 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
