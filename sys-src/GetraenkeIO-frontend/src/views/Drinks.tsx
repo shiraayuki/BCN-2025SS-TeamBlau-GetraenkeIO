@@ -16,6 +16,10 @@ import {
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import CustomSidebar from '../components/HomeSidebar';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import { publicAxios } from '../api/axiosInstance';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../store/store';
+import { useNavigate } from 'react-router-dom';
 
 // Definiere den Typ für ein Getränk
 interface Drink {
@@ -107,27 +111,35 @@ const DrinkOverview: React.FC = () => {
         severity: 'success'
     });
 
+    const userData = useSelector((state: RootState) => state.user.userData);
+    const navigate = useNavigate();
+
+    // Prüfung ob User eingeloggt ist, bevor auf /drinks zugreifen kann
+    useEffect(() => {
+        if (!userData || !userData.credentials) {
+            navigate('/login');
+        }
+    }, [userData, navigate]);
+
     // API-Call für Getränkeübersicht
     useEffect(() => {
         const fetchDrinks = async () => {
+            if (!userData || !userData.credentials) return;
+
             try {
-                const response = await fetch("http://localhost:8000/drinks/", {
-                    credentials: "include",
+                const response = await publicAxios.get('/drinks/', {
+                    auth: {
+                        username: userData.credentials.username,
+                        password: userData.credentials.password,
+                    },
                 });
 
-                if (!response.ok) {
-                    throw new Error('Fehler beim Abrufen der Getränke');
-                }
-
-                const data = await response.json();
-
-
-                const drinksFormatted = data.map((drink: any) => ({
+                const drinksFormatted = response.data.map((drink: any) => ({
                     id: drink.id,
                     name: drink.name,
                     imageUrl: drink.imageUrl,
                     price: parseFloat(drink.cost),
-                    stock: drink.count
+                    stock: drink.count,
                 }));
 
                 setDrinks(drinksFormatted);
@@ -140,43 +152,41 @@ const DrinkOverview: React.FC = () => {
         };
 
         fetchDrinks();
-    }, []);
+    }, [userData]);
 
 
     // API-Call für Nutzer (Guthaben)
     useEffect(() => {
         const fetchUser = async () => {
+            if (!userData || !userData.credentials) return;
+
             try {
-                const response = await fetch("http://localhost:8000/users/me", {
-                    credentials: "include",
+                const response = await publicAxios.get('/users/me', {
+                    auth: {
+                        username: userData.credentials.username,
+                        password: userData.credentials.password,
+                    },
                 });
 
-                if (!response.ok) {
-                    throw new Error('Fehler beim Abrufen der Benutzerdaten');
-                }
-
-                const data = await response.json();
                 setUser({
-                    id: data.id,
-                    name: data.name,
-                    guthaben: parseFloat(data.guthaben),
-                    is_admin: data.is_admin
+                    id: response.data.id,
+                    name: response.data.name,
+                    guthaben: parseFloat(response.data.guthaben),
+                    is_admin: response.data.is_admin,
                 });
-            } catch (error) {
-                console.error("Fehler beim Laden des Benutzers:", error);
+            } catch (err) {
+                console.error('Fehler beim Laden des Benutzers:', err);
             }
         };
 
         fetchUser();
-    }, []);
+    }, [userData]);
 
 
     // Snackbar wenn Getränk gebucht wurde
     const handleBookDrink = (drinkId: number) => {
         const selectedDrink = drinks.find(drink => drink.id === drinkId);
-
         if (selectedDrink) {
-            console.log(`${selectedDrink.name} gebucht`);
             setSnackbar({
                 open: true,
                 message: `${selectedDrink.name} wurde gebucht`,
