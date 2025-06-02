@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import DrinkCard from './views/Drinks';
+import History from './views/History';
 import ProtectedLayout from './components/ProtectedLayout';
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/drinks' element={<DrinkCard />} />
+        <Route path='/history' element={<History />} />
         <Route element={<ProtectedLayout />}>
           <Route path='/' element={<Home />} />
         </Route>
