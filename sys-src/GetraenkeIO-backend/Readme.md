@@ -3,7 +3,13 @@ Hier befindet sich das Backend-Projekt in form einer REST-API, die mit dem Pytho
 Als Datenbank soll PostgreSQL verwendet werden (noch nicht implementiert).
 
 ## Deployment Infos
-Docker noch nicht implementiert siehe Development Infos.
+(Voraussetzung: Docker oder Podman sind installiert)
+Das Backend kann einfach als Container bereitgestellt werden.
+Mit folgendem Kommando kann der Container gebaut werden:   
+```docker build -t getraenkeio .```   
+Anschließend kann er mit folgendem Kommando gestartet werden:   
+```docker run -p 8000:8000 -e DATABASE_URL="sqlite:///getraenkeio.db" -e GV_PASSWD="getraenkeverwalter" getraenkeio```  
+Die Konfigurations-Variablen (siehe [Konfiguration](#konfiguration)) müssen als Umgebungsvariablen gesetzt werden.
 
 ## Development Infos
 Im folgenden alle notwendigen Infos um das Backend-Projekt zu starten.
@@ -11,6 +17,9 @@ Im folgenden alle notwendigen Infos um das Backend-Projekt zu starten.
 ### Konfiguration
 Die Konfiguration des Programms funktioniert über Umgebungsvariablen, dafür kann einfach die .env.example nach .env kopiert werden.
 Bitte die Datei .env nicht in die Versionskontrolle commiten.
+Folgende Konfigurationsvariablen stehen zur verfügung:
+ - DATABASE_URL: URL zur bestehenden Datenbank, die das Backend verwendet.
+ - GV_PASSWD: Passwort des Benutzers "admin", welcher die Rolle als Getränkewart übernimmt und die zugehörigen berechtigungen hat.
 
 ### Virtuelles Environment
 Es wird empfohlen für das Projekt ein eigenes virtual environment zu erstellen.   
@@ -39,7 +48,7 @@ Bei jedem git-push werden automatisch alle Tests ausgeführt und die Testabdecku
 pytest
 ```
 #### Testabdeckung
-Um die Testabdeckung zu sehen kann das Python modul coverage installiert werden.
-```pip install coverage```
+Um die Testabdeckung zu sehen kann das Python modul coverage installiert werden.  
+```pip install coverage```  
 Anschließend ```coverage run -m pytest``` um die Tests zu starten und
 ```coverage report``` um die Testabdeckung auszuwerten.
