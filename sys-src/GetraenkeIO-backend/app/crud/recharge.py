@@ -14,5 +14,5 @@ def store_recharge_for_user_to_db(*, session: Session, recharge: RechargeBase, u
 
 def read_recharges_for_user_from_db(session: Session, user: User) -> list[Recharge]:
     statement = select(Recharge).where(Recharge.user_id == user.id)
-    recharges = session.exec(statement)
+    recharges = session.exec(statement).all()
     return recharges

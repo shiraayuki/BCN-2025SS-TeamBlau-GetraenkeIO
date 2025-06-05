@@ -9,6 +9,6 @@ class RechargeBase(SQLModel):
 
 class Recharge(RechargeBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
-    created_at: datetime.datetime = Field(default_factory=datetime.datetime.utcnow)
+    created_at: datetime.datetime = Field(default_factory=lambda: datetime.datetime.now(datetime.UTC))
 
     user_id: uuid.UUID = Field(foreign_key="user.id")
