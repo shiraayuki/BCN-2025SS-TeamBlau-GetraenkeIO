@@ -4,14 +4,7 @@ from app.models.user import User, UserGet
 from ...core.security import get_password_hash
 from ...crud.user import read_user_by_uname
 
-VALID_USER_NAME="TestBenutzer"
-VALID_USER_PASSWORD="password"
-VALID_USER_JSON = {
-    "name": VALID_USER_NAME,
-    "is_admin": False,
-    "guthaben": 25.30,
-    "hashed_password": get_password_hash(VALID_USER_PASSWORD) 
-    }
+from ..testvariables import *
 
 def test_read_user_me_unauthorized(db, client):
     # Arrange
