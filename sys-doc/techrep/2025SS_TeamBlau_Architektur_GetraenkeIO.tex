@@ -227,7 +227,11 @@ In discussions concerning multi-tier architecture, the term \textquote{layer} is
 \lipsum[4]
 
 \subsection{Datenhaltung} % Data Tier \textbar{} Persistence
-\lipsum[5]
+Zur Datenhaltung in der Produktionsumgebung wird eine relationale PostgreSQL-Datenbank verwendet. 
+Die Kommunikation mit dieser findet ausschließlich über das SQLModel-Framework statt. Das Datenmodell wurde ebenfalls von SQLModel auf Basis von den im Python-Code erzeugten Datenklassen erstellt.
+% TODO: Hier Bild vom Datenbankmodell einfügen, wenn DB soweit fertig.
+Da ein \ac{orm}-Framework verwendet wird, könnte die Datenbank relativ einfach gegen alle anderen von diesem Framework ausgetauscht werden. 
+In der Anfangsphase der Entwicklung wurde diese Möglichkeit genutzt, um SQLite \cite{sqlite} als Entwicklungsdatenbank verwenden zu können und durch die einfache Konfiguration schnell ein lauffähiges System erzeugen zu können.
 
 %\subsection{Optional: Infrastructure and Deployment \textbar{} Distribution Perspective \textbar{} \textquote{Verteilungssicht}}
 %Provides (1) information about configuration, exact software versions, SBOM, DevOps, Cloud, AWS, and others.
