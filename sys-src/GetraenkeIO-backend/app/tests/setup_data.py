@@ -7,6 +7,7 @@ from app.models.user import User
 
 VALID_USER_NAME = "TestBenutzer"
 VALID_USER_PASSWORD = "FakeHashedPassword"
+VALID_USER_GUTHABEN = 25.30
 
 VALID_DRINK_NAME = "TestGetraenk"
 VALID_DRINK_UUID = uuid4()
@@ -22,7 +23,7 @@ def setup_normal(db, client):
     VALID_USER = User(
         name = VALID_USER_NAME,
         is_admin=False,
-        guthaben=25.30,
+        guthaben=VALID_USER_GUTHABEN,
         hashed_password=get_password_hash(VALID_USER_PASSWORD)
         )
     db.add(User.model_validate(VALID_USER))
