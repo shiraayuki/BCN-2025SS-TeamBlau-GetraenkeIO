@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store/store';
-import store from '../store/store';
 import { Navigate, Outlet } from 'react-router-dom';
 
 const ProtectedLayout = () => {

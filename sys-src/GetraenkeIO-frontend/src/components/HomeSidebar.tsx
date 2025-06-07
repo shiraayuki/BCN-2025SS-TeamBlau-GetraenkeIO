@@ -76,7 +76,7 @@ const CustomSidebar = () => {
           <MenuItem icon={<FaWineBottle />} onClick={() => navigate('/drinks')}>
             Getränke
           </MenuItem>
-          <MenuItem icon={<FaHistory />} onClick={() => navigate('/purchasehistory')}>
+          <MenuItem icon={<FaHistory />} onClick={() => navigate('/history')}>
             Kaufverlauf
           </MenuItem>
 
