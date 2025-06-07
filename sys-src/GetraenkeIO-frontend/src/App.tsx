@@ -5,6 +5,7 @@ import Register from './pages/Register/Register';
 import DrinkCard from './views/Drinks';
 import History from './views/History';
 import ProtectedLayout from './components/ProtectedLayout';
+import UserManagement from './views/UserManagement';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path='/history' element={<History />} />
         <Route element={<ProtectedLayout />}>
           <Route path='/' element={<Home />} />
+          <Route path='/admin/users' element={<UserManagement />} />
         </Route>
       </Routes>
     </Router>

@@ -9,7 +9,7 @@ import type { RootState } from '../store/store';
 import { logoutSuccess } from '../features/auth/authSlice';
 
 const CustomSidebar = () => {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
