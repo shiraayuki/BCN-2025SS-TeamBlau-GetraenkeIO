@@ -1,5 +1,5 @@
 # Erstellt neuen Getränke-Eintrag
-from sqlmodel import Session
+from sqlmodel import Session, select
 from datetime import datetime, timezone
 from fastapi import HTTPException
 
@@ -29,3 +29,15 @@ def store_transaction_to_db(*, session: Session, transaction_post: TransactionPo
     session.commit()
     session.refresh(db_obj)
     return db_obj
+
+def read_all_transactions(*, session: Session) -> list[Transaction]:
+    transactions = session.exec(select(Transaction)).all()
+    if transactions == None:
+        transactions = []
+    return transactions
+
+def read_user_transactions(*, session: Session, user: User) -> list[Transaction]:
+    transactions = session.exec(select(Transaction).where(Transaction.user_id == user.id)).all()
+    if transactions == None:
+        transactions = []
+    return transactions
