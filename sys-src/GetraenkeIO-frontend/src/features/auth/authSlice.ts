@@ -1,23 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { type AuthUserData } from '../../models/userModels';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { type AuthUserData, type UserData } from '../../models/userModels';
 
 const storedUser = localStorage.getItem('authUserData');
 
 const initialState: AuthUserData = storedUser
   ? {
-      userData: JSON.parse(storedUser),
-      isAuthenticated: true,
-    }
+    userData: JSON.parse(storedUser),
+    isAuthenticated: true,
+  }
   : {
-      userData: null,
-      isAuthenticated: false,
-    };
+    userData: null,
+    isAuthenticated: false,
+  };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState: initialState,
   reducers: {
-    loginSuccess: (state, action) => {
+    loginSuccess: (state, action: PayloadAction<UserData>) => {
       state.userData = action.payload;
       state.isAuthenticated = true;
 
