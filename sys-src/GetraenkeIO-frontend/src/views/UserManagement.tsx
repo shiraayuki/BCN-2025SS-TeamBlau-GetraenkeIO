@@ -5,18 +5,86 @@ import { Box, Button, Card, CardContent, Dialog, DialogActions, DialogContent, D
 import { useEffect, useState } from "react";
 import { type UserManagementData } from "../models/userModels";
 import { usermgmtService } from "../features/usermgmt/usermgmtService";
-import { FaHistory, FaPen } from "react-icons/fa";
+import { FaCalendarAlt, FaEuroSign, FaHashtag, FaHistory, FaPen, FaWineBottle } from "react-icons/fa";
 
 const UserManagement = () => {
   const [usermgmtdata, setUsermgmtdata] = useState<UserManagementData[]>([]);
 
   const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [historyDialogeOpen, setHistoryDialogOpen] = useState(false);
   const [currentRecharge, setCurrentRecharge] = useState('');
   const [currentUserId, setCurrentUserId] = useState('');
+  const [currentUserName, setCurrentUserName] = useState('');
 
   const [errorMessage, setErrorMessage] = useState('');
 
   const userData = useSelector((state: RootState) => state.user.userData);
+
+  const dummyHistory = [
+    {
+      id: 1,
+      productName: 'Cola',
+      purchaseDate: '2025-05-24T14:30:00Z',
+      price: 1.5,
+      quantity: 2,
+    },
+    {
+      id: 2,
+      productName: 'Bier',
+      purchaseDate: '2025-05-23T19:15:00Z',
+      price: 2.0,
+      quantity: 1,
+    },
+    {
+      id: 3,
+      productName: 'Wasser',
+      purchaseDate: '2025-05-22T11:45:00Z',
+      price: 1.0,
+      quantity: 3,
+    },
+    {
+      id: 3,
+      productName: 'Fanta',
+      purchaseDate: '2025-05-22T11:45:00Z',
+      price: 1.50,
+      quantity: 3,
+    },
+    {
+      id: 3,
+      productName: 'Wasser',
+      purchaseDate: '2025-05-22T11:45:00Z',
+      price: 1.0,
+      quantity: 3,
+    },
+    {
+      id: 3,
+      productName: 'Wasser',
+      purchaseDate: '2025-05-22T11:45:00Z',
+      price: 1.0,
+      quantity: 3,
+    },
+    {
+      id: 3,
+      productName: 'Wasser',
+      purchaseDate: '2025-05-22T11:45:00Z',
+      price: 1.0,
+      quantity: 3,
+    },
+    {
+      id: 3,
+      productName: 'Wasser',
+      purchaseDate: '2025-05-22T11:45:00Z',
+      price: 1.0,
+      quantity: 3,
+    },
+    {
+      id: 3,
+      productName: 'Wasser',
+      purchaseDate: '2025-05-22T11:45:00Z',
+      price: 1.0,
+      quantity: 3,
+    },
+  ];
 
   useEffect(() => {
     if (!userData) {
@@ -32,16 +100,15 @@ const UserManagement = () => {
       })
   }, [userData])
 
-  const openUserHistory = (userId: string) => {
-  }
 
-  const editUserBalance = (userId: string) => {
+  const editUserBalance = (userId: string, userName: string) => {
     setCurrentUserId(userId);
+    setCurrentUserName(userName);
     setCurrentRecharge('');
     setEditDialogOpen(true);
   }
 
-  const handleClose = () => {
+  const handleRechargeClose = () => {
     setEditDialogOpen(false)
     setCurrentUserId('');
   }
@@ -58,11 +125,34 @@ const UserManagement = () => {
       setErrorMessage('Fehler beim Aktualisieren des Guthabens!')
     }
 
-
-    setCurrentUserId('');
-    setCurrentRecharge('');
     setEditDialogOpen(false);
+    setCurrentUserId('');
+    setCurrentUserName('');
+    setCurrentRecharge('');
   }
+
+  const openUserHistory = async (userId: string, userName: string) => {
+
+
+    setCurrentUserName(userName);
+    setCurrentUserId(userId);
+    setHistoryDialogOpen(true);
+  }
+
+  const handleHistoryClose = () => {
+    setHistoryDialogOpen(false);
+    setCurrentUserId('');
+    setCurrentUserName('');
+  }
+
+  const formatDate = (isoString: string) => {
+    const date = new Date(isoString);
+    return (
+      date.toLocaleDateString() +
+      ' – ' +
+      date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    );
+  };
 
   return (
     <div style={{ display: 'flex', height: '100vh', width: '100vw' }}>
@@ -163,7 +253,7 @@ const UserManagement = () => {
                           alignItems: 'center',
                           justifyContent: 'center',
                         }}
-                        onClick={() => editUserBalance(user.id)}
+                        onClick={() => editUserBalance(user.id, user.name)}
                       >
                         <FaPen />
                       </Button>
@@ -182,7 +272,7 @@ const UserManagement = () => {
                           alignItems: 'center',
                           justifyContent: 'center',
                         }}
-                        onClick={() => openUserHistory(user.id)}
+                        onClick={() => openUserHistory(user.id, user.name)}
                       >
                         <FaHistory />
                       </Button>
@@ -195,8 +285,9 @@ const UserManagement = () => {
         </Card>
       </Box>
 
-      <Dialog open={editDialogOpen} onClose={handleClose}>
-        <DialogTitle>Guthaben bearbeiten</DialogTitle>
+      <Dialog open={editDialogOpen} onClose={handleRechargeClose} fullWidth maxWidth="xs">
+        <DialogTitle sx={{ fontWeight: 'bold', fontSize: '1.25rem' }}>
+          Guthaben für {currentUserName} bearbeiten</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -204,11 +295,14 @@ const UserManagement = () => {
             label="Guthaben"
             type="number"
             fullWidth
-            variant="standard"
+            variant="outlined"
             InputLabelProps={{ shrink: true }}
-            error={errorMessage != ''}
+            error={!!errorMessage}
             value={currentRecharge}
-            onChange={(e) => { setCurrentRecharge(e.target.value); setErrorMessage('') }}
+            onChange={(e) => {
+              setCurrentRecharge(e.target.value);
+              setErrorMessage('');
+            }}
           />
           {errorMessage && (
             <Box mt={1} color="error.main" fontSize="0.9rem">
@@ -218,15 +312,14 @@ const UserManagement = () => {
         </DialogContent>
         <DialogActions
           sx={{
-            display: 'flex',
             justifyContent: 'space-between',
-            paddingX: 3,
-            paddingBottom: 2,
+            px: 3,
+            pb: 2,
           }}>
           <Button
-            onClick={handleClose}
+            onClick={handleRechargeClose}
             color="error"
-            variant="contained">
+            variant="outlined">
             Abbrechen
           </Button>
           <Button
@@ -234,7 +327,84 @@ const UserManagement = () => {
             color="primary"
             variant="contained"
             disabled={currentRecharge.toString().trim() === ''}>
-            Okay
+            Übernehmen
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={historyDialogeOpen} onClose={handleHistoryClose} fullWidth maxWidth="md">
+        <DialogTitle sx={{ fontWeight: 'bold', fontSize: '1.25rem' }}>
+          Kaufhistorie
+        </DialogTitle>
+        <DialogContent>
+          <Box sx={{ mb: 2, pl: 1 }}>
+            <strong>Benutzer:</strong> {currentUserName}
+          </Box>
+          <Table size="small">
+            <TableHead>
+              <TableRow
+                sx={{
+                  backgroundColor: '#1976d2',
+                  '& .MuiTableCell-head': {
+                    color: 'white',
+                    fontWeight: 'bold',
+                    fontSize: '1rem',
+                    border: 'none',
+                    padding: '10px 16px',
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 1,
+                  }
+                }}
+              >
+                <TableCell>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <FaWineBottle />
+                    Produkt
+                  </Box>
+                </TableCell>
+                <TableCell>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <FaHashtag />
+                    Menge
+                  </Box>
+                </TableCell>
+                <TableCell>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <FaCalendarAlt />
+                    Datum
+                  </Box>
+                </TableCell>
+                <TableCell align="right">
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 1 }}>
+                    <FaEuroSign />
+                    Preis
+                  </Box>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {dummyHistory.map((item, index) => (
+                <TableRow key={`${item.id}-${item.purchaseDate}-${index}`} hover>
+                  <TableCell>{item.productName}</TableCell>
+                  <TableCell>{item.quantity}</TableCell>
+                  <TableCell>{formatDate(item.purchaseDate)}</TableCell>
+                  <TableCell align="right">{item.price.toFixed(2)} €</TableCell>
+                </TableRow>
+              ))}
+              {dummyHistory.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={4} align="center">
+                    Keine Bestellungen vorhanden.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2 }}>
+          <Button onClick={handleHistoryClose} color="primary" variant="outlined">
+            Schließen
           </Button>
         </DialogActions>
       </Dialog>
