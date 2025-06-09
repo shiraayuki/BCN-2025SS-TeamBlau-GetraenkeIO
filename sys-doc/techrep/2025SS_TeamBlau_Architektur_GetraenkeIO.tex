@@ -84,7 +84,18 @@
 	url = {https://https://sqlmodel.tiangolo.com/},
 	year= {2025}
 }
-
+@Online{openapi,
+	author = {{The Linux Foundation}},
+	title = {OpenAPI-Spezifikation},
+	url = {https://spec.openapis.org/oas/latest.html},
+	year= {2025}
+}
+@Online{swagger,
+	author = {{SMARTBEAR}},
+	title = {Swagger},
+	url = {https://swagger.io/},
+	year= {2025}
+}
 
 @online{ieee2015howto,
     author = {Michael Shell},
@@ -139,6 +150,8 @@
     \acro{gui}[GUI]{Graphical User Interface}
     \acro{ide}[IDE]{Integrated Development Environment}
     \acro{orm}[ORM]{Object-Relational Mapping}
+    \acro{cors}[CORS]{Cross-Origin Resource Sharing}
+    \acro{crud}[CRUD]{Create, Read, Update und Delete}
 \end{acronym}
 
 % https://www.silbentrennung24.de/
@@ -204,7 +217,7 @@ Die Kommunikation zwischen Datenbank und Backend übernimmt das Framework SQLMod
 
 \begin{figure}
 	\centering
-	\includegraphics[width=1\linewidth]{Bausteinsicht-Architektur.drawio}
+	\includegraphics[width=0.9\linewidth]{Bausteinsicht-Architektur.drawio}
 	\caption{Bausteinsicht über den Technologie-Stack und die verwendeten Technologien und deren Zusammenspiel.}
 	\label{fig:bausteinsicht-architektur}
 \end{figure}
@@ -224,11 +237,25 @@ In discussions concerning multi-tier architecture, the term \textquote{layer} is
 \lipsum[3]
 
 \subsection{Backend} % Application Tier \textbar{} \textbar{} \textquote{Anwendungskern} 
-\lipsum[4]
+Das Backend von GetraenkeIO ist als Python Applikation geschrieben.
+Mithilfe der Frameworks FastAPI wird eine REST-API für das Frontend zur Verfügung gestellt. \\  
+FastAPI ist ein Framework, das speziell zum Entwickeln von REST-APIs erstellt wurde und sehr intuitiv zu bedienen ist.
+Es ist damit möglich mit relativ wenigen Zeilen Code einen Funktionierenden Endpunkt inklusive Validierung der Werte zu erzeugen. Ebenfalls unterstützt es verschiedene Middlewares. Konkret wurde die CORS-Middleware genutzt. Diese ermöglicht es \ac{cors} Anfragen vom Frontend entgegenzunehmen.
+Eine Besonderheit von FastAPI ist, dass eine API-Dokumentation in Form eines OpenAPI-Dokuments \cite{openapi} automatisiert erstellt wird. Diese wird auf der Route "/docs" als interaktive Oberfläche mittels SwaggerUI \cite{swagger} zur Verfügung gestellt. Dies erleichtert die Abstimmung zwischen den Entwicklerteams von Front-und Backend. \\  
+Für die Verwaltung der Datenbankverbindung wurde das Framework SQLModel gewählt. Dieses wurde vom gleichen Entwickler wie FastAPI entwickelt und ist speziell. Deshalb ist eine Integration dieser beiden Technologien sehr gut möglich. SQLModel ist ein \ac{orm}-Framework.
+Das Datenmodell für die Datenbank wird von SQLModel auf Basis von den im Python-Code erzeugten Datenklassen(Models) erstellt. Ebenfalls müssen für die gängigen \ac{crud} Operationen keine direkten SQL-Abfragen erzeugt werden, es genügt das zugehörige Model  zu ändern und an die Datenbanksession weiterzugeben.
+
+\subsubsection{Struktur und Komponenten}
+
+\paragraph{App}
+
+\subsubsection{REST-Schnittstelle}
+Die einzige Schnittstelle zwischen Front-und Backend ist die REST-Schnittstelle. Diese stellt alle relevanten Daten und Informationen für das Frontend im JSON-Format bereit. Im folgenden werden alle wichtigen Endpunkte genauer beschrieben.
+
 
 \subsection{Datenhaltung} % Data Tier \textbar{} Persistence
 Zur Datenhaltung in der Produktionsumgebung wird eine relationale PostgreSQL-Datenbank verwendet. 
-Die Kommunikation mit dieser findet ausschließlich über das SQLModel-Framework statt. Das Datenmodell wurde ebenfalls von SQLModel auf Basis von den im Python-Code erzeugten Datenklassen erstellt.
+Die Kommunikation mit dieser findet ausschließlich über das SQLModel-Framework statt. 
 % TODO: Hier Bild vom Datenbankmodell einfügen, wenn DB soweit fertig.
 Da ein \ac{orm}-Framework verwendet wird, könnte die Datenbank relativ einfach gegen alle anderen von diesem Framework ausgetauscht werden. 
 In der Anfangsphase der Entwicklung wurde diese Möglichkeit genutzt, um SQLite \cite{sqlite} als Entwicklungsdatenbank verwenden zu können und durch die einfache Konfiguration schnell ein lauffähiges System erzeugen zu können.
