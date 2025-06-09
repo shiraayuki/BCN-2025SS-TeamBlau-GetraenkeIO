@@ -5,7 +5,7 @@ from ..models import User
 
 def store_recharge_for_user_to_db(*, session: Session, recharge: RechargeBase, user: User) -> Recharge:
     db_obj = Recharge(user_id=user.id, amount=recharge.amount)
-    user.guthaben = user.guthaben - db_obj.amount
+    user.guthaben = user.guthaben + db_obj.amount
     session.add(user)
     session.add(db_obj)
     session.commit()
