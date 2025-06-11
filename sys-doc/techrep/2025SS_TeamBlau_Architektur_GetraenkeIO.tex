@@ -9,18 +9,18 @@
 
 %% Workaround to make acronym working on current miktex version
 %% https://tex.stackexchange.com/questions/735500/problem-with-amsmath-cleveref-acronym
-\makeatletter
-\AtBeginDocument
-{
-	\def\ltx@label#1{\cref@label{#1}}%add braces
-	\def\label@in@display@noarg#1{\cref@old@label@in@display{#1}}%remove braces
-	\def\label@in@mmeasure@noarg#1{%
-		\begingroup%
-		\measuring@false%
-		\cref@old@label@in@display{#1}%remove braces for multline, see https://tex.stackexchange.com/q/737204/2388
-		\endgroup}%  
-} %
-\makeatother
+%\makeatletter
+%\AtBeginDocument
+%{
+%	\def\ltx@label#1{\cref@label{#1}}%add braces
+%	\def\label@in@display@noarg#1{\cref@old@label@in@display{#1}}%remove braces
+%	\def\label@in@mmeasure@noarg#1{%
+%		\begingroup%
+%		\measuring@false%
+%		\cref@old@label@in@display{#1}%remove braces for multline, see https://tex.stackexchange.com/q/737204/2388
+%		\endgroup}%  
+%} %
+%\makeatother
 %% End Workaround
 
 
@@ -137,7 +137,7 @@
 \usepackage{fontawesome} % i.a., \faWarning{}
 \usepackage{relsize}     % i.a., \textsmaller{...}
 \usepackage{lipsum}      % for blindtext
-
+\usepackage{enumitem}
 % ======================================================================
 
 % cf. https://ctan.org/pkg/acronym
@@ -250,8 +250,15 @@ Das Datenmodell für die Datenbank wird von SQLModel auf Basis von den im Python
 \paragraph{App}
 
 \subsubsection{REST-Schnittstelle}
-Die einzige Schnittstelle zwischen Front-und Backend ist die REST-Schnittstelle. Diese stellt alle relevanten Daten und Informationen für das Frontend im JSON-Format bereit. Im folgenden werden alle wichtigen Endpunkte genauer beschrieben.
+Die einzige Schnittstelle zwischen Front-und Backend ist die REST-Schnittstelle. Diese stellt alle relevanten Daten und Informationen für das Frontend im JSON-Format bereit. Im folgenden werden alle wichtigen Endpunkte genauer beschrieben:
 
+%TODO: hier evtl. Tabelle o.ä. je nachdem ob lieber Fließtext oder Tabellen gesehen werden. 
+%\paragraph{/users}
+
+\begin{description}[style=standard]
+	\item[GET /users] Gibt eine Liste mit Details über alle Benutzer zurück.
+	Ist nur für den Admin nutzbar.
+\end{description}
 
 \subsection{Datenhaltung} % Data Tier \textbar{} Persistence
 Zur Datenhaltung in der Produktionsumgebung wird eine relationale PostgreSQL-Datenbank verwendet. 
