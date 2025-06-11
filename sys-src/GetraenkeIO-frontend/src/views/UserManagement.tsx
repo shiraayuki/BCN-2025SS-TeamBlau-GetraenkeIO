@@ -155,9 +155,7 @@ const UserManagement = () => {
   };
 
   return (
-    <div style={{ display: 'flex', height: '100vh', width: '100vw' }}>
-      <CustomSidebar />
-
+    <div style={{ display: 'flex', height: '100vh' }}>
       <Box sx={{
         flexGrow: 1,
         color: 'white',
