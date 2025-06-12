@@ -9,7 +9,7 @@ import type { RootState } from '../store/store';
 import { logoutSuccess } from '../features/auth/authSlice';
 
 const CustomSidebar = () => {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -76,7 +76,7 @@ const CustomSidebar = () => {
           <MenuItem icon={<FaWineBottle />} onClick={() => navigate('/drinks')}>
             Getränke
           </MenuItem>
-          <MenuItem icon={<FaHistory />} onClick={() => navigate('/purchasehistory')}>
+          <MenuItem icon={<FaHistory />} onClick={() => navigate('/history')}>
             Kaufverlauf
           </MenuItem>
 

@@ -3,6 +3,7 @@ import pytest
 from datetime import datetime, timezone
 from app.core.security import get_password_hash
 from app.models.drinks import Drink
+from app.models.drink_history import DrinkHistory
 from app.models.transaction import Transaction
 from app.models.user import User
 
@@ -45,6 +46,8 @@ def add_valid_drink(db,client):
 @pytest.fixture(scope="function")
 def add_valid_transaction(db,request):
     amount = request.param
-    VALID_TRANSACTION = Transaction(transaction_id=VALID_TRANSACTION_UUID,drink_id=VALID_DRINK_UUID, user_id=VALID_USER_UUID,purchase_price=VALID_DRINK.cost, date=datetime.now(timezone.utc), amount=amount)
+    VALID_DRINK_HISTORY = DrinkHistory.model_validate(DrinkHistory(name=VALID_DRINK.name,imageUrl=VALID_DRINK.imageUrl,cost=VALID_DRINK.cost))
+    VALID_TRANSACTION = Transaction(transaction_id=VALID_TRANSACTION_UUID,drink_history_id=VALID_DRINK_HISTORY.id, user_id=VALID_USER_UUID,count_before=VALID_DRINK.count, date=datetime.now(timezone.utc), amount=amount)
+    db.add(VALID_DRINK_HISTORY)
     db.add(Transaction.model_validate(VALID_TRANSACTION))
     db.commit()

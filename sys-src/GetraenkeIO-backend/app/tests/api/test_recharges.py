@@ -93,7 +93,7 @@ def test_admin_post_recharge_ok(db, client, api_path, setup_user, setup_admin):
     assert response.json() == read_recharges_for_user_from_db(db, setup_user)[0].model_dump(mode="json")
     
     db.refresh(setup_user)
-    assert setup_user.guthaben == VALID_USER_JSON["guthaben"] - recharge.amount
+    assert setup_user.guthaben == VALID_USER_JSON["guthaben"] + recharge.amount
 
 def test_admin_post_recharge_nonexistent_user(client, setup_admin):
     response = client.post(NONEXISTEND_USER_ID, auth=(setup_admin.name, VALID_USER_PASSWORD), content=RechargeBase(amount=10.00).model_dump_json())

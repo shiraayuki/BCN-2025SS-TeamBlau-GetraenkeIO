@@ -21,3 +21,10 @@ export type UserRegisterData = {
   username: string;
   password: string;
 };
+
+export type UserManagementData = {
+  id: string;
+  name: string;
+  guthaben: number;
+  is_admin: boolean;
+}
