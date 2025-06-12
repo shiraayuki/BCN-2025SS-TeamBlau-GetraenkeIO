@@ -258,6 +258,14 @@ Die einzige Schnittstelle zwischen Front-und Backend ist die REST-Schnittstelle.
 \begin{description}[style=standard]
 	\item[GET /users] Gibt eine Liste mit Details über alle Benutzer zurück.
 	Ist nur für den Admin nutzbar.
+	\item[GET /drinks] Gibt eine Liste mit alle Daten der aktuell vorhandenen Getränken zurück.
+	\item[GET /drinks/\{drink\_id\}] Gibt eine Liste mit alle Daten der aktuell vorhandenen Getränken zurück.
+	\item[POST /drinks] Erlaubt es dem Admin ein neues Produkt erstellen. Dazu müssen alle Attribute des neuen Getränks in einem JSON-Objekt mitgegeben werden. Ausgenommen davon ist die ID, welche bei der Erstellung des Eintrags in der Getränketabelle automatisch mithilfe eines UUID-Generators erstellt wird.
+	\item[PUT /drinks/\{drink\_id\}]Lässt Administratoren die Attribute der Getränke ändern. Dabei können beliebige Kombinationen an Attributen eines Getränks gleichzeitig geändert werden. Lediglich die ID ist hierüber nicht veränderbar. Zum ändern der gewünschten Attribute werden diese Entsprechend mit neuen Werten als JSON-Objekt an die API übergeben. Ist ein Attribut nicht im Objekt vorhanden, so bleibt dort der Ursprüngliche Wert erhalten.
+	\item[DELETE /drinks/\{drink\_id\}] Lässt Administratoren ein Getränk löschen. Dabei wird nach erfolgreicher Löschung eine Kopie des Objekts dem Nutzer zurückgegeben.
+	\item[POST /transactions] Ermöglicht es Nutzern ein Getränk zu kaufen. Dabei wird das Guthaben des Nutzers um den Gesamtpreis verringert und die Stückzahl des Getränks entsprechend angepasst. Zudem wird die Transaktion in einer separaten Tabelle protokolliert.
+	\item[GET /transactions] Gibt einem Admin alle getätigten Transaktionen als Liste zurück.
+	\item[GET /transactions/me] Gibt Nutzern alle von ihnen durchgeführte Transaktionen als Liste zurück
 \end{description}
 
 \subsection{Datenhaltung} % Data Tier \textbar{} Persistence
