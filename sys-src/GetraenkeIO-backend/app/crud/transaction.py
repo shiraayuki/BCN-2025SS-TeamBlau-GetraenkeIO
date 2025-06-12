@@ -4,9 +4,11 @@ from datetime import datetime, timezone
 from fastapi import HTTPException
 
 from app.crud.drinks import update_drink_by_id
+from app.crud.drink_history import store_drink_to_db, read_drink_from_db
 from app.models.user import User
-from ..models.transaction import TransactionPost, Transaction
+from ..models.transaction import TransactionGet, TransactionGetReturn, TransactionPost, Transaction
 from ..models.drinks import Drink, DrinkPut
+from app.models.drink_history import DrinkHistory, DrinkHistoryGet
 
 
 
@@ -18,8 +20,9 @@ def store_transaction_to_db(*, session: Session, transaction_post: TransactionPo
     if (user_data == None):
         raise HTTPException(status_code=422,detail='Die Angegebene Nutzer-ID ist ungültig!')
     # Anzahl des Getränks heruntersetzen
+    drink_history = store_drink_to_db(session=session, original_drink=drink_data)
+    transaction_data = {"amount": transaction_post.amount, "count_before": drink_data.count, "date": datetime.now(timezone.utc), "user_id":user_data.id, "drink_history_id": drink_history.id}
     update_drink_by_id(session=session,drink_id=transaction_post.drink_id,drink_update=DrinkPut(count=(drink_data.count - transaction_post.amount)))
-    transaction_data = {**transaction_post.model_dump(), "purchase_price": drink_data.cost, "date": datetime.now(timezone.utc), "user_id":user_data.id}
     # Validiert, ob alle Daten korrekt in die Datenbank eingetragen werden können
     db_obj = Transaction.model_validate(transaction_data)
     # Guthaben des Nutzers heruntersetzen
@@ -28,16 +31,21 @@ def store_transaction_to_db(*, session: Session, transaction_post: TransactionPo
     session.add(user_data)
     session.commit()
     session.refresh(db_obj)
-    return db_obj
+    # Gibt gesamte Daten der Transaktion zurück
+    select_statement = select(Transaction.transaction_id,Transaction.user_id,Transaction.count_before,Transaction.amount, Transaction.date,DrinkHistory.name, DrinkHistory.imageUrl, DrinkHistory.cost).select_from(Transaction).join(DrinkHistory, Transaction.drink_history_id == DrinkHistory.id).where(Transaction.transaction_id == db_obj.transaction_id)
+    transaction = session.exec(select_statement).first()
+    return transaction
 
-def read_all_transactions(*, session: Session) -> list[Transaction]:
-    transactions = session.exec(select(Transaction)).all()
+def read_all_transactions(*, session: Session) -> list[TransactionGetReturn]:
+    select_statement = select(Transaction.transaction_id,Transaction.user_id,Transaction.count_before,Transaction.amount, Transaction.date,DrinkHistory.name, DrinkHistory.imageUrl, DrinkHistory.cost).select_from(Transaction).join(DrinkHistory, Transaction.drink_history_id == DrinkHistory.id)
+    transactions = session.exec(select_statement).all()
     if transactions == None:
         transactions = []
     return transactions
 
-def read_user_transactions(*, session: Session, user: User) -> list[Transaction]:
-    transactions = session.exec(select(Transaction).where(Transaction.user_id == user.id)).all()
+def read_user_transactions(*, session: Session, user: User) -> list[TransactionGetReturn]:
+    select_statement = select(Transaction.transaction_id,Transaction.user_id,Transaction.count_before,Transaction.amount, Transaction.date,DrinkHistory.name, DrinkHistory.imageUrl, DrinkHistory.cost).select_from(Transaction).join(DrinkHistory, Transaction.drink_history_id == DrinkHistory.id).where(Transaction.user_id == user.id)
+    transactions = session.exec(select_statement).all()
     if transactions == None:
         transactions = []
     return transactions
