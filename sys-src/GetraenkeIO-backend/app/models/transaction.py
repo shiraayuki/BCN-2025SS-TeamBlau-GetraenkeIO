@@ -3,7 +3,8 @@ from typing import Annotated
 import uuid
 from pydantic import AfterValidator
 from sqlmodel import Field, SQLModel
-from .drinks import DrinkCost, check_invalid_drink_cost
+from .drinks import DrinkCount, check_invalid_drink_cost
+from .drink_history import DrinkHistoryGet
 
 def check_invalid_drink_amount(value: int) -> int:
     if value < 1:
@@ -21,9 +22,19 @@ class TransactionPost(SQLModel):
     drink_id: uuid.UUID = Field(foreign_key="drink.id")
     amount: DrinkAmount
 
-# Tabelle für Transaktionen
-class Transaction(TransactionPost, table=True):
+# Datenmodell für das Zurückgeben einer Transaktion
+class TransactionGet(SQLModel):
     transaction_id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     user_id: uuid.UUID = Field(foreign_key="user.id")
-    purchase_price: DrinkCost
+    count_before: DrinkCount
+    amount: DrinkAmount
     date: datetime
+
+# Datenmodell der Daten, die an den Nutzer zurückgegeben werden
+class TransactionGetReturn(TransactionGet,DrinkHistoryGet):
+    pass
+
+# Tabelle für Transaktionen
+class Transaction(TransactionGet, table=True):
+    drink_history_id: uuid.UUID = Field(foreign_key="drinkhistory.id")
+    
