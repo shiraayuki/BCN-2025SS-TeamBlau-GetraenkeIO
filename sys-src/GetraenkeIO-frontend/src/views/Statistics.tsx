@@ -4,8 +4,6 @@ import {
   Card,
   CardContent,
   Typography,
-  useMediaQuery,
-  useTheme,
 } from '@mui/material';
 import {
   PieChart,
@@ -54,8 +52,6 @@ const aggregateByProduct = (history: typeof dummyHistory) => {
 const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#8dd1e1'];
 
 const Statistics = () => {
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const totalRevenue = calculateTotalRevenue(dummyHistory);
   const totalQuantity = calculateTotalQuantity(dummyHistory);
