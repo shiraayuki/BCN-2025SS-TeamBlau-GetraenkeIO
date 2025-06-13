@@ -1,12 +1,15 @@
 import CustomSidebar from '../components/HomeSidebar';
 import {
   Box,
+  Typography,
   Table,
   TableHead,
   TableRow,
   TableCell,
   TableBody,
+  Paper,
   Card,
+  CardHeader,
   CardContent,
   useMediaQuery,
   useTheme
@@ -15,6 +18,13 @@ import {
   FaCalendarAlt,
   FaEuroSign,
   FaWineBottle,
+  FaListOl,
+  FaListAlt,
+  FaSortNumericDown,
+  FaPalette,
+  FaCode,
+  FaSortNumericUp,
+  FaList,
   FaHashtag,
 } from 'react-icons/fa';
 
@@ -95,16 +105,15 @@ const formatDate = (isoString: string) => {
 };
 
 const History = () => {
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  // Sortiere die History-Daten nach Datum (neueste zuerst)
-  const sortedHistory = [...dummyHistory].sort((a, b) => {
-    return new Date(b.purchaseDate).getTime() - new Date(a.purchaseDate).getTime();
-  });
+    const sortedHistory = [...dummyHistory].sort((a, b) => {
+      return new Date(b.purchaseDate).getTime() - new Date(a.purchaseDate).getTime();
+    });
 
   return (
-    <Box sx={{ display: 'flex', height: '100vh', width: '100vw' }}>
+    <Box sx={{ display: 'flex', height: '100vh', width: '100vw'}}>
       <CustomSidebar />
 
       <Box
@@ -116,7 +125,11 @@ const History = () => {
         }}
       >
 
-        <Card
+        <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#1976d2', textAlign: 'center' }}>
+          Kaufhistorie
+        </Typography>
+
+         <Card
           sx={{
             backgroundColor: 'rgba(250, 250, 250, 0.95)',
             borderRadius: 4,
@@ -127,72 +140,72 @@ const History = () => {
             width: '100%',
           }}
         >
-          <CardContent sx={{
-            backgroundColor: 'rgba(255,255,255,0.95)',
-            borderRadius: 2,
-            padding: 0,
-            overflow: 'auto',
-            flexGrow: 1,
-          }}>
-            <Table>
-              <TableHead>
-                <TableRow
-                  sx={{
+        <CardContent sx={{ 
+          backgroundColor: 'rgba(255,255,255,0.95)', 
+          borderRadius: 2, 
+          padding: 0, 
+          overflow: 'auto',
+          flexGrow: 1,
+        }}>
+          <Table>
+            <TableHead>
+              <TableRow 
+                sx={{
+                  backgroundColor: '#1976d2',
+                  '& .MuiTableCell-head': {
+                    color: 'white',
+                    fontWeight: 'bold',
+                    fontSize: '1.1rem',
+                    border: 'none',
+                    padding: '12px 16px',
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 1,
                     backgroundColor: '#1976d2',
-                    '& .MuiTableCell-head': {
-                      color: 'white',
-                      fontWeight: 'bold',
-                      fontSize: '1.1rem',
-                      border: 'none',
-                      padding: '12px 16px',
-                      position: 'sticky',
-                      top: 0,
-                      zIndex: 1,
-                      backgroundColor: '#1976d2',
-                    }
-                  }}
-                >
-                  <TableCell>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <FaHashtag /> {!isSmallScreen && 'Anzahl'}
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <FaWineBottle /> {!isSmallScreen && 'Produkt'}
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <FaCalendarAlt /> {!isSmallScreen && 'Datum & Uhrzeit'}
-                    </Box>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 1 }}>
-                      <FaEuroSign /> {!isSmallScreen && 'Preis'}
-                    </Box>
+                  }
+                }}
+              >
+                <TableCell>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <FaHashtag /> {!isSmallScreen && 'Anzahl'}
+                  </Box>
+                </TableCell>
+                <TableCell>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <FaWineBottle /> {!isSmallScreen && 'Produkt'}
+                  </Box>
+                </TableCell>
+                <TableCell>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <FaCalendarAlt /> {!isSmallScreen && 'Datum & Uhrzeit'}
+                  </Box>
+                </TableCell>
+                <TableCell align="right">
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 1 }}>
+                    <FaEuroSign /> {!isSmallScreen && 'Preis'}
+                  </Box>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {sortedHistory.map((item, index) => (
+                <TableRow key={`${item.id}-${item.purchaseDate}-${index}`} hover>
+                  <TableCell>{item.quantity}</TableCell>
+                  <TableCell>{item.productName}</TableCell>
+                  <TableCell>{formatDate(item.purchaseDate)}</TableCell>
+                  <TableCell align="right">{item.price.toFixed(2)}</TableCell>
+                </TableRow>
+              ))}
+              {sortedHistory.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={4} align="center">
+                    Keine Bestellungen vorhanden.
                   </TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {sortedHistory.map((item, index) => (
-                  <TableRow key={`${item.id}-${item.purchaseDate}-${index}`} hover>
-                    <TableCell>{item.quantity}</TableCell>
-                    <TableCell>{item.productName}</TableCell>
-                    <TableCell>{formatDate(item.purchaseDate)}</TableCell>
-                    <TableCell align="right">{item.price.toFixed(2)}</TableCell>
-                  </TableRow>
-                ))}
-                {sortedHistory.length === 0 && (
-                  <TableRow>
-                    <TableCell colSpan={4} align="center">
-                      Keine Bestellungen vorhanden.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </CardContent>
+              )}
+            </TableBody>
+          </Table>
+        </CardContent>
         </Card>
       </Box>
     </Box>

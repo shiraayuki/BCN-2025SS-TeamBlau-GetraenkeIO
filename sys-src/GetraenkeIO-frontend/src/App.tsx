@@ -6,6 +6,7 @@ import DrinkCard from './views/Drinks';
 import History from './views/History';
 import ProtectedLayout from './components/ProtectedLayout';
 import UserManagement from './views/UserManagement';
+import Statistics from './views/Statistics';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/drinks' element={<DrinkCard />} />
         <Route path='/history' element={<History />} />
+        <Route path='/statistics' element={<Statistics />} />
         <Route element={<ProtectedLayout />}>
           <Route path='/' element={<Home />} />
           <Route path='/admin/users' element={<UserManagement />} />
