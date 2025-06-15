@@ -4,6 +4,7 @@ import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import DrinkCard from './views/Drinks';
 import History from './views/History';
+import DrinksManagement from './views/DrinksManagement';
 import ProtectedLayout from './components/ProtectedLayout';
 import UserManagement from './views/UserManagement';
 
@@ -18,6 +19,7 @@ function App() {
         <Route element={<ProtectedLayout />}>
           <Route path='/' element={<Home />} />
           <Route path='/admin/users' element={<UserManagement />} />
+          <Route path='/admin/stock' element={<DrinksManagement />} />
         </Route>
       </Routes>
     </Router>
