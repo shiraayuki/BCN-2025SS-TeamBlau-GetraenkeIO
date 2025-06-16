@@ -108,7 +108,6 @@ const History = () => {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-    // Sortiere die History-Daten nach Datum (neueste zuerst)
     const sortedHistory = [...dummyHistory].sort((a, b) => {
       return new Date(b.purchaseDate).getTime() - new Date(a.purchaseDate).getTime();
     });
@@ -125,6 +124,10 @@ const History = () => {
           overflowY: 'auto',
         }}
       >
+
+        <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#1976d2', textAlign: 'center' }}>
+          Kaufhistorie
+        </Typography>
 
          <Card
           sx={{

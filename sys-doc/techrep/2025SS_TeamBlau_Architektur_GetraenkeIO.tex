@@ -7,29 +7,46 @@
 \addbibresource{webdev_commons.bib} % includes REST, React, Angular, Vue, Svelte, Docker, AWS-*, Socket.IO, and many more!
 \addbibresource{cpn_all_all.bib}    % includes all previous CyberLytics@OTH-AW technical reports
 
+%% Workaround to make acronym working on current miktex version
+%% https://tex.stackexchange.com/questions/735500/problem-with-amsmath-cleveref-acronym
+%\makeatletter
+%\AtBeginDocument
+%{
+%	\def\ltx@label#1{\cref@label{#1}}%add braces
+%	\def\label@in@display@noarg#1{\cref@old@label@in@display{#1}}%remove braces
+%	\def\label@in@mmeasure@noarg#1{%
+%		\begingroup%
+%		\measuring@false%
+%		\cref@old@label@in@display{#1}%remove braces for multline, see https://tex.stackexchange.com/q/737204/2388
+%		\endgroup}%  
+%} %
+%\makeatother
+%% End Workaround
+
+
 % ======================================================================
 % EDIT THESE:
 
-\cstechrepAuthorListTex{Vorname1 Nachname1, Vorname2 Nachname2, Vorname3 Nachname3, Vorname4 Nachname4,\\ Vorname5 Nachname5, Vorname6 Nachname6, Christoph P.\ Neumann\,\orcidlink{0000-0002-5936-631X}}
-\cstechrepAuthorListBib{Vorname1 Nachname1 and Vorname2 Nachname2 and Vorname3 Nachname3 and Vorname4 Nachname4 and Vorname5 Nachname5 and Vorname6 Nachname6 and Christoph P. Neumann}
+\cstechrepAuthorListTex{Dotzler Martin, Ehrles Andreas, Taach Eduard, Wegerer Nikolas,\\ Weinhut Justin, Christoph P.\ Neumann\,\orcidlink{0000-0002-5936-631X}}
+\cstechrepAuthorListBib{Dotzler Martin \& Ehrles Andreas \& Taach Eduard \& Wegerer Nikolas \& Weinhut Justin \& Christoph P. Neumann}
 
 % Capitalization: https://capitalizemytitle.com/style/Chicago/
-\cstechrepTitleTex{CatchyName: A MEVN-based Cloud Application for Incidence Figures and Vaccination Progress}
+\cstechrepTitleTex{GetraenkeIO: Eine Getränkelagerverwaltung mit Bestandsstatistik für Vereinsheime}
  % IF you need manual linebreaks in the titel, then clone the title without linebreaks for BibTeX:
 \cstechrepTitleBib{{\cstechrepTitleTex}}
 
-\cstechrepDepartment{CyberLytics\-/Lab at the Department of Electrical Engineering, Media, and Computer Science}
-%\cstechrepDepartment{CyberLytics\-/Lab an der Fakultät Elektrotechnik, Medien und Informatik} % DE
+%\cstechrepDepartment{CyberLytics\-/Lab at the Department of Electrical Engineering, Media, and Computer Science}
+\cstechrepDepartment{CyberLytics\-/Lab an der Fakultät Elektrotechnik, Medien und Informatik} % DE
 \cstechrepInstitution{Ostbayerische Technische Hochschule Amberg\-/Weiden}
-\cstechrepAddress{Amberg, Germany}
-%\cstechrepAddress{Amberg, Deutschland} % DE
-\cstechrepType{Technical Report}
-%\cstechrepType{Technischer Bericht} % DE
-\cstechrepYear{2024}
-\cstechrepMonth{3}
+%\cstechrepAddress{Amberg, Germany}
+\cstechrepAddress{Amberg, Deutschland} % DE
+%\cstechrepType{Technical Report}
+\cstechrepType{Technischer Bericht} % DE
+\cstechrepYear{2025}
+\cstechrepMonth{7}
 \cstechrepNumber{CL-TR-\cstechrepYear{}-42}
-\cstechrepLang{english}  % en-US
-%\cstechrepLang{ngerman} % DE
+%\cstechrepLang{english}  % en-US
+\cstechrepLang{ngerman} % DE
 
 % Special remark on babel/csquotes terminology in regard with US-vs-UK:
 % en-US  = [english]/[american]/[usenglish] (+ [canadian])
@@ -55,6 +72,31 @@
 % EDIT THIS:
 
 \begin{filecontents}[overwrite]{embedded.bib}
+@Online{conatiners,
+	author = {{IBM}},
+	title = {Was sind Container?},
+	url = {https://www.ibm.com/de-de/topics/containers},
+	year = {2025}
+}
+@Online{sqlmodel,
+	author = {Sebastián Ramírez},
+	title = {SQLModel},
+	url = {https://https://sqlmodel.tiangolo.com/},
+	year= {2025}
+}
+@Online{openapi,
+	author = {{The Linux Foundation}},
+	title = {OpenAPI-Spezifikation},
+	url = {https://spec.openapis.org/oas/latest.html},
+	year= {2025}
+}
+@Online{swagger,
+	author = {{SMARTBEAR}},
+	title = {Swagger},
+	url = {https://swagger.io/},
+	year= {2025}
+}
+
 @online{ieee2015howto,
     author = {Michael Shell},
     title = {How to Use the {IEEEtran} \LaTeX\ Class},
@@ -95,7 +137,7 @@
 \usepackage{fontawesome} % i.a., \faWarning{}
 \usepackage{relsize}     % i.a., \textsmaller{...}
 \usepackage{lipsum}      % for blindtext
-
+\usepackage{enumitem}
 % ======================================================================
 
 % cf. https://ctan.org/pkg/acronym
@@ -107,6 +149,9 @@
 \begin{acronym}
     \acro{gui}[GUI]{Graphical User Interface}
     \acro{ide}[IDE]{Integrated Development Environment}
+    \acro{orm}[ORM]{Object-Relational Mapping}
+    \acro{cors}[CORS]{Cross-Origin Resource Sharing}
+    \acro{crud}[CRUD]{Create, Read, Update und Delete}
 \end{acronym}
 
 % https://www.silbentrennung24.de/
@@ -129,10 +174,11 @@ You should consider comparing your self-written abstract with the result of a ge
 % A list of IEEE Computer Society appoved keywords can be obtained at
 % http://www.computer.org/mc/keywords/keywords.htm
 \begin{IEEEkeywords}
-template; lorem ipsum.
+D.2.0.c Software engineering for Internet projects, D.2.2.c Distributed/Internet based software
+engineering tools and techniques
 \end{IEEEkeywords}
 
-\section{Introduction and Objectives \textbar{} Functional Requirements \textbar{} Problem Statement}
+\section{Einleitung und Projektziele}
 
 The cs-techrep formatting is adopted both from \textsmaller{IEEE} \cite{ieee2018formattingrules} and \textsmaller{IARIA} \cite{iaria2014formattingrules} styles.
 The cs-techrep \LaTeX\ class is based on \textsmaller{IEEE}tran class \cite{ieee2015howto}.
@@ -150,7 +196,7 @@ The problem statement needs to be written from perspective of a subject-matter e
 \section{Optional: Related Work \textbar{} State of the Art \textbar{} Methods \textbar{} Data Acquisition}
 \lipsum[2]
 
-\section{Architectural Goals} % \textbar{} \textquote{Architekturziele}}
+\section{Architekturziele} % \textbar{} \textquote{Architekturziele}}
 Provides
 (1) a visualization of the external systems and users with which the system interacts (\textquote{Kontextabgrenzung}),
 (2) the most important technical and organizational preconditions (\textquote{Rahmenbedingungen}),
@@ -158,9 +204,26 @@ Provides
 (4) architectural style design decisions with formative patterns of the solution (\textquote{Architekturstil})
 as well as (5) the applied programming language(s).
 
-\section{Architecture of CatchyName \textbar{} Results \textbar{} Structural Design \textbar{} \textquote{Bausteinsicht}}
+\section{Architektur von GetraenkeIO} %of CatchyName \textbar{} Results \textbar{} Structural Design \textbar{} \textquote{Bausteinsicht}
 
-\subsection{Technology Stack \textbar{} Overall System} %\textbar{} \textquote{Gesamtsystem}}
+\subsection{Technologie-Stack} % \textbar{} Overall System \textbar{} \textquote{Gesamtsystem}}
+Die GetraenkeIO-Anwendung soll auf einer dreischichtigen Architektur, bestehend aus Frontend, Backend und Datenhaltungsschicht bestehen.
+Jede Schicht soll von den anderen abgegrenzt auf einem eigenen Container \cite{conatiners} laufen.
+Das Frontend besteht aus einer React-Anwendung \cite{react}.
+Als Backend wird eine Python-Anwendung \cite{python} verwendet.
+Diese benutzt das Web-Framework FastAPI \cite{fastapi} und stellt damit dem Frontend eine RESTful-Schnittstelle \cite{restful} zum Datenaustausch zur Verfügung.
+Zur Datenhaltung wird die relationale Datenbank PostgreSQL \cite{postgresql} genutzt.
+Die Kommunikation zwischen Datenbank und Backend übernimmt das Framework SQLModel \cite{sqlmodel}, welches Mittels \ac{orm} die Datenbanktabellen als Python-Objekte zur Verfügung stellt.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{Bausteinsicht-Architektur.drawio}
+	\caption{Bausteinsicht über den Technologie-Stack und die verwendeten Technologien und deren Zusammenspiel.}
+	\label{fig:bausteinsicht-architektur}
+\end{figure}
+
+
+\subsubsection{Vorlage Hr. Neumann}
 Provides
 (1) design decisions based on the previously defined requirements and
 (2) a visualization of the functional structure at top level including relationships (\textquote{Grobe Zerlegung}), thus, gives an overview on modules, frameworks, and middleware.
@@ -170,45 +233,70 @@ In discussions of multi-tier architecture, layer is often used interchangeably -
 In discussions concerning multi-tier architecture, the term \textquote{layer} is frequently misused interchangeably with \textquote{tier}, despite their distinct meanings. A layer denotes a functional partition within the software, whereas a tier signifies a functional division that operates on separate infrastructure from other divisions/tiers. For instance, the Camera app or Settings app on your phone exemplifies a three-layer application but remains a single-tier application since all three layers run on your phone.
 
 
-\subsection{Presentation Tier \textbar{} Frontend}
+\subsection{Frontend}
 \lipsum[3]
 
-\subsection{Application Tier \textbar{} Backend \textbar{} \textquote{Anwendungskern}}
-\lipsum[4]
+\subsection{Backend} % Application Tier \textbar{} \textbar{} \textquote{Anwendungskern} 
+Das Backend von GetraenkeIO ist als Python Applikation geschrieben.
+Mithilfe der Frameworks FastAPI wird eine REST-API für das Frontend zur Verfügung gestellt. \\  
+FastAPI ist ein Framework, das speziell zum Entwickeln von REST-APIs erstellt wurde und sehr intuitiv zu bedienen ist.
+Es ist damit möglich mit relativ wenigen Zeilen Code einen Funktionierenden Endpunkt inklusive Validierung der Werte zu erzeugen. Ebenfalls unterstützt es verschiedene Middlewares. Konkret wurde die CORS-Middleware genutzt. Diese ermöglicht es \ac{cors} Anfragen vom Frontend entgegenzunehmen.
+Eine Besonderheit von FastAPI ist, dass eine API-Dokumentation in Form eines OpenAPI-Dokuments \cite{openapi} automatisiert erstellt wird. Diese wird auf der Route "/docs" als interaktive Oberfläche mittels SwaggerUI \cite{swagger} zur Verfügung gestellt. Dies erleichtert die Abstimmung zwischen den Entwicklerteams von Front-und Backend. \\  
+Für die Verwaltung der Datenbankverbindung wurde das Framework SQLModel gewählt. Dieses wurde vom gleichen Entwickler wie FastAPI entwickelt und ist speziell. Deshalb ist eine Integration dieser beiden Technologien sehr gut möglich. SQLModel ist ein \ac{orm}-Framework.
+Das Datenmodell für die Datenbank wird von SQLModel auf Basis von den im Python-Code erzeugten Datenklassen(Models) erstellt. Ebenfalls müssen für die gängigen \ac{crud} Operationen keine direkten SQL-Abfragen erzeugt werden, es genügt das zugehörige Model  zu ändern und an die Datenbanksession weiterzugeben.
 
-\subsection{Data Tier \textbar{} Persistence}
-\lipsum[5]
+\subsubsection{Struktur und Komponenten}
 
-\subsection{Optional: Infrastructure and Deployment \textbar{} Distribution Perspective \textbar{} \textquote{Verteilungssicht}}
-Provides (1) information about configuration, exact software versions, SBOM, DevOps, Cloud, AWS, and others.
-Should add (2) security-related considerations or disclaimers.
-Could include (3) a software bill of materials (SBOM), at least for the major libraries or frameworks.
+\paragraph{App}
+
+\subsubsection{REST-Schnittstelle}
+Die einzige Schnittstelle zwischen Front-und Backend ist die REST-Schnittstelle. Diese stellt alle relevanten Daten und Informationen für das Frontend im JSON-Format bereit. Im folgenden werden alle wichtigen Endpunkte genauer beschrieben:
+
+%TODO: hier evtl. Tabelle o.ä. je nachdem ob lieber Fließtext oder Tabellen gesehen werden. 
+%\paragraph{/users}
+
+\begin{description}[style=standard]
+	\item[GET /users] Gibt eine Liste mit Details über alle Benutzer zurück.
+	Ist nur für den Admin nutzbar.
+\end{description}
+
+\subsection{Datenhaltung} % Data Tier \textbar{} Persistence
+Zur Datenhaltung in der Produktionsumgebung wird eine relationale PostgreSQL-Datenbank verwendet. 
+Die Kommunikation mit dieser findet ausschließlich über das SQLModel-Framework statt. 
+% TODO: Hier Bild vom Datenbankmodell einfügen, wenn DB soweit fertig.
+Da ein \ac{orm}-Framework verwendet wird, könnte die Datenbank relativ einfach gegen alle anderen von diesem Framework ausgetauscht werden. 
+In der Anfangsphase der Entwicklung wurde diese Möglichkeit genutzt, um SQLite \cite{sqlite} als Entwicklungsdatenbank verwenden zu können und durch die einfache Konfiguration schnell ein lauffähiges System erzeugen zu können.
+
+%\subsection{Optional: Infrastructure and Deployment \textbar{} Distribution Perspective \textbar{} \textquote{Verteilungssicht}}
+%Provides (1) information about configuration, exact software versions, SBOM, DevOps, Cloud, AWS, and others.
+%Should add (2) security-related considerations or disclaimers.
+%Could include (3) a software bill of materials (SBOM), at least for the major libraries or frameworks.
 
 
 \section{Discussion \textbar{} Evaluation \textbar{} \\ Lessons Learned \textbar{} Impediments}
 \lipsum[6]
 
-\section{Conclusion and Future Work \textbar{} \\ \textquote{Fazit und Ausblick}}
+\section{Fazit und Ausblick} % Conclusion and Future Work \textbar{} \\ \textquote{Fazit und Ausblick}
 \lipsum[7]
 
 %%% Previous TechReps
-\nocite{ModA-TR-2023SS-WAE-TeamWeiss-Neunerln}
-\nocite{ModA-TR-2023SS-BDCC-TeamRot-CompVisPipeline}
-\nocite{ModA-TR-2023SS-BDCC-TeamBlau-NauticalNonsense}
-\nocite{ModA-TR-2023SS-BCN-TeamGruen-TorpedoTactics}
-\nocite{ModA-TR-2023SS-BCN-TeamCyan-Stockbird}
-\nocite{ModA-TR-2023SS-BCN-TeamBlau-FancyChess}
-\nocite{ModA-TR-2023WS-SWT-TeamRot-SGDb}
-\nocite{ModA-TR-2023WS-SWT-TeamGruen-OPCUANetzwerk}
-\nocite{ModA-TR-2022SS-WAE-TeamWeiss-WoIstMeinGeld}
-\nocite{ModA-TR-2022SS-BDCC-TeamWeiss-TwitterDash}
-\nocite{ModA-TR-2022SS-BDCC-TeamRot-Reddiment}
-\nocite{ModA-TR-2022SS-BDCC-TeamGruen-ExplosionGuy}
-\nocite{ModA-TR-2022SS-BDCC-TeamCyan-OTHWiki}
-\nocite{ModA-TR-2022WS-SWT-TeamGruen-Graphvio}
-\nocite{ModA-TR-2021SS-WAE-TeamWeiss-CovidDashboard}
-\nocite{ModA-TR-2021SS-WAE-TeamRot-FireForceDefense}
-\nocite{ModA-TR-2021SS-WAE-TeamGruen-MedPlanner}
+%\nocite{ModA-TR-2023SS-WAE-TeamWeiss-Neunerln}
+%\nocite{ModA-TR-2023SS-BDCC-TeamRot-CompVisPipeline}
+%\nocite{ModA-TR-2023SS-BDCC-TeamBlau-NauticalNonsense}
+%\nocite{ModA-TR-2023SS-BCN-TeamGruen-TorpedoTactics}
+%\nocite{ModA-TR-2023SS-BCN-TeamCyan-Stockbird}
+%\nocite{ModA-TR-2023SS-BCN-TeamBlau-FancyChess}
+%\nocite{ModA-TR-2023WS-SWT-TeamRot-SGDb}
+%\nocite{ModA-TR-2023WS-SWT-TeamGruen-OPCUANetzwerk}
+%\nocite{ModA-TR-2022SS-WAE-TeamWeiss-WoIstMeinGeld}
+%\nocite{ModA-TR-2022SS-BDCC-TeamWeiss-TwitterDash}
+%\nocite{ModA-TR-2022SS-BDCC-TeamRot-Reddiment}
+%\nocite{ModA-TR-2022SS-BDCC-TeamGruen-ExplosionGuy}
+%\nocite{ModA-TR-2022SS-BDCC-TeamCyan-OTHWiki}
+%\nocite{ModA-TR-2022WS-SWT-TeamGruen-Graphvio}
+%\nocite{ModA-TR-2021SS-WAE-TeamWeiss-CovidDashboard}
+%\nocite{ModA-TR-2021SS-WAE-TeamRot-FireForceDefense}
+%\nocite{ModA-TR-2021SS-WAE-TeamGruen-MedPlanner}
 
 % ======== References =========
 \sloppy

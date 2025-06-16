@@ -15,6 +15,8 @@ import logging
 
 logger = logging.getLogger()
 
+ERROR_FORBIDDEN = "Der aktuell eingeloggte Benutzer besitzt nicht die benötigten administrativen Rechte!"
+
 # Datenbank
 def get_session():
     with Session(engine) as session:
@@ -49,7 +51,7 @@ def get_current_admin_user(session: SessionDep, credentials: Annotated[HTTPBasic
     if not user.is_admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Der aktuell eingeloggte Benutzer besitzt nicht die benötigten administrativen Rechte!"
+            detail=ERROR_FORBIDDEN
             )
     else:
         return user

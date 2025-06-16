@@ -1,4 +1,5 @@
 # Datenbank-Operationen für den /users endpunkt
+import uuid
 from sqlmodel import Session, select
 
 from ..core.security import get_password_hash
@@ -18,6 +19,11 @@ def store_user(*, session: Session, user_post: UserPost) -> User:
 
 def read_user_by_uname(*, session: Session, name: str) -> User | None:
     sel_statement = select(User).where(User.name == name)
+    user = session.exec(sel_statement).first()
+    return user
+
+def read_user_by_id(*, session: Session, id: uuid.UUID) -> User | None:
+    sel_statement = select(User).where(User.id == id)
     user = session.exec(sel_statement).first()
     return user
 

@@ -1,4 +1,4 @@
-import { createPrivateAxios, publicAxios } from '../../api/axiosInstance';
+import { publicAxios } from '../../api/axiosInstance';
 import type { UserData, UserLoginData, UserRegisterData } from '../../models/userModels';
 
 export const authSerive = {
