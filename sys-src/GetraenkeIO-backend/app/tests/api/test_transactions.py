@@ -113,3 +113,32 @@ def test_transaction_get_all_transactions_unauthorized(db,client,setup_user,add_
 def test_transaction_get_all_transactions_forbidden(db,client,setup_user,add_valid_drink, add_valid_transaction):
     response = client.get("/transactions/", auth=(VALID_USER_NAME,VALID_USER_PASSWORD))
     assert response.status_code == status.HTTP_403_FORBIDDEN
+
+@pytest.mark.parametrize(('setup_user','add_valid_transaction'), [(True, 1)], indirect=True)
+def test_transaction_get_specific_user_transactions_valid(db,client,setup_user,add_valid_drink, add_valid_transaction):
+    response = client.get("/transactions/" + VALID_USER_NAME, auth=(VALID_USER_NAME,VALID_USER_PASSWORD))
+    assert response.status_code == status.HTTP_200_OK
+    assert len(response.json()) == 1
+    response_transaction = TransactionGetReturn.model_validate(response.json()[0])
+    db_transaction = db.get(Transaction,VALID_TRANSACTION_UUID)
+    db_drink_history = db.get(DrinkHistory,db_transaction.drink_history_id)
+    db_drink = db.get(Drink, VALID_DRINK_UUID)
+
+    assert response_transaction.transaction_id == VALID_TRANSACTION_UUID == db_transaction.transaction_id
+    assert response_transaction.user_id == VALID_USER_UUID == db_transaction.user_id
+    assert response_transaction.name == db_drink.name == db_drink_history.name
+    assert response_transaction.imageUrl == db_drink.imageUrl == db_drink_history.imageUrl
+    assert response_transaction.cost == db_drink.cost == db_drink_history.cost
+    assert response_transaction.amount == 1 == db_transaction.amount
+    assert response_transaction.count_before == db_transaction.count_before == (VALID_DRINK.count)
+    assert response_transaction.date == db_transaction.date
+
+@pytest.mark.parametrize(('setup_user','add_valid_transaction'), [(True, 1)], indirect=True)
+def test_transaction_get_specific_user_transactions_unauthorized(db,client,setup_user,add_valid_drink, add_valid_transaction):
+    response = client.get("/transactions/" + VALID_USER_NAME, auth=("WrongUser","WrongPW"))
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+@pytest.mark.parametrize(('setup_user','add_valid_transaction'), [(False, 1)], indirect=True)
+def test_transaction_get_specific_user_transactions_forbidden(db,client,setup_user,add_valid_drink, add_valid_transaction):
+    response = client.get("/transactions/" + VALID_USER_NAME, auth=(VALID_USER_NAME,VALID_USER_PASSWORD))
+    assert response.status_code == status.HTTP_403_FORBIDDEN
