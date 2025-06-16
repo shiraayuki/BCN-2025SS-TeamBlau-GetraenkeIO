@@ -92,7 +92,7 @@ def test_drink_post_wrong_count(db, client, setup_user):
     response = client.post("/drinks", auth=(VALID_USER_NAME, VALID_USER_PASSWORD),json=VALID_POST_DRINK)
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
     assert response.json()["detail"][0]["type"] == "value_error"
-    assert response.json()["detail"][0]["msg"] == "Value error, Der Wert des Attributs cout darf nicht kleiner als 0 sein!"
+    assert response.json()["detail"][0]["msg"] == "Value error, Der Wert des Attributs count darf nicht kleiner als 0 sein!"
 
 @pytest.mark.parametrize('setup_user', [True], indirect=True)
 def test_drink_post_wrong_cost(db, client, setup_user):
@@ -200,7 +200,7 @@ def test_drink_put_wrong_count(db, client, setup_user,add_valid_drink):
     response = client.put("/drinks/" + str(VALID_DRINK_UUID), auth=(VALID_USER_NAME, VALID_USER_PASSWORD),json=VALID_POST_DRINK)
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
     assert response.json()["detail"][0]["type"] == "value_error"
-    assert response.json()["detail"][0]["msg"] == "Value error, Der Wert des Attributs cout darf nicht kleiner als 0 sein!"
+    assert response.json()["detail"][0]["msg"] == "Value error, Der Wert des Attributs count darf nicht kleiner als 0 sein!"
 
 @pytest.mark.parametrize('setup_user', [True], indirect=True)
 def test_drink_put_wrong_cost(db, client, setup_user,add_valid_drink):

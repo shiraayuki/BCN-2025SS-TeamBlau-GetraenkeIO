@@ -1,6 +1,7 @@
 import uuid
 from fastapi import APIRouter, HTTPException
 from app.api.dependencies import CurrentAdminUserDep, SessionDep, CurrentUserDep
+from app.crud.user import read_user_by_uname
 from app.crud.transaction import read_all_transactions, read_user_transactions, store_transaction_to_db
 from app.models.drinks import Drink
 from app.models.transaction import TransactionGetReturn, TransactionPost, Transaction
@@ -32,4 +33,10 @@ def get_transactions(session: SessionDep, user: CurrentAdminUserDep):
 @router.get("/me",response_model=list[TransactionGetReturn])
 def get_transaction_from_user(session: SessionDep, user: CurrentUserDep):
     transactions = read_user_transactions(session= session, user=user)
+    return transactions
+
+@router.get("/{user_name}",response_model=list[TransactionGetReturn])
+def get_transaction_from_user(session: SessionDep, user_name: str, user: CurrentAdminUserDep):
+    needed_user = read_user_by_uname(session=session,name=user_name)
+    transactions = read_user_transactions(session= session, user=needed_user)
     return transactions
