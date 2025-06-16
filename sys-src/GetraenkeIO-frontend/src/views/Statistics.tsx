@@ -60,7 +60,6 @@ const Statistics = () => {
   return (
     <Box sx={{ display: 'flex', height: '100vh', width: '100vw' }}>
       <CustomSidebar />
-
       <Box
         sx={{
           flexGrow: 1,
@@ -73,7 +72,7 @@ const Statistics = () => {
           Statistiken
         </Typography>
 
-        
+
         <Box
           display="grid"
           gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }}
