@@ -253,10 +253,18 @@ Das Datenmodell für die Datenbank wird von SQLModel auf Basis von den im Python
 Die einzige Schnittstelle zwischen Front-und Backend ist die REST-Schnittstelle. Diese stellt alle relevanten Daten und Informationen für das Frontend im JSON-Format bereit. Im folgenden werden alle wichtigen Endpunkte genauer beschrieben:
 
 %TODO: hier evtl. Tabelle o.ä. je nachdem ob lieber Fließtext oder Tabellen gesehen werden. 
-%\paragraph{/users}
 
 \begin{description}[style=standard]
 	\item[GET /users] Gibt eine Liste mit Details über alle Benutzer zurück.
+	Ist nur für den Admin nutzbar.
+	\item[GET /users/me] Gibt Informationen über den aktuell eingeloggten Benutzer zurück.
+	\item[GET /users/\{user\_name\}] Gibt Informationen über den Benutzer mit dem Name \emph{user\_name} zurück.
+	Ist nur für den Admin nutzbar.
+	\item[POST /users/] Endpunkt zum erstellen eines neuen Benutzers bei seiner Registrierung.
+	\item[POST /users/\{user\_id\}/recharges] Endpunkt zum Aufladen des Guthabens eines Benutzers um einen bestimmten Betrag.
+	Ist nur für den Admin nutzbar.
+	\item[GET /users/\{user\_id\}/recharges] Gibt alle Aufladungen eines Benutzers zurück.
+	Ist für den Benutzer selbst und den Admin benutzbar.
 	Ist nur für den Admin nutzbar.
 	\item[GET /drinks] Gibt eine Liste mit alle Daten der aktuell vorhandenen Getränken zurück.
 	\item[GET /drinks/\{drink\_id\}] Gibt eine Liste mit alle Daten der aktuell vorhandenen Getränken zurück.
