@@ -132,6 +132,21 @@
     title  = {{Overleaf}},
     url    = {https://www.overleaf.com}
 }
+@online{drinkscounter,
+	author = {{Matthias Aigner}},
+	title = {{Getränke Zähler App}},
+	url = {https://drinkscounter.com/de/getraenke-zaehler-app.html}
+}
+@online{getraenkelisteapp,
+	author = {{iqmeta GmbH}},
+	title = {{Getränkeliste App}},
+	url = {https://iqmeta.com/gliste/}
+}
+@online{getraenkewart,
+	author = {{sparse creations GmbH}},
+	title = {{Getränkewart 2.0}},
+	url = {https://getraenkewart.com/}
+}
 \end{filecontents}
 
 \usepackage{fontawesome} % i.a., \faWarning{}
@@ -193,8 +208,12 @@ The pipe symbol \textquote{\textbar{}} in the section headings represents altern
 
 The problem statement needs to be written from perspective of a subject-matter expert (\textquote{Fachkonzept}). Like an elevator pitch / mission statement \faWarning{} and NOT from a technical perspective.
 
-\section{Optional: Related Work \textbar{} State of the Art \textbar{} Methods \textbar{} Data Acquisition}
-\lipsum[2]
+%\section{Optional: Related Work \textbar{} State of the Art \textbar{} Methods \textbar{} Data Acquisition}
+%\lipsum[2]
+
+\section{Verwandte Arbeiten}
+Die Verwaltung von Getränken ist in vielen Vereinen eine Notwendige Aufgabe. Daher ist es nicht verwunderlich, dass es für eine leichtere Handhabung dieses Vorgangs bereits bestehende Anwendungen gibt, welche eine Vereinfachung versprechen. Bei diesem Vergleich interessieren uns vor allem die Unterschiede, insbesondere jene im Bereich der Monetarisierung.
+Alle drei hier betrachteten Anwendungen basieren auf einer teilweise zahlungspflichtigen Strategie. So ist es bei der Getränke Zähler App \cite{drinkscounter}, der Getränkeliste App \cite{getraenkelisteapp} und dem Getränkewart 2.0 \cite{getraenkewart} jeweils möglich je nach Anbieter mit bis zu 3 bis 10 Nutzern die Anwendung jeweils kostenlos zu nutzen. Sollte die App jedoch von mehr Benutzern verwendet werden, so werden jeweils monatliche oder jährliche Kosten für die Nutzung fällig. Dies ist ein großer Unterschied zu GetraenkeIO, da diese nicht nur kostenfrei Nutzbar ist, sondern dank der MIT Lizenz sogar Open Source. Im Gegenteil zu den drei anderen genannten Lösungen ist es bei GetraenkeIO deshalb ebenfalls möglich die Software auf eigener Hardware laufen zu lassen und so die komplette Kontrolle über die eigenen Daten zu erhalten.
 
 \section{Architekturziele} % \textbar{} \textquote{Architekturziele}}
 Provides
