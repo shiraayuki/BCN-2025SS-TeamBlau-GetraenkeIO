@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
-import DrinkCard from './views/Drinks';
+import DrinkOverview from './views/Drinks';
 import History from './views/History';
 import DrinksManagement from './views/DrinksManagement';
 import ProtectedLayout from './components/ProtectedLayout';
@@ -15,7 +15,6 @@ function App() {
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/drinks' element={<DrinkCard />} />
         <Route path='/history' element={<History />} />
         <Route path='/statistics' element={<Statistics />} />
         <Route element={<ProtectedLayout />}>
@@ -23,6 +22,7 @@ function App() {
           <Route path='/admin/users' element={<UserManagement />} />
           <Route path='/admin/stock' element={<DrinksManagement />} />
           <Route path='/admin/statistics' element={<Statistics />} />
+          <Route path='/drinks' element={<DrinkOverview />} />
         </Route>
       </Routes>
     </Router>
