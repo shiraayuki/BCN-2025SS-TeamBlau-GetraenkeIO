@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import CustomSidebar from '../components/HomeSidebar';
 import {
   Box,
@@ -10,81 +11,25 @@ import {
   Card,
   CardContent,
   useMediaQuery,
-  useTheme
+  useTheme,
+  CircularProgress,
+  Alert,
 } from '@mui/material';
-import {
-  FaCalendarAlt,
-  FaEuroSign,
-  FaWineBottle,
-  FaHashtag,
-} from 'react-icons/fa';
+import { FaCalendarAlt, FaEuroSign, FaWineBottle, FaHashtag } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../store/store';
+import { publicAxios } from '../api/axiosInstance';
 
-const dummyHistory = [
-  {
-    id: 1,
-    productName: 'Cola',
-    purchaseDate: '2025-05-24T14:30:00Z',
-    price: 1.5,
-    quantity: 2,
-  },
-  {
-    id: 2,
-    productName: 'Bier',
-    purchaseDate: '2025-05-23T19:15:00Z',
-    price: 2.0,
-    quantity: 1,
-  },
-  {
-    id: 3,
-    productName: 'Wasser',
-    purchaseDate: '2025-05-22T11:45:00Z',
-    price: 1.0,
-    quantity: 3,
-  },
-  {
-    id: 3,
-    productName: 'Fanta',
-    purchaseDate: '2025-05-22T11:45:00Z',
-    price: 1.50,
-    quantity: 3,
-  },
-  {
-    id: 3,
-    productName: 'Wasser',
-    purchaseDate: '2025-05-22T11:45:00Z',
-    price: 1.0,
-    quantity: 3,
-  },
-  {
-    id: 3,
-    productName: 'Wasser',
-    purchaseDate: '2025-05-22T11:45:00Z',
-    price: 1.0,
-    quantity: 3,
-  },
-  {
-    id: 3,
-    productName: 'Wasser',
-    purchaseDate: '2025-05-22T11:45:00Z',
-    price: 1.0,
-    quantity: 3,
-  },
-  {
-    id: 3,
-    productName: 'Wasser',
-    purchaseDate: '2025-05-22T11:45:00Z',
-    price: 1.0,
-    quantity: 3,
-  },
-  {
-    id: 3,
-    productName: 'Wasser',
-    purchaseDate: '2025-05-22T11:45:00Z',
-    price: 1.0,
-    quantity: 3,
-  },
-];
-
+interface Transaction {
+  transaction_id: string;
+  name: string;
+  imageUrl: string;
+  cost: string;
+  user_id: string;
+  count_before: number;
+  amount: number;
+  date: string;
+}
 
 const formatDate = (isoString: string) => {
   const date = new Date(isoString);
@@ -95,13 +40,61 @@ const formatDate = (isoString: string) => {
   );
 };
 
-const History = () => {
+const History: React.FC = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const sortedHistory = [...dummyHistory].sort((a, b) => {
-    return new Date(b.purchaseDate).getTime() - new Date(a.purchaseDate).getTime();
-  });
+  const userData = useSelector((state: RootState) => state.user.userData);
+
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      if (!userData?.credentials) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const auth = {
+          username: userData.credentials.username,
+          password: userData.credentials.password,
+        };
+
+        const res = await publicAxios.get<Transaction[]>('/transactions/me', { auth });
+
+        // Nach Datum absteigend sortieren
+        const sorted = res.data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+        setTransactions(sorted);
+      } catch (err) {
+        console.error('Fehler beim Laden der Transaktionen:', err);
+        setError('Kaufhistorie konnte nicht geladen werden.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTransactions();
+  }, [userData]);
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ my: 4 }}>
+        <Alert severity="error">{error}</Alert>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ display: 'flex', height: '100vh', width: '100vw' }}>
@@ -115,7 +108,6 @@ const History = () => {
           overflowY: 'auto',
         }}
       >
-
         <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#1976d2', textAlign: 'center' }}>
           Kaufhistorie
         </Typography>
@@ -131,13 +123,15 @@ const History = () => {
             width: '100%',
           }}
         >
-          <CardContent sx={{
-            backgroundColor: 'rgba(255,255,255,0.95)',
-            borderRadius: 2,
-            padding: 0,
-            overflow: 'auto',
-            flexGrow: 1,
-          }}>
+          <CardContent
+            sx={{
+              backgroundColor: 'rgba(255,255,255,0.95)',
+              borderRadius: 2,
+              padding: 0,
+              overflow: 'auto',
+              flexGrow: 1,
+            }}
+          >
             <Table>
               <TableHead>
                 <TableRow
@@ -153,7 +147,7 @@ const History = () => {
                       top: 0,
                       zIndex: 1,
                       backgroundColor: '#1976d2',
-                    }
+                    },
                   }}
                 >
                   <TableCell>
@@ -179,21 +173,21 @@ const History = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {sortedHistory.map((item, index) => (
-                  <TableRow key={`${item.id}-${item.purchaseDate}-${index}`} hover>
-                    <TableCell>{item.quantity}</TableCell>
-                    <TableCell>{item.productName}</TableCell>
-                    <TableCell>{formatDate(item.purchaseDate)}</TableCell>
-                    <TableCell align="right">{item.price.toFixed(2)}</TableCell>
-                  </TableRow>
-                ))}
-                {sortedHistory.length === 0 && (
+                {transactions.length === 0 && (
                   <TableRow>
                     <TableCell colSpan={4} align="center">
                       Keine Bestellungen vorhanden.
                     </TableCell>
                   </TableRow>
                 )}
+                {transactions.map((item) => (
+                  <TableRow key={item.transaction_id} hover>
+                    <TableCell>{item.amount}</TableCell>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{formatDate(item.date)}</TableCell>
+                    <TableCell align="right">{parseFloat(item.cost).toFixed(2)}</TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </CardContent>
