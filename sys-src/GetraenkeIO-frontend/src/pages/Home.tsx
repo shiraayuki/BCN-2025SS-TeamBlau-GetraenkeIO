@@ -1,5 +1,3 @@
-import CustomSidebar from '../components/HomeSidebar';
-
 const Home = () => {
   return (
     <main style={{ flex: '1', padding: '1rem' }}>

@@ -7,21 +7,21 @@
 \addbibresource{webdev_commons.bib} % includes REST, React, Angular, Vue, Svelte, Docker, AWS-*, Socket.IO, and many more!
 \addbibresource{cpn_all_all.bib}    % includes all previous CyberLytics@OTH-AW technical reports
 
-%% Workaround to make acronym working on current miktex version
-%% https://tex.stackexchange.com/questions/735500/problem-with-amsmath-cleveref-acronym
-%\makeatletter
-%\AtBeginDocument
-%{
-%	\def\ltx@label#1{\cref@label{#1}}%add braces
-%	\def\label@in@display@noarg#1{\cref@old@label@in@display{#1}}%remove braces
-%	\def\label@in@mmeasure@noarg#1{%
-%		\begingroup%
-%		\measuring@false%
-%		\cref@old@label@in@display{#1}%remove braces for multline, see https://tex.stackexchange.com/q/737204/2388
-%		\endgroup}%  
-%} %
-%\makeatother
-%% End Workaround
+% Workaround to make acronym working on current miktex version
+% https://tex.stackexchange.com/questions/735500/problem-with-amsmath-cleveref-acronym
+\makeatletter
+\AtBeginDocument
+{
+	\def\ltx@label#1{\cref@label{#1}}%add braces
+	\def\label@in@display@noarg#1{\cref@old@label@in@display{#1}}%remove braces
+	\def\label@in@mmeasure@noarg#1{%
+		\begingroup%
+		\measuring@false%
+		\cref@old@label@in@display{#1}%remove braces for multline, see https://tex.stackexchange.com/q/737204/2388
+		\endgroup}%  
+} %
+\makeatother
+% End Workaround
 
 
 % ======================================================================
@@ -73,7 +73,7 @@
 
 \begin{filecontents}[overwrite]{embedded.bib}
 @Online{conatiners,
-	author = {{IBM}},
+	author = {IBM},
 	title = {Was sind Container?},
 	url = {https://www.ibm.com/de-de/topics/containers},
 	year = {2025}
@@ -81,11 +81,11 @@
 @Online{sqlmodel,
 	author = {Sebastián Ramírez},
 	title = {SQLModel},
-	url = {https://https://sqlmodel.tiangolo.com/},
+	url = {https://sqlmodel.tiangolo.com/},
 	year= {2025}
 }
 @Online{openapi,
-	author = {{The Linux Foundation}},
+	author = {The Linux Foundation},
 	title = {OpenAPI-Spezifikation},
 	url = {https://spec.openapis.org/oas/latest.html},
 	year= {2025}
@@ -131,6 +131,21 @@
     author = {{Digital Science UK Limited}},
     title  = {{Overleaf}},
     url    = {https://www.overleaf.com}
+}
+@online{drinkscounter,
+	author = {{Matthias Aigner}},
+	title = {{Getränke Zähler App}},
+	url = {https://drinkscounter.com/de/getraenke-zaehler-app.html}
+}
+@online{getraenkelisteapp,
+	author = {{iqmeta GmbH}},
+	title = {{Getränkeliste App}},
+	url = {https://iqmeta.com/gliste/}
+}
+@online{getraenkewart,
+	author = {{sparse creations GmbH}},
+	title = {{Getränkewart 2.0}},
+	url = {https://getraenkewart.com/}
 }
 \end{filecontents}
 
@@ -193,8 +208,12 @@ The pipe symbol \textquote{\textbar{}} in the section headings represents altern
 
 The problem statement needs to be written from perspective of a subject-matter expert (\textquote{Fachkonzept}). Like an elevator pitch / mission statement \faWarning{} and NOT from a technical perspective.
 
-\section{Optional: Related Work \textbar{} State of the Art \textbar{} Methods \textbar{} Data Acquisition}
-\lipsum[2]
+%\section{Optional: Related Work \textbar{} State of the Art \textbar{} Methods \textbar{} Data Acquisition}
+%\lipsum[2]
+
+\section{Verwandte Arbeiten}
+Die Verwaltung von Getränken ist in vielen Vereinen eine Notwendige Aufgabe. Daher ist es nicht verwunderlich, dass es für eine leichtere Handhabung dieses Vorgangs bereits bestehende Anwendungen gibt, welche eine Vereinfachung versprechen. Bei diesem Vergleich interessieren uns vor allem die Unterschiede, insbesondere jene im Bereich der Monetarisierung.
+Alle drei hier betrachteten Anwendungen basieren auf einer teilweise zahlungspflichtigen Strategie. So ist es bei der Getränke Zähler App \cite{drinkscounter}, der Getränkeliste App \cite{getraenkelisteapp} und dem Getränkewart 2.0 \cite{getraenkewart} jeweils möglich je nach Anbieter mit bis zu 3 bis 10 Nutzern die Anwendung jeweils kostenlos zu nutzen. Sollte die App jedoch von mehr Benutzern verwendet werden, so werden jeweils monatliche oder jährliche Kosten für die Nutzung fällig. Dies ist ein großer Unterschied zu GetraenkeIO, da diese nicht nur kostenfrei Nutzbar ist, sondern dank der MIT Lizenz sogar Open Source. Im Gegenteil zu den drei anderen genannten Lösungen ist es bei GetraenkeIO deshalb ebenfalls möglich die Software auf eigener Hardware laufen zu lassen und so die komplette Kontrolle über die eigenen Daten zu erhalten.
 
 \section{Architekturziele} % \textbar{} \textquote{Architekturziele}}
 Provides
@@ -241,31 +260,64 @@ Das Backend von GetraenkeIO ist als Python Applikation geschrieben.
 Mithilfe der Frameworks FastAPI wird eine REST-API für das Frontend zur Verfügung gestellt. \\  
 FastAPI ist ein Framework, das speziell zum Entwickeln von REST-APIs erstellt wurde und sehr intuitiv zu bedienen ist.
 Es ist damit möglich mit relativ wenigen Zeilen Code einen Funktionierenden Endpunkt inklusive Validierung der Werte zu erzeugen. Ebenfalls unterstützt es verschiedene Middlewares. Konkret wurde die CORS-Middleware genutzt. Diese ermöglicht es \ac{cors} Anfragen vom Frontend entgegenzunehmen.
-Eine Besonderheit von FastAPI ist, dass eine API-Dokumentation in Form eines OpenAPI-Dokuments \cite{openapi} automatisiert erstellt wird. Diese wird auf der Route "/docs" als interaktive Oberfläche mittels SwaggerUI \cite{swagger} zur Verfügung gestellt. Dies erleichtert die Abstimmung zwischen den Entwicklerteams von Front-und Backend. \\  
+Eine Besonderheit von FastAPI ist, dass eine API-Dokumentation in Form eines OpenAPI-Dokuments \cite{openapi} automatisiert erstellt wird. Diese wird auf der Route "/docs" als interaktive Oberfläche mittels SwaggerUI  \cite{swagger} zur Verfügung gestellt. Dies erleichtert die Abstimmung zwischen den Entwicklerteams von Front-und Backend. \\  
 Für die Verwaltung der Datenbankverbindung wurde das Framework SQLModel gewählt. Dieses wurde vom gleichen Entwickler wie FastAPI entwickelt und ist speziell. Deshalb ist eine Integration dieser beiden Technologien sehr gut möglich. SQLModel ist ein \ac{orm}-Framework.
 Das Datenmodell für die Datenbank wird von SQLModel auf Basis von den im Python-Code erzeugten Datenklassen(Models) erstellt. Ebenfalls müssen für die gängigen \ac{crud} Operationen keine direkten SQL-Abfragen erzeugt werden, es genügt das zugehörige Model  zu ändern und an die Datenbanksession weiterzugeben.
 
 \subsubsection{Struktur und Komponenten}
-
-\paragraph{App}
+Der Quellcode der Backend-App gliedert sich in mehrere Komponenten(Ordner/Dateien), deren Funktion im Folgenden erklärt wird.
+\begin{description}[style=standard]
+	\item[app/api/routes] Logik für alle Routen, der RESTful-Schnittstelle.
+	\item[app/api/dependencies.py] Funktionen/Abhängigkeiten, welche von mehreren Endpunkt-Implementierungen aus \emph{app/api/routes} verwendet werden (Benutzer-Authentifizierung, Zugriff auf Datenbank-Session, Überprüfung ob aktueller Benutzer Admin-Rechte hat).
+	\item[app/core] Sämtliche Logik zur Konfiguration der Anwendung (Datenbank, Passwort-Hash-Funktion, Lesen der Einstellungen aus Umgebungsvariablen).
+	\item[app/crud] Logik zur Interaktion mit der Datenbank (Erstellen, Lesen, Schreiben und Löschen von den Datenmodellen aus \emph{/app/models}).
+	\item[app/models] Datenmodelle für die in der Datenbank gespeicherten Daten. Ebenfalls die zugehörigen Datenmodelle, die in den Endpunkten (GET/POST) verwendet werden und die Logik zum validieren der Daten.
+	\item[app/tests] Komponenten-Tests für die Anwendung, welche mithilfe von pytest \cite{pytest} automatisch bei einem \emph{push} ins Git-Repository ausgeführt werden.
+	\item[main.py] Initialisierung und Start-Up der Anwendung.
+	\item[requirements.txt] Enthält alle genutzten Pakete um diese automatisiert installieren zu können.
+	\item[.env.example] Beispielhafte .env-Datei, welche die zur Konfiguration nutzbaren Umgebungsvariablen und Beispielwerte für diese enthält.
+\end{description}
 
 \subsubsection{REST-Schnittstelle}
 Die einzige Schnittstelle zwischen Front-und Backend ist die REST-Schnittstelle. Diese stellt alle relevanten Daten und Informationen für das Frontend im JSON-Format bereit. Im folgenden werden alle wichtigen Endpunkte genauer beschrieben:
 
 %TODO: hier evtl. Tabelle o.ä. je nachdem ob lieber Fließtext oder Tabellen gesehen werden. 
-%\paragraph{/users}
 
 \begin{description}[style=standard]
 	\item[GET /users] Gibt eine Liste mit Details über alle Benutzer zurück.
 	Ist nur für den Admin nutzbar.
+	\item[GET /users/me] Gibt Informationen über den aktuell eingeloggten Benutzer zurück.
+	\item[GET /users/\{user\_name\}] Gibt Informationen über den Benutzer mit dem Name \emph{user\_name} zurück.
+	Ist nur für den Admin nutzbar.
+	\item[POST /users/] Endpunkt zum erstellen eines neuen Benutzers bei seiner Registrierung.
+	\item[POST /users/\{user\_id\}/recharges] Endpunkt zum Aufladen des Guthabens eines Benutzers um einen bestimmten Betrag.
+	Ist nur für den Admin nutzbar.
+	\item[GET /users/\{user\_id\}/recharges] Gibt alle Aufladungen eines Benutzers zurück.
+	Ist für den Benutzer selbst und den Admin benutzbar.
+	Ist nur für den Admin nutzbar.
+	\item[GET /drinks] Gibt eine Liste mit alle Daten der aktuell vorhandenen Getränken zurück.
+	\item[GET /drinks/\{drink\_id\}] Gibt eine Liste mit alle Daten der aktuell vorhandenen Getränken zurück.
+	\item[POST /drinks] Erlaubt es dem Admin ein neues Produkt erstellen. Dazu müssen alle Attribute des neuen Getränks in einem JSON-Objekt mitgegeben werden. Ausgenommen davon ist die ID, welche bei der Erstellung des Eintrags in der Getränketabelle automatisch mithilfe eines UUID-Generators erstellt wird.
+	\item[PUT /drinks/\{drink\_id\}]Lässt Administratoren die Attribute der Getränke ändern. Dabei können beliebige Kombinationen an Attributen eines Getränks gleichzeitig geändert werden. Lediglich die ID ist hierüber nicht veränderbar. Zum ändern der gewünschten Attribute werden diese Entsprechend mit neuen Werten als JSON-Objekt an die API übergeben. Ist ein Attribut nicht im Objekt vorhanden, so bleibt dort der Ursprüngliche Wert erhalten.
+	\item[DELETE /drinks/\{drink\_id\}] Lässt Administratoren ein Getränk löschen. Dabei wird nach erfolgreicher Löschung eine Kopie des Objekts dem Nutzer zurückgegeben.
+	\item[POST /transactions] Ermöglicht es Nutzern ein Getränk zu kaufen. Dabei wird das Guthaben des Nutzers um den Gesamtpreis verringert und die Stückzahl des Getränks entsprechend angepasst. Zudem wird die Transaktion in einer separaten Tabelle protokolliert.
+	\item[GET /transactions] Gibt einem Admin alle getätigten Transaktionen als Liste zurück.
+	\item[GET /transactions/me] Gibt Nutzern alle von ihnen durchgeführte Transaktionen als Liste zurück
 \end{description}
 
 \subsection{Datenhaltung} % Data Tier \textbar{} Persistence
 Zur Datenhaltung in der Produktionsumgebung wird eine relationale PostgreSQL-Datenbank verwendet. 
 Die Kommunikation mit dieser findet ausschließlich über das SQLModel-Framework statt. 
-% TODO: Hier Bild vom Datenbankmodell einfügen, wenn DB soweit fertig.
 Da ein \ac{orm}-Framework verwendet wird, könnte die Datenbank relativ einfach gegen alle anderen von diesem Framework ausgetauscht werden. 
 In der Anfangsphase der Entwicklung wurde diese Möglichkeit genutzt, um SQLite \cite{sqlite} als Entwicklungsdatenbank verwenden zu können und durch die einfache Konfiguration schnell ein lauffähiges System erzeugen zu können.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\linewidth]{database_erd}
+	\caption{ER-Diagramm zur PostgreSQL Datenbank}
+	\label{fig:erd-modell-datenbank}
+\end{figure}
+
+Die Daten der Getränkeverwaltung werden in unserer Datenbank, wie in Abbildung \ref{fig:erd-modell-datenbank} beschrieben, auf fünf verschiedene Tabellen aufgeteilt. So werden aktuelle Nutzer und Getränke in jeweils einzelnen Tabellen abgespeichert. Abseits davon sind die weiteren Tabellen zur Überwachung der getätigten Aktionen verantwortlich. Somit wird das Aufladen von Guthaben in der recharge Tabelle und jeder Kauf in der transaction Tabelle abgespeichert. Um jedoch sowohl die ursprünglichen Preise, als auch weitere möglicherweise veränderte Attribute der Getränke für spätere Analysezwecke korrekt vorliegen zu haben wird für jedes veränderte Getränk, das gekauft wird, ebenfalls ein Eintrag in der drinkhistory Tabelle erstellt.
 
 %\subsection{Optional: Infrastructure and Deployment \textbar{} Distribution Perspective \textbar{} \textquote{Verteilungssicht}}
 %Provides (1) information about configuration, exact software versions, SBOM, DevOps, Cloud, AWS, and others.

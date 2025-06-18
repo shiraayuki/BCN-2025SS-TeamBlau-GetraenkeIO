@@ -29,5 +29,16 @@ services:
     ports:
       - 8000:8000
 
+  frontend:
+    build: ./GetraenkeIO-frontend
+    container_name: getraenkeio_frontend
+    depends_on:
+      - backend
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=production
+
+
 volumes:
   pgdata_getraenkeio:

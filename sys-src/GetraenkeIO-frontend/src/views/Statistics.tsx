@@ -107,7 +107,7 @@ const Statistics = () => {
                     fill="#8884d8"
                     label
                   >
-                    {productStats.map((entry, index) => (
+                    {productStats.map((_, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
