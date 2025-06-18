@@ -253,7 +253,19 @@ In discussions concerning multi-tier architecture, the term \textquote{layer} is
 
 
 \subsection{Frontend}
-\lipsum[3]
+Das Frontend der Anwendung wurde mit dem Framework \textbf{React} umgesetzt. Zusammen mit dem Tool \textbf{Vite} wird eine schnelle Projektinitialisierung als auch ein sehr performantes Hot Module Replacement bereitgestellt. Dadurch können Änderungen am Code durch einfaches Speichern in Echtzeit im Browser dargestellt werden. Dies führt zu einer deutlich angenehmeren und zeiteffizienteren Entwicklung. \newline
+Als Programmiersprache wurde \textbf{TypeScript} gewählt. Im Vergleich zu JavaScript bietet TypeScript eine statische Typisierung von Variablen, Funktionen und anderen Komponenten. Dies ermöglicht eine frühzeitige Fehlererkennung - was sich positiv auf die Entwicklungszeit auswirkt - als auch bessere Lesbarkeit des Codes und vereinfachte Wartungen bei größeren und komplexeren Projekten. \newline
+Für die bessere Gestaltung der Benutzeroberfläche wird \textbf{Inline-CSS} in den React-Komponenten verwendet. Das heißt CSS-Stile liegen nicht in eigenen Dateien sondern werden mithilfe der \texttt{style=\{\{\}\}}-Syntax direkt im JSX/TSX-Code eingebunden. Auf separate Dateien und externe Styling-Frameworks wie \textbf{TailwindCSS} wurde bewusst verzichtet um die Syntax möglichst komponentennah und unkompliziert zu halten.	\newline
+Die Kommunikation mit dem Backend erfolgt ausschließlich über eine Rest-API. Hierfür wird die Bibliothek \textbf{Axios} verwendet. Diese bietet eine einfache Anbindung an diverse Endpunkte. Die empfangenen Daten liegen im JSON-Format vor und werden von den einzelnen Komponenten individuell verarbeitet und angezeigt. \newline
+Für die zentrale Zustandsverwaltung wird die Bibliothek \textbf{Redux} verwendet. Dadurch lassen sich globale Zustände und Daten einfach effizient verwalten. Im Falle des Logins bzw. der Registierung sorgt ein globaler zustand dafür, dass nicht eingeloggte Benutzer keinen Zugriff auf geschütze Routen haben um unerlaubten Zugriff zu vermeiden. Die Nutzerrrollen des angemeldeten Users werden auf die gleiche Art und Weise gespeichert. So hat der Nutzer zudem nur Zugriff auf die für seine Rolle vorgesehenen Seiten und Funktionen. Die Integration erfolgt mithilfe des \textbf{react-redux}-Bindings, wodurch der State über das gesamte Frontend hinweg einheitlich zugänglich ist.
+
+\subsection{Struktur und Komponenten}
+Der Sourcecode ist in verschiedene Ordner unterteilt.  Zusammengehörige Funktionalitäten sind dabei gruppiert um die Wartbarkeit zu verbessern. Im Folgenden werden die wichtigsten Ordner / Dateien und deren Aufgaben beschrieben.
+
+\begin{description}
+	\item[api] Beinhaltet die zentrale \texttt{axiosInstance} über welche alle Http-Requests abgewickelt werden.
+	\item[components] Enthält Komponenten die im Verlauf der Anwendung öfter verwendet werden. Dazu wählen: \texttt{AuthSidebar} \texttt{HomeSidebar} und \texttt{ProtectedLayout}
+\end{description}
 
 \subsection{Backend} % Application Tier \textbar{} \textbar{} \textquote{Anwendungskern} 
 Das Backend von GetraenkeIO ist als Python Applikation geschrieben.
