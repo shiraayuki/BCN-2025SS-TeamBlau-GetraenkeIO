@@ -25,11 +25,13 @@ app = FastAPI(
     title="GetraenkeIO",
     lifespan=lifespan
 )
-# evtl. TODO origin_eintragen
+
+print(settings.allowed_origins.split(","))
+
 # CORS aktivieren, um Anfragen vom Front-End entgegennehmen zu können. 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[origin.strip() for origin in settings.allowed_origins.split(",")],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

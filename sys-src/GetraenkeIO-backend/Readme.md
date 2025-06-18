@@ -20,6 +20,7 @@ Bitte die Datei .env nicht in die Versionskontrolle commiten.
 Folgende Konfigurationsvariablen stehen zur verfügung:
  - DATABASE_URL: URL zur bestehenden Datenbank, die das Backend verwendet.
  - GV_PASSWD: Passwort des Benutzers "admin", welcher die Rolle als Getränkewart übernimmt und die zugehörigen berechtigungen hat.
+ - ALLOWED_ORIGINS: Eine Liste, die die für CORS-Anfragen erlaubten Origins angibt. z.B. "http://localhost:5173, http://localhost:3000"
 
 ### Virtuelles Environment
 Es wird empfohlen für das Projekt ein eigenes virtual environment zu erstellen.   

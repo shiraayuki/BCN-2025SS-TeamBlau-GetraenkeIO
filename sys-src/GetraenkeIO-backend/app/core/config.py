@@ -6,6 +6,7 @@ ADMIN_USER_NAME = "admin"
 class Settings(BaseSettings):
     gv_passwd: str
     database_url: str
+    allowed_origins: str
 
     model_config = SettingsConfigDict(env_file=".env")
 

@@ -26,6 +26,7 @@ services:
     environment:
       GV_PASSWD: getraenkeverwalter
       DATABASE_URL: postgresql://postgres:postgres@db:5432/getraenkeio
+      ALLOWED_ORIGINS: "http://localhost:3000, http://frontend:3000"
     ports:
       - 8000:8000
 
