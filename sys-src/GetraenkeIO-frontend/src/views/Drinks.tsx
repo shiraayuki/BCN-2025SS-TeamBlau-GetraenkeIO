@@ -13,13 +13,11 @@ import {
     Snackbar,
     Alert
 } from '@mui/material';
-import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
-import CustomSidebar from '../components/HomeSidebar';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import { PointOfSale } from '@mui/icons-material';
 import { publicAxios } from '../api/axiosInstance';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store/store';
-import { useNavigate } from 'react-router-dom';
 
 // Definiere den Typ für ein Getränk
 interface Drink {
@@ -83,7 +81,7 @@ const DrinkCard: React.FC<{
                     size="small"
                     variant="contained"
                     color="primary"
-                    startIcon={<PointOfSaleIcon />}
+                    startIcon={<PointOfSale />}
                     onClick={() => onBookDrink(drink.id)}
                     fullWidth
                     disabled={drink.stock === 0}
@@ -95,12 +93,13 @@ const DrinkCard: React.FC<{
     );
 };
 
-// Getränkeübersicht
+// Getränkeübersicht 
 const DrinkOverview: React.FC = () => {
     const [drinks, setDrinks] = useState<Drink[]>([]);
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const userData = useSelector((state: RootState) => state.user.userData);
     const [snackbar, setSnackbar] = useState<{
         open: boolean;
         message: string;
@@ -111,86 +110,91 @@ const DrinkOverview: React.FC = () => {
         severity: 'success'
     });
 
-    const userData = useSelector((state: RootState) => state.user.userData);
-    const navigate = useNavigate();
-
-    // Prüfung ob User eingeloggt ist, bevor auf /drinks zugreifen kann
+    // API-Call für Getränkeübersicht & Nutzer(Guthaben)
     useEffect(() => {
-        if (!userData || !userData.credentials) {
-            navigate('/login');
-        }
-    }, [userData, navigate]);
+        const fetchData = async () => {
+            if (!userData?.credentials) return;
 
-    // API-Call für Getränkeübersicht
-    useEffect(() => {
-        const fetchDrinks = async () => {
-            if (!userData || !userData.credentials) return;
+            const auth = {
+                username: userData.credentials.username,
+                password: userData.credentials.password,
+            };
 
             try {
-                const response = await publicAxios.get('/drinks/', {
-                    auth: {
-                        username: userData.credentials.username,
-                        password: userData.credentials.password,
-                    },
-                });
+                const [drinksRes, userRes] = await Promise.all([
+                    publicAxios.get('/drinks/', { auth }),
+                    publicAxios.get('/users/me', { auth }),
+                ]);
 
-                const drinksFormatted = response.data.map((drink: any) => ({
-                    id: drink.id,
-                    name: drink.name,
-                    imageUrl: drink.imageUrl,
-                    price: parseFloat(drink.cost),
-                    stock: drink.count,
-                }));
-
-                setDrinks(drinksFormatted);
-                setLoading(false);
-            } catch (err) {
-                console.error('Fehler beim Laden der Getränke:', err);
-                setError('Getränke konnten nicht geladen werden.');
-                setLoading(false);
-            }
-        };
-
-        fetchDrinks();
-    }, [userData]);
-
-
-    // API-Call für Nutzer (Guthaben)
-    useEffect(() => {
-        const fetchUser = async () => {
-            if (!userData || !userData.credentials) return;
-
-            try {
-                const response = await publicAxios.get('/users/me', {
-                    auth: {
-                        username: userData.credentials.username,
-                        password: userData.credentials.password,
-                    },
-                });
+                setDrinks(
+                    drinksRes.data.map((drink: any) => ({
+                        id: drink.id,
+                        name: drink.name,
+                        imageUrl: drink.imageUrl,
+                        price: parseFloat(drink.cost),
+                        stock: drink.count,
+                    }))
+                );
 
                 setUser({
-                    id: response.data.id,
-                    name: response.data.name,
-                    guthaben: parseFloat(response.data.guthaben),
-                    is_admin: response.data.is_admin,
+                    id: userRes.data.id,
+                    name: userRes.data.name,
+                    guthaben: parseFloat(userRes.data.guthaben),
+                    is_admin: userRes.data.is_admin,
                 });
+
             } catch (err) {
-                console.error('Fehler beim Laden des Benutzers:', err);
+                console.error('Fehler beim Laden:', err);
+                setError('Daten konnten nicht geladen werden.');
+            } finally {
+                setLoading(false);
             }
         };
 
-        fetchUser();
+        fetchData();
     }, [userData]);
 
-
-    // Snackbar wenn Getränk gebucht wurde
-    const handleBookDrink = (drinkId: number) => {
+    // API-Call für Getränk buchen
+    const handleBookDrink = async (drinkId: number) => {
         const selectedDrink = drinks.find(drink => drink.id === drinkId);
-        if (selectedDrink) {
+        if (!selectedDrink || !userData?.credentials) return;
+
+        try {
+            await publicAxios.post('/transactions/', {
+                drink_id: drinkId,
+                amount: 1,
+            }, {
+                auth: {
+                    username: userData.credentials.username,
+                    password: userData.credentials.password,
+                },
+            });
+
+            setDrinks(prev =>
+                prev.map(drink =>
+                    drink.id === drinkId
+                        ? { ...drink, stock: drink.stock - 1 }
+                        : drink
+                )
+            );
+
+            setUser(prev =>
+                prev
+                    ? { ...prev, guthaben: prev.guthaben - selectedDrink.price }
+                    : prev
+            );
+
             setSnackbar({
                 open: true,
                 message: `${selectedDrink.name} wurde gebucht`,
-                severity: 'success'
+                severity: 'success',
+            });
+        } catch (err) {
+            console.error('Fehler beim Buchen des Getränks:', err);
+            setSnackbar({
+                open: true,
+                message: 'Buchung fehlgeschlagen',
+                severity: 'error',
             });
         }
     };
@@ -218,10 +222,9 @@ const DrinkOverview: React.FC = () => {
         );
     }
 
+    // Layout und Styling
     return (
         <Box sx={{ display: 'flex' }}>
-            <CustomSidebar />
-
             <Box
                 sx={{
                     flexGrow: 1,
@@ -284,7 +287,7 @@ const DrinkOverview: React.FC = () => {
 
                     <Grid container spacing={6}>
                         {drinks.map(drink => (
-                            <Grid item key={drink.id} xs={12} sm={6} md={4}>
+                            <Grid>
                                 <DrinkCard drink={drink} onBookDrink={handleBookDrink} />
                             </Grid>
                         ))}
