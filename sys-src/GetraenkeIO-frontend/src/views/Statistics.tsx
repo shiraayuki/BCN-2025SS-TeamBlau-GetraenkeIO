@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import CustomSidebar from '../components/HomeSidebar';
 import {
   Box,
   Card,
@@ -131,7 +130,6 @@ const Statistics: React.FC = () => {
 
   return (
     <Box sx={{ display: 'flex', height: '100vh', width: '100vw' }}>
-      <CustomSidebar />
       <Box
         sx={{
           flexGrow: 1,
@@ -148,7 +146,7 @@ const Statistics: React.FC = () => {
           <Card>
             <CardContent>
               <Typography variant="h6" align="center">
-                Keine Transaktionen vorhanden. Kaufe etwas, um Statistiken zu sehen!
+                Keine Transaktionen vorhanden.
               </Typography>
             </CardContent>
           </Card>

@@ -15,14 +15,13 @@ function App() {
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/history' element={<History />} />
-        <Route path='/statistics' element={<Statistics />} />
         <Route element={<ProtectedLayout />}>
           <Route path='/' element={<Home />} />
           <Route path='/admin/users' element={<UserManagement />} />
           <Route path='/admin/stock' element={<DrinksManagement />} />
           <Route path='/admin/statistics' element={<Statistics />} />
           <Route path='/drinks' element={<DrinkOverview />} />
+          <Route path='/history' element={<History />} />
         </Route>
       </Routes>
     </Router>

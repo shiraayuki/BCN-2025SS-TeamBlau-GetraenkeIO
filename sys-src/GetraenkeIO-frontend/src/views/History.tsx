@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import CustomSidebar from '../components/HomeSidebar';
 import {
   Box,
   Typography,
@@ -98,7 +97,6 @@ const History: React.FC = () => {
 
   return (
     <Box sx={{ display: 'flex', height: '100vh', width: '100vw' }}>
-      <CustomSidebar />
 
       <Box
         sx={{
