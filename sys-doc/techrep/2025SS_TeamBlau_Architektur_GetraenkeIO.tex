@@ -216,12 +216,40 @@ Die Verwaltung von Getränken ist in vielen Vereinen eine Notwendige Aufgabe. Da
 Alle drei hier betrachteten Anwendungen basieren auf einer teilweise zahlungspflichtigen Strategie. So ist es bei der Getränke Zähler App \cite{drinkscounter}, der Getränkeliste App \cite{getraenkelisteapp} und dem Getränkewart 2.0 \cite{getraenkewart} jeweils möglich je nach Anbieter mit bis zu 3 bis 10 Nutzern die Anwendung jeweils kostenlos zu nutzen. Sollte die App jedoch von mehr Benutzern verwendet werden, so werden jeweils monatliche oder jährliche Kosten für die Nutzung fällig. Dies ist ein großer Unterschied zu GetraenkeIO, da diese nicht nur kostenfrei Nutzbar ist, sondern dank der MIT Lizenz sogar Open Source. Im Gegenteil zu den drei anderen genannten Lösungen ist es bei GetraenkeIO deshalb ebenfalls möglich die Software auf eigener Hardware laufen zu lassen und so die komplette Kontrolle über die eigenen Daten zu erhalten.
 
 \section{Architekturziele} % \textbar{} \textquote{Architekturziele}}
-Provides
-(1) a visualization of the external systems and users with which the system interacts (\textquote{Kontextabgrenzung}),
-(2) the most important technical and organizational preconditions (\textquote{Rahmenbedingungen}),
-(3) quality/non-functional requirements (\textquote{Qualitätsziele}), and/or
-(4) architectural style design decisions with formative patterns of the solution (\textquote{Architekturstil})
-as well as (5) the applied programming language(s).
+\subsection{Kontextabgrenzung}
+% TODO: Use-Case-Diagramm
+Das System zur Getränkeverwaltung in Vereinsheimen soll von folgenden Nutzern genutzt werden:
+\begin{enumerate}
+	\item \textbf{Benutzer}: 
+	Der reguläre Benutzer des Systems, der in einem Vereinsheim o.ä. ab und zu ein Getränk trinkt und dieses im System buchen möchte, damit er seine Zeche bezahlen kann.
+	\item \textbf{Admin}: 
+	(Auch Getränkewart) des Vereinsheims, der sich um den Getränkenachschub kümmert und regelmäßig das Geld der Trinker kassiert.
+\end{enumerate}
+Den Benutzern des Systems wird eine Web-Oberfläche zur Interaktion bereitgestellt.\par
+Nicht Teil des Systems sind: 
+\begin{itemize}
+	\item Funktionalität zur Beschaffung von Getränken.
+	\item Verwaltung des tatsächlichen Kassenstandes.
+\end{itemize}
+\subsection{Rahmenbedingungen}
+\begin{itemize}
+	\item Zum betreiben des Systems muss eine \textbf{Internetverbindung} bestehen.
+	\item Es gibt nur \textbf{einen Administrator} pro installiertem System, dessen Passwort bei der Installation gesetzt wird.
+\end{itemize}
+\subsection{Architekturstil}
+Als Architekturstil für die Applikation wurde eine dreischichtige Architektur bestehend aus:
+\begin{itemize}
+	\item \textbf{Frontend}: React Web-App
+	\item \textbf{Backend}: Python REST-API
+	\item \textbf{Datenbank}: Relationale PostgreSQL Datenbank
+\end{itemize}
+gewählt.
+%Provides
+%(1) a visualization of the external systems and users with which the system interacts (\textquote{Kontextabgrenzung}),
+%(2) the most important technical and organizational preconditions (\textquote{Rahmenbedingungen}),
+%(3) quality/non-functional requirements (\textquote{Qualitätsziele}), and/or
+%(4) architectural style design decisions with formative patterns of the solution (\textquote{Architekturstil})
+%as well as (5) the applied programming language(s).
 
 \section{Architektur von GetraenkeIO} %of CatchyName \textbar{} Results \textbar{} Structural Design \textbar{} \textquote{Bausteinsicht}
 
@@ -242,14 +270,14 @@ Die Kommunikation zwischen Datenbank und Backend übernimmt das Framework SQLMod
 \end{figure}
 
 
-\subsubsection{Vorlage Hr. Neumann}
-Provides
-(1) design decisions based on the previously defined requirements and
-(2) a visualization of the functional structure at top level including relationships (\textquote{Grobe Zerlegung}), thus, gives an overview on modules, frameworks, and middleware.
-
-In discussions of multi-tier architecture, layer is often used interchangeably -- and mistakenly -- for tier. They aren't the same. A \textquote{layer} refers to a functional division of the software, but a \textquote{tier} refers to a functional division of the software that runs on infrastructure separate from the other divisions. The Contacts app on your phone, for example, is a three-layer application, but a single-tier application, because all three layers run on your phone.
-
-In discussions concerning multi-tier architecture, the term \textquote{layer} is frequently misused interchangeably with \textquote{tier}, despite their distinct meanings. A layer denotes a functional partition within the software, whereas a tier signifies a functional division that operates on separate infrastructure from other divisions/tiers. For instance, the Camera app or Settings app on your phone exemplifies a three-layer application but remains a single-tier application since all three layers run on your phone.
+%\subsubsection{Vorlage Hr. Neumann}
+%Provides
+%(1) design decisions based on the previously defined requirements and
+%(2) a visualization of the functional structure at top level including relationships (\textquote{Grobe Zerlegung}), thus, gives an overview on modules, frameworks, and middleware.
+%
+%In discussions of multi-tier architecture, layer is often used interchangeably -- and mistakenly -- for tier. They aren't the same. A \textquote{layer} refers to a functional division of the software, but a \textquote{tier} refers to a functional division of the software that runs on infrastructure separate from the other divisions. The Contacts app on your phone, for example, is a three-layer application, but a single-tier application, because all three layers run on your phone.
+%
+%In discussions concerning multi-tier architecture, the term \textquote{layer} is frequently misused interchangeably with \textquote{tier}, despite their distinct meanings. A layer denotes a functional partition within the software, whereas a tier signifies a functional division that operates on separate infrastructure from other divisions/tiers. For instance, the Camera app or Settings app on your phone exemplifies a three-layer application but remains a single-tier application since all three layers run on your phone.
 
 
 \subsection{Frontend}
@@ -260,7 +288,7 @@ Die Kommunikation mit dem Backend erfolgt ausschließlich über eine Rest-API. H
 Für die zentrale Zustandsverwaltung wird die Bibliothek \textbf{Redux} verwendet. Dadurch lassen sich globale Zustände und Daten einfach effizient verwalten. Im Falle des Logins bzw. der Registierung sorgt ein globaler zustand dafür, dass nicht eingeloggte Benutzer keinen Zugriff auf geschütze Routen haben um unerlaubten Zugriff zu vermeiden. Die Nutzerrrollen des angemeldeten Users werden auf die gleiche Art und Weise gespeichert. So hat der Nutzer zudem nur Zugriff auf die für seine Rolle vorgesehenen Seiten und Funktionen. Die Integration erfolgt mithilfe des \textbf{react-redux}-Bindings, wodurch der State über das gesamte Frontend hinweg einheitlich zugänglich ist.
 
 \subsection{Struktur und Komponenten}
-Der Sourcecode ist in verschiedene Ordner unterteilt.  Zusammengehörige Funktionalitäten sind dabei gruppiert um die Wartbarkeit zu verbessern. Im Folgenden werden die wichtigsten Ordner / Dateien und deren Aufgaben beschrieben.
+Der Sourcecode ist in verschiedene Ordner unterteilt. Zusammengehörige Funktionalitäten sind dabei gruppiert, um die Wartbarkeit zu verbessern. Im Folgenden werden die wichtigsten Ordner / Dateien und deren Aufgaben beschrieben.
 
 \begin{description}
 	\item[api] Beinhaltet die zentrale \texttt{axiosInstance} über welche alle Http-Requests abgewickelt werden.
@@ -272,7 +300,7 @@ Das Backend von GetraenkeIO ist als Python Applikation geschrieben.
 Mithilfe der Frameworks FastAPI wird eine REST-API für das Frontend zur Verfügung gestellt. \\  
 FastAPI ist ein Framework, das speziell zum Entwickeln von REST-APIs erstellt wurde und sehr intuitiv zu bedienen ist.
 Es ist damit möglich mit relativ wenigen Zeilen Code einen Funktionierenden Endpunkt inklusive Validierung der Werte zu erzeugen. Ebenfalls unterstützt es verschiedene Middlewares. Konkret wurde die CORS-Middleware genutzt. Diese ermöglicht es \ac{cors} Anfragen vom Frontend entgegenzunehmen.
-Eine Besonderheit von FastAPI ist, dass eine API-Dokumentation in Form eines OpenAPI-Dokuments \cite{openapi} automatisiert erstellt wird. Diese wird auf der Route "/docs" als interaktive Oberfläche mittels SwaggerUI  \cite{swagger} zur Verfügung gestellt. Dies erleichtert die Abstimmung zwischen den Entwicklerteams von Front-und Backend. \\  
+Eine Besonderheit von FastAPI ist, dass eine API-Dokumentation in Form eines OpenAPI-Dokuments \cite{openapi} automatisiert erstellt wird. Diese wird auf der Route \emph{/docs} als interaktive Oberfläche mittels SwaggerUI  \cite{swagger} zur Verfügung gestellt. Dies erleichtert die Abstimmung zwischen den Entwicklerteams von Front-und Backend. \\  
 Für die Verwaltung der Datenbankverbindung wurde das Framework SQLModel gewählt. Dieses wurde vom gleichen Entwickler wie FastAPI entwickelt und ist speziell. Deshalb ist eine Integration dieser beiden Technologien sehr gut möglich. SQLModel ist ein \ac{orm}-Framework.
 Das Datenmodell für die Datenbank wird von SQLModel auf Basis von den im Python-Code erzeugten Datenklassen(Models) erstellt. Ebenfalls müssen für die gängigen \ac{crud} Operationen keine direkten SQL-Abfragen erzeugt werden, es genügt das zugehörige Model  zu ändern und an die Datenbanksession weiterzugeben.
 
@@ -293,7 +321,6 @@ Der Quellcode der Backend-App gliedert sich in mehrere Komponenten(Ordner/Dateie
 \subsubsection{REST-Schnittstelle}
 Die einzige Schnittstelle zwischen Front-und Backend ist die REST-Schnittstelle. Diese stellt alle relevanten Daten und Informationen für das Frontend im JSON-Format bereit. Im folgenden werden alle wichtigen Endpunkte genauer beschrieben:
 
-%TODO: hier evtl. Tabelle o.ä. je nachdem ob lieber Fließtext oder Tabellen gesehen werden. 
 
 \begin{description}[style=standard]
 	\item[GET /users] Gibt eine Liste mit Details über alle Benutzer zurück.
