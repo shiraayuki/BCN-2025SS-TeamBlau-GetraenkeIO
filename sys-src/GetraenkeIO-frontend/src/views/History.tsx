@@ -96,14 +96,21 @@ const History: React.FC = () => {
   }
 
   return (
-    <Box sx={{ display: 'flex', height: '100vh', width: '100vw' }}>
-
+    <Box sx={{ 
+      height: '100vh', 
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden'
+    }}>
       <Box
         sx={{
           flexGrow: 1,
           color: 'white',
           padding: 4,
           overflowY: 'auto',
+          width: '100%',
+          boxSizing: 'border-box'
         }}
       >
         <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#1976d2', textAlign: 'center' }}>
@@ -117,8 +124,9 @@ const History: React.FC = () => {
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
-            maxHeight: 'calc(100vh - 64px)',
+            maxHeight: 'calc(100vh - 160px)',
             width: '100%',
+            boxSizing: 'border-box'
           }}
         >
           <CardContent

@@ -108,7 +108,7 @@ const CustomSidebar = () => {
               <SubMenu label='Admin' icon={<FaUserCog />}>
                 <MenuItem onClick={() => navigate('/admin/users')}>Benutzerverwaltung</MenuItem>
                 <MenuItem onClick={() => navigate('/admin/stock')}>Bestand</MenuItem>
-                <MenuItem onClick={() => navigate('/statistics')}>Statistiken</MenuItem>
+                <MenuItem onClick={() => navigate('/admin/statistics')}>Statistiken</MenuItem>
               </SubMenu>
             </>
           )}

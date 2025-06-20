@@ -129,13 +129,21 @@ const Statistics: React.FC = () => {
   const colors = generateColors(productStats.length);
 
   return (
-    <Box sx={{ display: 'flex', height: '100vh', width: '100vw' }}>
+    <Box sx={{ 
+      height: '100vh', 
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden'
+    }}>
       <Box
         sx={{
           flexGrow: 1,
           padding: 4,
           overflowY: 'auto',
           backgroundColor: '#f9f9f9',
+          width: '100%',
+          boxSizing: 'border-box'
         }}
       >
         <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#1976d2', textAlign: 'center' }}>
@@ -155,6 +163,7 @@ const Statistics: React.FC = () => {
             display="grid"
             gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }}
             gap={4}
+            sx={{ width: '100%' }}
           >
             <Card>
               <CardContent>
