@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { type MenuItemStyles, Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
-import { FaWineBottle, FaHistory, FaUser, FaSignOutAlt, FaUserCog } from 'react-icons/fa';
+import { FaWineBottle, FaHistory, FaSignOutAlt, FaUserCog } from 'react-icons/fa';
 import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import { useNavigate } from 'react-router-dom';
@@ -52,8 +52,11 @@ const CustomSidebar = () => {
             alignItems: 'center',
             justifyContent: 'center',
             padding: '1rem',
+            cursor: 'pointer',
             borderBottom: '1px solid rgba(255,255,255,0.1)',
           }}
+          onClick={() => navigate('/')}
+          title='Zur Startseite'
         >
           <img src='/beer.png' alt='Logo' style={{ height: 40, objectFit: 'contain' }} />
         </div>
@@ -130,9 +133,6 @@ const CustomSidebar = () => {
           ></div>
 
           <Menu menuItemStyles={menuItemStyles}>
-            <MenuItem icon={<FaUser />} onClick={() => navigate('/profile')}>
-              Profil
-            </MenuItem>
             <MenuItem icon={<FaSignOutAlt />} onClick={handleLogout}>
               Logout
             </MenuItem>

@@ -8,6 +8,7 @@ import DrinksManagement from './views/DrinksManagement';
 import ProtectedLayout from './components/ProtectedLayout';
 import UserManagement from './views/UserManagement';
 import Statistics from './views/Statistics';
+import AdminLayout from './components/AdminLayout';
 
 function App() {
   return (
@@ -17,11 +18,13 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route element={<ProtectedLayout />}>
           <Route path='/' element={<Home />} />
-          <Route path='/admin/users' element={<UserManagement />} />
-          <Route path='/admin/stock' element={<DrinksManagement />} />
-          <Route path='/admin/statistics' element={<Statistics />} />
           <Route path='/drinks' element={<DrinkOverview />} />
           <Route path='/history' element={<History />} />
+          <Route element={<AdminLayout />}>
+            <Route path='/admin/users' element={<UserManagement />} />
+            <Route path='/admin/stock' element={<DrinksManagement />} />
+            <Route path='/admin/statistics' element={<Statistics />} />
+          </Route>
         </Route>
       </Routes>
     </Router>

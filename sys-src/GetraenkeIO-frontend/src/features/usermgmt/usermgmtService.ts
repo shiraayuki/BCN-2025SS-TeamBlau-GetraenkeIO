@@ -1,4 +1,5 @@
 import { publicAxios } from "../../api/axiosInstance";
+import { type Transaction } from "../../models/transactionModels";
 import type { UserData, UserManagementData } from "../../models/userModels";
 
 export const usermgmtService = {
@@ -22,5 +23,18 @@ export const usermgmtService = {
         password: userData.credentials.password,
       }
     });
+  },
+
+  async getUserTransactions(userName: string, userData: UserData): Promise<Transaction[]> {
+    const res = await publicAxios.get<Transaction[]>(`/transactions/${userName}`, {
+      auth: {
+        username: userData.credentials.username,
+        password: userData.credentials.password,
+      }
+    });
+
+    const sorted = res.data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    return sorted
   }
 }
