@@ -225,7 +225,6 @@ Den Benutzern des Systems wird eine Web-Oberfläche zur Interaktion bereitgestel
 	\item Getränkedaten (Bestand, Preis, verfügbare Getränke,...) verwalten.
 	\item Statistiken über den Getränkeverbrauch einsehen.
 \end{itemize}
-
 \textbf{Nicht} Teil des Systems sind: 
 \begin{itemize}
 	\item Funktionalität zur Beschaffung von Getränken.
@@ -288,16 +287,16 @@ Die Kommunikation mit dem Backend erfolgt ausschließlich über eine Rest-API. H
 Für die zentrale Zustandsverwaltung wird die Bibliothek \textbf{Redux} verwendet. Dadurch lassen sich globale Zustände und Daten einfach effizient verwalten. Im Falle des Logins bzw. der Registierung sorgt ein globaler zustand dafür, dass nicht eingeloggte Benutzer keinen Zugriff auf geschütze Routen haben um unerlaubten Zugriff zu vermeiden. Die Nutzerrrollen des angemeldeten Users werden auf die gleiche Art und Weise gespeichert. So hat der Nutzer zudem nur Zugriff auf die für seine Rolle vorgesehenen Seiten und Funktionen. Die Integration erfolgt mithilfe des \textbf{react-redux}-Bindings, wodurch der State über das gesamte Frontend hinweg einheitlich zugänglich ist.\newline
 \autoref{fig:oberflaechegetraenkeuebersicht} zeigt die Getränkeübersichtsseite des Frontends.
 
-\begin{figure*}[!hbt]
+\begin{figure*}[h]
 	\centering
 	\includegraphics[width=1.0\linewidth]{Oberflaeche_Getraenkeuebersicht}
 	\caption{Zentrale Seite mit Getränkeübersicht, Guthabenanzeige und der Möglichkeit ein Getränk zu Buchen.
-	Aktuell ist ein Admin eingeloggt, daher sind Links in der Sidebar auch die Menüs für den Admin sichtbar.}
+	Aktuell ist ein Admin eingeloggt, daher sind links in der Sidebar auch die Menüs für den Admin sichtbar.}
 	\label{fig:oberflaechegetraenkeuebersicht}
 \end{figure*}
 
 
-\subsection{Struktur und Komponenten}
+\subsubsection{Struktur und Komponenten}
 Der Sourcecode ist in verschiedene Ordner unterteilt. Zusammengehörige Funktionalitäten sind dabei gruppiert, um die Wartbarkeit zu verbessern. Im Folgenden werden die wichtigsten Ordner / Dateien und deren Aufgaben beschrieben.
 
 \begin{description}
