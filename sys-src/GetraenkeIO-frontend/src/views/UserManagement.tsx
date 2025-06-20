@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { type UserManagementData } from "../models/userModels";
 import { usermgmtService } from "../features/usermgmt/usermgmtService";
 import { FaCalendarAlt, FaEuroSign, FaHashtag, FaHistory, FaPen, FaWineBottle } from "react-icons/fa";
+import { type Transaction } from "../models/transactionModels";
 
 const UserManagement = () => {
   const [usermgmtdata, setUsermgmtdata] = useState<UserManagementData[]>([]);
@@ -14,77 +15,11 @@ const UserManagement = () => {
   const [currentRecharge, setCurrentRecharge] = useState('');
   const [currentUserId, setCurrentUserId] = useState('');
   const [currentUserName, setCurrentUserName] = useState('');
+  const [currentUserTrans, setCurrentUserTrans] = useState<Transaction[]>([])
 
   const [errorMessage, setErrorMessage] = useState('');
 
   const userData = useSelector((state: RootState) => state.user.userData);
-
-  const dummyHistory = [
-    {
-      id: 1,
-      productName: 'Cola',
-      purchaseDate: '2025-05-24T14:30:00Z',
-      price: 1.5,
-      quantity: 2,
-    },
-    {
-      id: 2,
-      productName: 'Bier',
-      purchaseDate: '2025-05-23T19:15:00Z',
-      price: 2.0,
-      quantity: 1,
-    },
-    {
-      id: 3,
-      productName: 'Wasser',
-      purchaseDate: '2025-05-22T11:45:00Z',
-      price: 1.0,
-      quantity: 3,
-    },
-    {
-      id: 3,
-      productName: 'Fanta',
-      purchaseDate: '2025-05-22T11:45:00Z',
-      price: 1.50,
-      quantity: 3,
-    },
-    {
-      id: 3,
-      productName: 'Wasser',
-      purchaseDate: '2025-05-22T11:45:00Z',
-      price: 1.0,
-      quantity: 3,
-    },
-    {
-      id: 3,
-      productName: 'Wasser',
-      purchaseDate: '2025-05-22T11:45:00Z',
-      price: 1.0,
-      quantity: 3,
-    },
-    {
-      id: 3,
-      productName: 'Wasser',
-      purchaseDate: '2025-05-22T11:45:00Z',
-      price: 1.0,
-      quantity: 3,
-    },
-    {
-      id: 3,
-      productName: 'Wasser',
-      purchaseDate: '2025-05-22T11:45:00Z',
-      price: 1.0,
-      quantity: 3,
-    },
-    {
-      id: 3,
-      productName: 'Wasser',
-      purchaseDate: '2025-05-22T11:45:00Z',
-      price: 1.0,
-      quantity: 3,
-    },
-  ];
-
   useEffect(() => {
     if (!userData) {
       return
@@ -120,6 +55,9 @@ const UserManagement = () => {
 
     try {
       await usermgmtService.updateUserRecharge(currentUserId, Number(currentRecharge), userData);
+
+      const updatedData = await usermgmtService.getAllUserData(userData);
+      setUsermgmtdata(updatedData);
     } catch (e: any) {
       setErrorMessage('Fehler beim Aktualisieren des Guthabens!')
     }
@@ -131,7 +69,17 @@ const UserManagement = () => {
   }
 
   const openUserHistory = async (userId: string, userName: string) => {
+    if (!userData) {
+      return
+    }
 
+    usermgmtService.getUserTransactions(userName, userData)
+      .then((data) => {
+        setCurrentUserTrans(data)
+      })
+      .catch((err) => {
+        console.log('Error when loading user transactions: ', err)
+      })
 
     setCurrentUserName(userName);
     setCurrentUserId(userId);
@@ -381,15 +329,15 @@ const UserManagement = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {dummyHistory.map((item, index) => (
-                <TableRow key={`${item.id}-${item.purchaseDate}-${index}`} hover>
-                  <TableCell>{item.productName}</TableCell>
-                  <TableCell>{item.quantity}</TableCell>
-                  <TableCell>{formatDate(item.purchaseDate)}</TableCell>
-                  <TableCell align="right">{item.price.toFixed(2)} €</TableCell>
+              {currentUserTrans.map((item) => (
+                <TableRow key={item.transaction_id} hover>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.amount}</TableCell>
+                  <TableCell>{formatDate(item.date)}</TableCell>
+                  <TableCell align="right">{parseFloat(item.cost).toFixed(2)}</TableCell>
                 </TableRow>
               ))}
-              {dummyHistory.length === 0 && (
+              {currentUserTrans.length === 0 && (
                 <TableRow>
                   <TableCell colSpan={4} align="center">
                     Keine Bestellungen vorhanden.
