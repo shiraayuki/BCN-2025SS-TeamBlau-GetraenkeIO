@@ -73,28 +73,28 @@
 
 \begin{filecontents}[overwrite]{embedded.bib}
 @Online{conatiners,
-	author = {IBM},
-	title = {Was sind Container?},
-	url = {https://www.ibm.com/de-de/topics/containers},
-	year = {2025}
+    author = {IBM},
+    title = {Was sind Container?},
+    url = {https://www.ibm.com/de-de/topics/containers},
+    year = {2025}
 }
 @Online{sqlmodel,
-	author = {Sebastián Ramírez},
-	title = {SQLModel},
-	url = {https://sqlmodel.tiangolo.com/},
-	year= {2025}
+    author = {Sebastián Ramírez},
+    title = {SQLModel},
+    url = {https://sqlmodel.tiangolo.com/},
+    year= {2025}
 }
 @Online{openapi,
-	author = {The Linux Foundation},
-	title = {OpenAPI-Spezifikation},
-	url = {https://spec.openapis.org/oas/latest.html},
-	year= {2025}
+    author = {The Linux Foundation},
+    title = {OpenAPI-Spezifikation},
+    url = {https://spec.openapis.org/oas/latest.html},
+    year= {2025}
 }
 @Online{swagger,
-	author = {{SMARTBEAR}},
-	title = {Swagger},
-	url = {https://swagger.io/},
-	year= {2025}
+    author = {{SMARTBEAR}},
+    title = {Swagger},
+    url = {https://swagger.io/},
+    year= {2025}
 }
 
 @online{ieee2015howto,
@@ -133,19 +133,19 @@
     url    = {https://www.overleaf.com}
 }
 @online{drinkscounter,
-	author = {{Matthias Aigner}},
-	title = {{Getränke Zähler App}},
-	url = {https://drinkscounter.com/de/getraenke-zaehler-app.html}
+    author = {{Matthias Aigner}},
+    title = {{Getränke Zähler App}},
+    url = {https://drinkscounter.com/de/getraenke-zaehler-app.html}
 }
 @online{getraenkelisteapp,
-	author = {{iqmeta GmbH}},
-	title = {{Getränkeliste App}},
-	url = {https://iqmeta.com/gliste/}
+    author = {{iqmeta GmbH}},
+    title = {{Getränkeliste App}},
+    url = {https://iqmeta.com/gliste/}
 }
 @online{getraenkewart,
-	author = {{sparse creations GmbH}},
-	title = {{Getränkewart 2.0}},
-	url = {https://getraenkewart.com/}
+    author = {{sparse creations GmbH}},
+    title = {{Getränkewart 2.0}},
+    url = {https://getraenkewart.com/}
 }
 \end{filecontents}
 
@@ -217,16 +217,29 @@ Alle drei hier betrachteten Anwendungen basieren auf einer teilweise zahlungspfl
 
 \section{Architekturziele} % \textbar{} \textquote{Architekturziele}}
 \subsection{Kontextabgrenzung}
-% TODO: Use-Case-Diagramm
 Das System zur Getränkeverwaltung in Vereinsheimen soll von folgenden Nutzern genutzt werden:
 \begin{enumerate}
 	\item \textbf{Benutzer}: 
 	Der reguläre Benutzer des Systems, der in einem Vereinsheim o.ä. ab und zu ein Getränk trinkt und dieses im System buchen möchte, damit er seine Zeche bezahlen kann.
 	\item \textbf{Admin}: 
-	(Auch Getränkewart) des Vereinsheims, der sich um den Getränkenachschub kümmert und regelmäßig das Geld der Trinker kassiert.
+	(Auch Getränkewart) des Vereinsheims, der sich um den Getränkenachschub kümmert und regelmäßig das Geld für die Getränke kassiert.
 \end{enumerate}
-Den Benutzern des Systems wird eine Web-Oberfläche zur Interaktion bereitgestellt.\par
-Nicht Teil des Systems sind: 
+Den Benutzern des Systems wird eine Web-Oberfläche zur Interaktion bereitgestellt, die folgende Funktionalität bietet.\\
+\textbf{Benutzer} können:
+\begin{itemize}
+	\item sich Registrieren und Einloggen.
+	\item eine Übersicht über alle verfügbaren Getränke anzeigen.
+	\item ein bestimmtes Getränk buchen.
+	\item ihren Getränkeverlauf einsehen.
+\end{itemize}
+\textbf{Admins} können alles was der Benutzer kann und zusätzlich:
+\begin{itemize}
+	\item Guthaben von Benutzern aufladen.
+	\item Getränkedaten (Bestand, Preis, verfügbare Getränke,...) verwalten.
+	\item Statistiken über den Getränkeverbrauch einsehen.
+\end{itemize}
+
+\textbf{Nicht} Teil des Systems sind: 
 \begin{itemize}
 	\item Funktionalität zur Beschaffung von Getränken.
 	\item Verwaltung des tatsächlichen Kassenstandes.
@@ -260,9 +273,9 @@ Das Frontend besteht aus einer React-Anwendung \cite{react}.
 Als Backend wird eine Python-Anwendung \cite{python} verwendet.
 Diese benutzt das Web-Framework FastAPI \cite{fastapi} und stellt damit dem Frontend eine RESTful-Schnittstelle \cite{restful} zum Datenaustausch zur Verfügung.
 Zur Datenhaltung wird die relationale Datenbank PostgreSQL \cite{postgresql} genutzt.
-Die Kommunikation zwischen Datenbank und Backend übernimmt das Framework SQLModel \cite{sqlmodel}, welches Mittels \ac{orm} die Datenbanktabellen als Python-Objekte zur Verfügung stellt.
+Die Kommunikation zwischen Datenbank und Backend übernimmt das Framework SQLModel \cite{sqlmodel}, welches Mittels \ac{orm} die Datenbanktabellen als Python-Objekte zur Verfügung stellt. In \autoref{fig:bausteinsicht-architektur} werden die Architekturbausteine und deren Beziehungen grafisch dargestellt.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.9\linewidth]{Bausteinsicht-Architektur.drawio}
 	\caption{Bausteinsicht über den Technologie-Stack und die verwendeten Technologien und deren Zusammenspiel.}
@@ -285,7 +298,17 @@ Das Frontend der Anwendung wurde mit dem Framework \textbf{React} umgesetzt. Zus
 Als Programmiersprache wurde \textbf{TypeScript} gewählt. Im Vergleich zu JavaScript bietet TypeScript eine statische Typisierung von Variablen, Funktionen und anderen Komponenten. Dies ermöglicht eine frühzeitige Fehlererkennung - was sich positiv auf die Entwicklungszeit auswirkt - als auch bessere Lesbarkeit des Codes und vereinfachte Wartungen bei größeren und komplexeren Projekten. \newline
 Für die bessere Gestaltung der Benutzeroberfläche wird \textbf{Inline-CSS} in den React-Komponenten verwendet. Das heißt CSS-Stile liegen nicht in eigenen Dateien sondern werden mithilfe der \texttt{style=\{\{\}\}}-Syntax direkt im JSX/TSX-Code eingebunden. Auf separate Dateien und externe Styling-Frameworks wie \textbf{TailwindCSS} wurde bewusst verzichtet um die Syntax möglichst komponentennah und unkompliziert zu halten.	\newline
 Die Kommunikation mit dem Backend erfolgt ausschließlich über eine Rest-API. Hierfür wird die Bibliothek \textbf{Axios} verwendet. Diese bietet eine einfache Anbindung an diverse Endpunkte. Die empfangenen Daten liegen im JSON-Format vor und werden von den einzelnen Komponenten individuell verarbeitet und angezeigt. \newline
-Für die zentrale Zustandsverwaltung wird die Bibliothek \textbf{Redux} verwendet. Dadurch lassen sich globale Zustände und Daten einfach effizient verwalten. Im Falle des Logins bzw. der Registierung sorgt ein globaler zustand dafür, dass nicht eingeloggte Benutzer keinen Zugriff auf geschütze Routen haben um unerlaubten Zugriff zu vermeiden. Die Nutzerrrollen des angemeldeten Users werden auf die gleiche Art und Weise gespeichert. So hat der Nutzer zudem nur Zugriff auf die für seine Rolle vorgesehenen Seiten und Funktionen. Die Integration erfolgt mithilfe des \textbf{react-redux}-Bindings, wodurch der State über das gesamte Frontend hinweg einheitlich zugänglich ist.
+Für die zentrale Zustandsverwaltung wird die Bibliothek \textbf{Redux} verwendet. Dadurch lassen sich globale Zustände und Daten einfach effizient verwalten. Im Falle des Logins bzw. der Registierung sorgt ein globaler zustand dafür, dass nicht eingeloggte Benutzer keinen Zugriff auf geschütze Routen haben um unerlaubten Zugriff zu vermeiden. Die Nutzerrrollen des angemeldeten Users werden auf die gleiche Art und Weise gespeichert. So hat der Nutzer zudem nur Zugriff auf die für seine Rolle vorgesehenen Seiten und Funktionen. Die Integration erfolgt mithilfe des \textbf{react-redux}-Bindings, wodurch der State über das gesamte Frontend hinweg einheitlich zugänglich ist.\newline
+\autoref{fig:oberflaechegetraenkeuebersicht} zeigt die Getränkeübersichtsseite des Frontends.
+
+\begin{figure*}[!hbt]
+	\centering
+	\includegraphics[width=1.0\linewidth]{Oberflaeche_Getraenkeuebersicht}
+	\caption{Zentrale Seite mit Getränkeübersicht, Guthabenanzeige und der Möglichkeit ein Getränk zu Buchen.
+	Aktuell ist ein Admin eingeloggt, daher sind Links in der Sidebar auch die Menüs für den Admin sichtbar.}
+	\label{fig:oberflaechegetraenkeuebersicht}
+\end{figure*}
+
 
 \subsection{Struktur und Komponenten}
 Der Sourcecode ist in verschiedene Ordner unterteilt. Zusammengehörige Funktionalitäten sind dabei gruppiert, um die Wartbarkeit zu verbessern. Im Folgenden werden die wichtigsten Ordner / Dateien und deren Aufgaben beschrieben.
