@@ -130,9 +130,6 @@ const CustomSidebar = () => {
           ></div>
 
           <Menu menuItemStyles={menuItemStyles}>
-            <MenuItem icon={<FaUser />} onClick={() => navigate('/profile')}>
-              Profil
-            </MenuItem>
             <MenuItem icon={<FaSignOutAlt />} onClick={handleLogout}>
               Logout
             </MenuItem>
