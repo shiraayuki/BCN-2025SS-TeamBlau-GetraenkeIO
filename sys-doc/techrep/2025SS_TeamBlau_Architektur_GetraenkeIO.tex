@@ -372,11 +372,35 @@ Die Daten der Getränkeverwaltung werden in unserer Datenbank, wie in Abbildung 
 %Could include (3) a software bill of materials (SBOM), at least for the major libraries or frameworks.
 
 
-\section{Discussion \textbar{} Evaluation \textbar{} \\ Lessons Learned \textbar{} Impediments}
-\lipsum[6]
+\section{Herausforderungen \& Probleme}
+
+Im Laufe der Entwicklung unseres Projekts sind uns einige Probleme und Herausforderungen begegnet, aus denen wir lernen konnten.
+
+\subsection*{1. Authentifizierungsfehler bei API-Anfragen}
+
+Ein technisches Problem war, dass die Getränke aus dem Backend nicht geladen wurden. Grund dafür war, dass die Anfragen teilweise ohne Authentifizierung abgeschickt wurden. Das lag daran, dass verschiedene HTTP-Bibliotheken verwendet wurden (einmal Axios, einmal fetch), und nicht immer die richtigen Zugangsdaten mitgesendet wurden. Nachdem wir das mit dem jeweiligen Teammitglied besprochen haben, wurde der Fehler schnell behoben.
+
+\subsection*{2. Fehlermeldungen beim Erstellen des Frontend-Docker-Containers}
+
+Beim Docker-Build des Frontends sind wir auf Probleme gestoßen, weil der TypeScript-Compiler auf ungenutzte Importe gestoßen ist. Diese waren im Code zwar nicht relevant, haben aber den Buildprozess gestört. Nachdem diese Importe bereinigt wurden, konnte das Frontend erfolgreich als Container gebaut werden.
+
+\subsection*{3. Zugriffsrechte im Frontend nicht korrekt umgesetzt}
+
+Ein weiterer Fehler betraf die Zugriffsbeschränkung für Admin-Funktionen. Es war möglich, auch ohne Admin-Rechte gewisse Admin-Routen im Frontend aufzurufen, solange man eingeloggt war. Das wurde intern schnell erkannt und korrigiert.
+
+\subsection*{4. CORS-Konfiguration unvollständig}
+
+Bei der Kommunikation zwischen Frontend und Backend kam es zu Problemen mit CORS (Cross-Origin Resource Sharing). Eine benötigte Origin war nicht in der Konfiguration des Servers freigegeben, was zu abgelehnten Anfragen führte. Dieser Fehler wurde durch Ergänzen der fehlenden Origin behoben.
+
 
 \section{Fazit und Ausblick} % Conclusion and Future Work \textbar{} \\ \textquote{Fazit und Ausblick}
-\lipsum[7]
+
+Wir haben für unser Empfinden eine gute Lösung für eine webbasierte Getränkeverwaltung für Vereine oder auch andere Einrichtungen geschaffen. Unsere gesteckten Ziele wurden weitestgehend erreicht. Sowohl unsere \emph{Muss-} als auch \emph{Soll-Anforderungen} wurden vollumfänglich erfüllt. Die traditionellen Probleme der manuellen Verwaltung durch Strichlisten und Excel-Tabellen werden hierbei durch unser System abgelöst und bieten stattdessen eine automatisierte digitale Lösung.
+
+Ein Hauptaugenmerk bei unserem Projekt lag auf der Benutzerfreundlichkeit. Vereinsmitglieder können ohne administrative Unterstützung eigenständig Getränke buchen. Administratoren erhalten dagegen einen umfangreichen Überblick über Getränkebestände, Konsumverhalten und Umsatz durch das integrierte Statistik- und Verwaltungssystem. Die von uns gewählte dreischichtige Architektur mit React im Frontend, FastAPI im Backend und einer PostgreSQL-Datenbank hat sich als robust und skalierbar erwiesen.
+
+Eine Möglichkeit, \textit{GetraenkeIO} weiter zu optimieren, wäre die Integration von Zahlungsdienstleistern wie PayPal, die eine automatisierte Guthabenaufladung ermöglichen würde. Benutzer könnten ihr Guthaben selbstständig ohne Adminunterstützung aufladen. Dies würde den Verwaltungsaufwand für Administratoren deutlich reduzieren und die Kassenlage des Vereins oder der Einrichtung verbessern, da Zahlungen direkt in Echtzeit eingingen.
+
 
 %%% Previous TechReps
 %\nocite{ModA-TR-2023SS-WAE-TeamWeiss-Neunerln}
