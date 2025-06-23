@@ -343,7 +343,7 @@ Die einzige Schnittstelle zwischen Front-und Backend ist die REST-Schnittstelle.
 	\item[GET /users/\{user\_id\}/recharges] Gibt alle Aufladungen eines Benutzers zurück.
 	Ist für den Benutzer selbst und den Admin benutzbar.
 	\item[GET /drinks] Gibt eine Liste mit allen Daten der aktuell vorhandenen Getränke zurück.
-	\item[GET /drinks/\{drink\_id\}] Gibt eine Liste mit alle Daten der aktuell vorhandenen Getränken zurück.
+	\item[GET /drinks/\{drink\_id\}] Gibt das Getränk mit der angegebenen Getränke-ID zurück.
 	\item[POST /drinks] Erlaubt es dem Admin ein neues Produkt zu erstellen. Dazu müssen alle Attribute des neuen Getränks in einem JSON-Objekt mitgegeben werden. Ausgenommen davon ist die ID, welche bei der Erstellung des Eintrags in der Getränketabelle automatisch mithilfe eines UUID-Generators erstellt wird.
 	\item[PUT /drinks/\{drink\_id\}]Lässt Administratoren die Attribute der Getränke ändern. Dabei können beliebige Kombinationen an Attributen eines Getränks gleichzeitig geändert werden. Lediglich die ID ist hierüber nicht veränderbar. Zum ändern der gewünschten Attribute werden diese Entsprechend mit neuen Werten als JSON-Objekt an die API übergeben. Ist ein Attribut nicht im Objekt vorhanden, so bleibt dort der Ursprüngliche Wert erhalten.
 	\item[DELETE /drinks/\{drink\_id\}] Lässt Administratoren ein Getränk löschen. Dabei wird dem Nutzer nach erfolgreicher Löschung eine Kopie des Objekts zurückgegeben.
