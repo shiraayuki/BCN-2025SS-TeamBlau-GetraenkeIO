@@ -300,8 +300,15 @@ Für die zentrale Zustandsverwaltung wird die Bibliothek \textbf{Redux} verwende
 Der Sourcecode ist in verschiedene Ordner unterteilt. Zusammengehörige Funktionalitäten sind dabei gruppiert, um die Wartbarkeit zu verbessern. Im Folgenden werden die wichtigsten Ordner / Dateien und deren Aufgaben beschrieben.
 
 \begin{description}
-	\item[api] Beinhaltet die zentrale \texttt{axiosInstance} über welche alle Http-Requests abgewickelt werden.
-	\item[components] Enthält Komponenten, die im Verlauf der Anwendung öfter verwendet werden. Dazu wählen: \texttt{AuthSidebar} \texttt{HomeSidebar} und \texttt{ProtectedLayout}
+	\item[src/api] Enthält die zentrale \texttt{axiosInstance} über welche alle Http-Requests abgewickelt werden.
+	\item[src/components] Beinhaltet wiederverwendbare UI-Komponenten, z. B.: \texttt{AuthSidebar} \texttt{HomeSidebar} und \texttt{ProtectedLayout}.
+	\item [src/features] Redux-Slices zur Authentifizierung sowie Methoden, die verschiedenen API-Calls ausführen.
+	\item [src/models] Definiert gemeinsame TypeScript-Interfacesa die über die ganze Anwendung hinweg verwendet werden.
+	\item [src/pages] Eigenständige Seite wie \texttt{Login} und \texttt{Register}, die unabhängig vom Layout (ohne Sidebar) fungieren.
+	\item[src/store] Konfiguration des zentralen Redux-Stores für das globale State-Management.
+	\item[src/views] Seiten die nach dem Einloggen angezeigt werden können und das \texttt{ProtectedLayout} sowie die \texttt{HomeSidebar} verwenden.
+	\item[src/App.tsx] Hauptkomponente der Anwendung. Hier wird das grundlegende Routing sowie das globale Layout (z.\,B. Sidebar, Protected Routes) definiert.
+	\item[src/main.tsx] Einstiegspunkt der React-App. Hier wird der Redux-Provider eingerichtet und die Anwendung in das DOM eingebunden.
 \end{description}
 
 \subsection{Backend} % Application Tier \textbar{} \textbar{} \textquote{Anwendungskern} 
