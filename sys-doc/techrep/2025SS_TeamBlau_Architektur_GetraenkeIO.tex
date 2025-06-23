@@ -363,12 +363,12 @@ Zur Datenhaltung in der Produktionsumgebung wird eine relationale PostgreSQL-Dat
 Die Kommunikation mit dieser findet über das SQLModel-Framework statt. 
 Da ein \ac{orm}-Framework verwendet wird, könnte die Datenbank relativ einfach gegen alle anderen von diesem Framework unterstützen Datenbanken ausgetauscht werden. 
 In der Anfangsphase der Entwicklung wurde diese Möglichkeit genutzt, um SQLite \cite{sqlite} als Entwicklungsdatenbank verwenden zu können und durch die einfache Konfiguration schnell ein lauffähiges System erzeugen zu können.
-\begin{figure}[h]
+\begin{figure*}[h]
 	\centering
-	\includegraphics[width=0.9\linewidth]{database_erd}
+	\includegraphics[width=0.75\linewidth]{database_erd}
 	\caption{ER-Diagramm zur PostgreSQL Datenbank}
 	\label{fig:erd-modell-datenbank}
-\end{figure}
+\end{figure*}
 
 Die Daten der Getränkeverwaltung werden in unserer Datenbank, wie in Abbildung \ref{fig:erd-modell-datenbank} beschrieben, auf fünf verschiedene Tabellen aufgeteilt. So werden aktuelle Nutzer und Getränke in jeweils einzelnen Tabellen abgespeichert. Abseits davon sind die weiteren Tabellen zur Überwachung der getätigten Aktionen verantwortlich. Somit wird das Aufladen von Guthaben in der recharge Tabelle und jeder Kauf in der transaction Tabelle abgespeichert. Um jedoch sowohl die ursprünglichen Preise, als auch weitere möglicherweise veränderte Attribute der Getränke für spätere Analysezwecke korrekt vorliegen zu haben, wird für jedes veränderte Getränk, das gekauft wird, ebenfalls ein Eintrag in der drinkhistory Tabelle erstellt.
 
