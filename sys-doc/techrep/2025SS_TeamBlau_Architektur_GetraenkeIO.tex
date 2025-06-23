@@ -290,7 +290,7 @@ Für die zentrale Zustandsverwaltung wird die Bibliothek \textbf{Redux} verwende
 \begin{figure*}[h]
 	\centering
 	\includegraphics[width=1.0\linewidth]{Oberflaeche_Getraenkeuebersicht}
-	\caption{Zentrale Seite mit Getränkeübersicht, Guthabenanzeige und der Möglichkeit ein Getränk zu Buchen.
+	\caption{Zentrale Seite mit Getränkeübersicht, Guthabenanzeige und der Möglichkeit ein Getränk zu buchen.
 	Aktuell ist ein Admin eingeloggt, daher sind links in der Sidebar auch die Menüs für den Admin sichtbar.}
 	\label{fig:oberflaechegetraenkeuebersicht}
 \end{figure*}
@@ -303,10 +303,10 @@ Der Sourcecode ist in verschiedene Ordner unterteilt. Zusammengehörige Funktion
 	\item[src/api] Enthält die zentrale \texttt{axiosInstance} über welche alle Http-Requests abgewickelt werden.
 	\item[src/components] Beinhaltet wiederverwendbare UI-Komponenten, z. B.: \texttt{AuthSidebar} \texttt{HomeSidebar} und \texttt{ProtectedLayout}.
 	\item [src/features] Redux-Slices zur Authentifizierung sowie Methoden, die verschiedenen API-Calls ausführen.
-	\item [src/models] Definiert gemeinsame TypeScript-Interfacesa die über die ganze Anwendung hinweg verwendet werden.
-	\item [src/pages] Eigenständige Seite wie \texttt{Login} und \texttt{Register}, die unabhängig vom Layout (ohne Sidebar) fungieren.
+	\item [src/models] Definiert gemeinsame TypeScript-Interfaces, die über die ganze Anwendung hinweg verwendet werden.
+	\item [src/pages] Eigenständige Seiten wie \texttt{Login} und \texttt{Register}, die unabhängig vom Layout (ohne Sidebar) fungieren.
 	\item[src/store] Konfiguration des zentralen Redux-Stores für das globale State-Management.
-	\item[src/views] Seiten die nach dem Einloggen angezeigt werden können und das \texttt{ProtectedLayout} sowie die \texttt{HomeSidebar} verwenden.
+	\item[src/views] Seiten, die nach dem Einloggen angezeigt werden können und das \texttt{ProtectedLayout} sowie die \texttt{HomeSidebar} verwenden.
 	\item[src/App.tsx] Hauptkomponente der Anwendung. Hier wird das grundlegende Routing sowie das globale Layout (z.\,B. Sidebar, Protected Routes) definiert.
 	\item[src/main.tsx] Einstiegspunkt der React-App. Hier wird der Redux-Provider eingerichtet und die Anwendung in das DOM eingebunden.
 \end{description}
