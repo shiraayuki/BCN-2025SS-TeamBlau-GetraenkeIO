@@ -184,7 +184,7 @@ const UserManagement = () => {
                   <TableRow key={user.id}>
                     <TableCell>{user.id}</TableCell>
                     <TableCell>{user.name}</TableCell>
-                    <TableCell sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>{user.guthaben}
+                    <TableCell sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>{Number(user.guthaben).toLocaleString("de-DE", { style: "currency", currency: "EUR" })}
                       <Button
                         variant="contained"
                         color="primary"

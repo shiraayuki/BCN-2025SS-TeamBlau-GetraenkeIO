@@ -44,7 +44,7 @@ interface ProductStats {
 const generateColors = (count: number): string[] => {
   const colors: string[] = [];
   for (let i = 0; i < count; i++) {
-    const hue = (i * 360) / count; 
+    const hue = (i * 360) / count;
     const saturation = 70 + (i % 3) * 10;
     const lightness = 50 + (i % 2) * 15;
     colors.push(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
@@ -72,7 +72,7 @@ const Statistics: React.FC = () => {
           password: userData.credentials.password,
         };
 
-        const res = await publicAxios.get<Transaction[]>('/transactions/me', { auth });
+        const res = await publicAxios.get<Transaction[]>('/transactions', { auth });
         setTransactions(res.data);
       } catch (err) {
         console.error('Fehler beim Laden der Transaktionen:', err);
@@ -129,8 +129,8 @@ const Statistics: React.FC = () => {
   const colors = generateColors(productStats.length);
 
   return (
-    <Box sx={{ 
-      height: '100vh', 
+    <Box sx={{
+      height: '100vh',
       width: '100%',
       display: 'flex',
       flexDirection: 'column',
