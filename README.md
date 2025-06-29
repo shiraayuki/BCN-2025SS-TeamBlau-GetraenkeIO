@@ -8,7 +8,7 @@ Technologisch basiert die Anwendung auf einem Python-Backend, das über eine RES
 
 **Voraussetzungen:** Um die Anwendung starten zu können, müssen [Docker](https://www.docker.com/) und [Docker-Compose](https://docs.docker.com/compose/) installiert sein.
 
-**Deployement:** Sind alle voraussetzungen erfüllt, genügt ```docker-compose up``` zum Erstellen und Bereitstellen der Applikation.
+**Deployement:** Sind alle voraussetzungen erfüllt, genügt ```docker-compose up``` in [sys-src](./sys-src/) zum Erstellen und Bereitstellen der Applikation.
 
 **Erreichbarkeit:** Das Frontend ist über den Port *3000* erreichbar (z.B. ```http://localhost:3000```).  
 Das Backend ist am Port *8000* erreichbar, dies ist für den Endbenutzer allerdings irrelevant.

@@ -186,10 +186,9 @@ Technologisch basiert die Anwendung auf einem Python-Backend, das über eine RES
 
 % A list of IEEE Computer Society appoved keywords can be obtained at
 % http://www.computer.org/mc/keywords/keywords.htm
-%\begin{IEEEkeywords}
-%D.2.0.c Software engineering for Internet projects, D.2.2.c Distributed/Internet based software
-%engineering tools and techniques
-%\end{IEEEkeywords}
+\begin{IEEEkeywords}
+Docker, React, TypeScript, Python, PostgreSQL, Container, Cloud
+\end{IEEEkeywords}
 
 \section{Einleitung und Projektziele}
 In vielen Vereinsheimen stellt die Getränkeverwaltung nach wie vor eine organisatorische Herausforderung dar. Die Ausgabe und Bezahlung erfolgen häufig auf Vertrauensbasis, wodurch es schwierig ist, den Überblick über Lagerbestände und Einnahmen zu behalten. Auch gängige Hilfsmittel wie Strichlisten oder Excel-Tabellen sind fehleranfällig und erfordern eine regelmäßige, manuelle Pflege.
@@ -284,13 +283,13 @@ Das Frontend der Anwendung wurde mit dem Framework \textbf{React} umgesetzt. Zus
 Als Programmiersprache wurde \textbf{TypeScript} gewählt. Im Vergleich zu JavaScript bietet TypeScript eine statische Typisierung von Variablen, Funktionen und anderen Komponenten. Dies ermöglicht eine frühzeitige Fehlererkennung - was sich positiv auf die Entwicklungszeit auswirkt - als auch bessere Lesbarkeit des Codes und vereinfachte Wartungen bei größeren und komplexeren Projekten. \newline
 Für die bessere Gestaltung der Benutzeroberfläche wird \textbf{Inline-CSS} in den React-Komponenten verwendet. Das heißt CSS-Stile liegen nicht in eigenen Dateien sondern werden mithilfe der \texttt{style=\{\{\}\}}-Syntax direkt im JSX/TSX-Code eingebunden. Auf separate Dateien und externe Styling-Frameworks wie \textbf{TailwindCSS} wurde bewusst verzichtet, um die Syntax möglichst komponentennah und unkompliziert zu halten.	\newline
 Die Kommunikation mit dem Backend erfolgt ausschließlich über eine Rest-API. Hierfür wird die Bibliothek \textbf{Axios} verwendet. Diese bietet eine einfache Anbindung an diverse Endpunkte. Die empfangenen Daten liegen im JSON-Format vor und werden von den einzelnen Komponenten individuell verarbeitet und angezeigt. \newline
-Für die zentrale Zustandsverwaltung wird die Bibliothek \textbf{Redux} verwendet. Dadurch lassen sich globale Zustände und Daten einfach effizient verwalten. Im Falle des Logins bzw. der Registierung sorgt ein globaler Zustand dafür, dass nicht eingeloggte Benutzer keinen Zugriff auf geschütze Routen haben, um unerlaubten Zugriff zu vermeiden. Die Nutzerrrollen des angemeldeten Users werden auf die gleiche Art und Weise gespeichert. So hat der Nutzer zudem nur Zugriff auf die für seine Rolle vorgesehenen Seiten und Funktionen. Die Integration erfolgt mithilfe des \textbf{react-redux}-Bindings, wodurch der State über das gesamte Frontend hinweg einheitlich zugänglich ist.\newline
+Für die zentrale Zustandsverwaltung wird die Bibliothek \textbf{Redux} verwendet. Dadurch lassen sich globale Zustände und Daten einfach effizient verwalten. Im Falle des Logins bzw. der Registierung sorgt ein globaler Zustand dafür, dass nicht eingeloggte Benutzer keinen Zugriff auf geschützte Routen haben, um unerlaubten Zugriff zu vermeiden. Die Nutzerrrollen des angemeldeten Users werden auf die gleiche Art und Weise gespeichert. So hat der Nutzer zudem nur Zugriff auf die für seine Rolle vorgesehenen Seiten und Funktionen. Die Integration erfolgt mithilfe des \textbf{react-redux}-Bindings, wodurch der State über das gesamte Frontend hinweg einheitlich zugänglich ist.\newline
 \autoref{fig:oberflaechegetraenkeuebersicht} zeigt die Getränkeübersichtsseite des Frontends.
 
 \begin{figure*}[h]
 	\centering
 	\includegraphics[width=1.0\linewidth]{Oberflaeche_Getraenkeuebersicht}
-	\caption{Zentrale Seite mit Getränkeübersicht, Guthabenanzeige und der Möglichkeit ein Getränk zu Buchen.
+	\caption{Zentrale Seite mit Getränkeübersicht, Guthabenanzeige und der Möglichkeit ein Getränk zu buchen.
 	Aktuell ist ein Admin eingeloggt, daher sind links in der Sidebar auch die Menüs für den Admin sichtbar.}
 	\label{fig:oberflaechegetraenkeuebersicht}
 \end{figure*}
@@ -303,10 +302,10 @@ Der Sourcecode ist in verschiedene Ordner unterteilt. Zusammengehörige Funktion
 	\item[src/api] Enthält die zentrale \texttt{axiosInstance} über welche alle Http-Requests abgewickelt werden.
 	\item[src/components] Beinhaltet wiederverwendbare UI-Komponenten, z. B.: \texttt{AuthSidebar} \texttt{HomeSidebar} und \texttt{ProtectedLayout}.
 	\item [src/features] Redux-Slices zur Authentifizierung sowie Methoden, die verschiedenen API-Calls ausführen.
-	\item [src/models] Definiert gemeinsame TypeScript-Interfacesa die über die ganze Anwendung hinweg verwendet werden.
-	\item [src/pages] Eigenständige Seite wie \texttt{Login} und \texttt{Register}, die unabhängig vom Layout (ohne Sidebar) fungieren.
+	\item [src/models] Definiert gemeinsame TypeScript-Interfaces, die über die ganze Anwendung hinweg verwendet werden.
+	\item [src/pages] Eigenständige Seiten wie \texttt{Login} und \texttt{Register}, die unabhängig vom Layout (ohne Sidebar) fungieren.
 	\item[src/store] Konfiguration des zentralen Redux-Stores für das globale State-Management.
-	\item[src/views] Seiten die nach dem Einloggen angezeigt werden können und das \texttt{ProtectedLayout} sowie die \texttt{HomeSidebar} verwenden.
+	\item[src/views] Seiten, die nach dem Einloggen angezeigt werden können und das \texttt{ProtectedLayout} sowie die \texttt{HomeSidebar} verwenden.
 	\item[src/App.tsx] Hauptkomponente der Anwendung. Hier wird das grundlegende Routing sowie das globale Layout (z.\,B. Sidebar, Protected Routes) definiert.
 	\item[src/main.tsx] Einstiegspunkt der React-App. Hier wird der Redux-Provider eingerichtet und die Anwendung in das DOM eingebunden.
 \end{description}
@@ -364,12 +363,12 @@ Zur Datenhaltung in der Produktionsumgebung wird eine relationale PostgreSQL-Dat
 Die Kommunikation mit dieser findet über das SQLModel-Framework statt. 
 Da ein \ac{orm}-Framework verwendet wird, könnte die Datenbank relativ einfach gegen alle anderen von diesem Framework unterstützen Datenbanken ausgetauscht werden. 
 In der Anfangsphase der Entwicklung wurde diese Möglichkeit genutzt, um SQLite \cite{sqlite} als Entwicklungsdatenbank verwenden zu können und durch die einfache Konfiguration schnell ein lauffähiges System erzeugen zu können.
-\begin{figure}[h]
+\begin{figure*}[h]
 	\centering
-	\includegraphics[width=0.9\linewidth]{database_erd}
+	\includegraphics[width=0.75\linewidth]{database_erd}
 	\caption{ER-Diagramm zur PostgreSQL Datenbank}
 	\label{fig:erd-modell-datenbank}
-\end{figure}
+\end{figure*}
 
 Die Daten der Getränkeverwaltung werden in unserer Datenbank, wie in Abbildung \ref{fig:erd-modell-datenbank} beschrieben, auf fünf verschiedene Tabellen aufgeteilt. So werden aktuelle Nutzer und Getränke in jeweils einzelnen Tabellen abgespeichert. Abseits davon sind die weiteren Tabellen zur Überwachung der getätigten Aktionen verantwortlich. Somit wird das Aufladen von Guthaben in der recharge Tabelle und jeder Kauf in der transaction Tabelle abgespeichert. Um jedoch sowohl die ursprünglichen Preise, als auch weitere möglicherweise veränderte Attribute der Getränke für spätere Analysezwecke korrekt vorliegen zu haben, wird für jedes veränderte Getränk, das gekauft wird, ebenfalls ein Eintrag in der drinkhistory Tabelle erstellt.
 
